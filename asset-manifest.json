@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/friday-project/static/css/main.ea1455b2.chunk.css",
+    "main.js": "/friday-project/static/js/main.96eeed78.chunk.js",
+    "main.js.map": "/friday-project/static/js/main.96eeed78.chunk.js.map",
+    "runtime-main.js": "/friday-project/static/js/runtime-main.64c9dcd1.js",
+    "runtime-main.js.map": "/friday-project/static/js/runtime-main.64c9dcd1.js.map",
+    "static/js/2.df57cd09.chunk.js": "/friday-project/static/js/2.df57cd09.chunk.js",
+    "static/js/2.df57cd09.chunk.js.map": "/friday-project/static/js/2.df57cd09.chunk.js.map",
+    "static/js/3.e66feb5c.chunk.js": "/friday-project/static/js/3.e66feb5c.chunk.js",
+    "static/js/3.e66feb5c.chunk.js.map": "/friday-project/static/js/3.e66feb5c.chunk.js.map",
+    "index.html": "/friday-project/index.html",
+    "static/css/main.ea1455b2.chunk.css.map": "/friday-project/static/css/main.ea1455b2.chunk.css.map",
+    "static/js/2.df57cd09.chunk.js.LICENSE.txt": "/friday-project/static/js/2.df57cd09.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.64c9dcd1.js",
+    "static/js/2.df57cd09.chunk.js",
+    "static/css/main.ea1455b2.chunk.css",
+    "static/js/main.96eeed78.chunk.js"
+  ]
+}
