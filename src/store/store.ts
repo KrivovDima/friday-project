@@ -7,11 +7,16 @@ import {passwordRecoveryReducer} from "./passwordRecoveryReducer";
 import {profileReducer} from "./profileReducer";
 
 const rootReducer = combineReducers({
-  inputNewPassword: inputNewPasswordReducer,
-  login: loginReducer,
-  passwordRecovery: passwordRecoveryReducer,
-  profile: profileReducer,
-  registration: registrationReducer,
+    // inputNewPassword: inputNewPasswordReducer,
+    // login: loginReducer,
+    // passwordRecovery: passwordRecoveryReducer,
+    // profile: profileReducer,
+    registration: registrationReducer,
 });
 
-const store = createStore(rootReducer, applyMiddleware(thunk));
+export const store = createStore(rootReducer, applyMiddleware(thunk));
+
+export type RootReducerType = ReturnType<typeof rootReducer>;
+
+//@ts-ignore
+window.store = store;
