@@ -9,7 +9,7 @@ type InputsType = {
 }
 
 function Registration() {
-    const {register, handleSubmit, watch, formState: {errors}} = useForm<InputsType>({mode: "onBlur"});
+    const {register, handleSubmit, watch, formState: {errors}} = useForm<InputsType>({mode: "onSubmit"});
     const passwordValue = watch("password");
     const onSubmit: SubmitHandler<InputsType> = data => console.log(data);
 
@@ -48,7 +48,7 @@ function Registration() {
                                type="password"
                                {...register("confirmPassword", {
                                    required: {value: true, message: 'Confirm password is required'},
-                                   validate: value => value === passwordValue || 'Password mismatch'
+                                   validate: value => value === passwordValue || 'Password mismatch',
                                })}/>
                         {errors.confirmPassword && <div className={styles.error}>{errors.confirmPassword.message}</div>}
                     </div>
