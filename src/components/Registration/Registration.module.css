@@ -1,0 +1,49 @@
+.wrapper {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.box {
+    min-width: 413px;
+    padding: 25px 33px 60px;
+    color: #2D2E46;
+    background-color: #F9F9FE;
+    border-radius: 8px;
+}
+
+.title {
+    font-weight: 600;
+    font-size: 26px;
+    line-height: 39px;
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+.subTitle {
+    font-weight: 600;
+    font-size: 22px;
+    line-height: 33px;
+    text-align: center;
+    margin-bottom: 39px;
+}
+
+.formWrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.input {
+    margin-bottom: 24px;
+}
+
+.btns {
+    margin-top: 60px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.btn {
+
+}
