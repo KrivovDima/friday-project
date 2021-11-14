@@ -21,6 +21,6 @@ export const loginApi = {
         return instance.get('auth/me')
     },
     logout(){
-
+return instance.delete('auth/me')
     }
 }

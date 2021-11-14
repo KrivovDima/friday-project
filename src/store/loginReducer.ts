@@ -9,7 +9,8 @@ type InitialStateType = {
 
 export const loginReducer = (state = initialState, action: ActionsType): any => {
     switch (action.type) {
-
+        case 'SET-IS-LOGGED-IN':
+        return {...state, isLoggedIn: action.payload.isLoggedIn}
         default:
             return state
     }
@@ -17,7 +18,7 @@ export const loginReducer = (state = initialState, action: ActionsType): any => 
 
 
 // actions
-export const firstLoginReducerAC = (payload: any) => ({type: 'some-type', payload} as const)
+export const setIsLoggedIn = (payload: { isLoggedIn: boolean }) => ({type: 'SET-IS-LOGGED-IN', payload} as const)
 
 
 // thunks
@@ -29,6 +30,6 @@ export const firstLoginReducerTC = (payload: string) => (dispatch: Dispatch) => 
 // types
 
 type ActionsType =
-    | ReturnType<typeof firstLoginReducerAC>
+    | ReturnType<typeof setIsLoggedIn>
 
 type ThunkDispatch = any
