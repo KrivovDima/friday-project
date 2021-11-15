@@ -7,7 +7,7 @@ import Profile from './components/Profile/Profile';
 import Registration from "./components/Registration/Registration";
 import InputNewPassword from "./components/InputNewPassword/InputNewPassword";
 import TestPage from "./components/TestPage/TestPage";
-
+//dfwdcwd
 function App() {
   return (
     <div className="App">
