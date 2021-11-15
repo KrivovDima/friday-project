@@ -3,7 +3,8 @@ import styles from './Registration.module.css';
 import {SubmitHandler, useForm} from "react-hook-form";
 import {useDispatch, useSelector} from "react-redux";
 import {RootReducerType} from "../../store/store";
-import {registration, RegistrationStatusType} from "../../store/registrationReducer";
+import {changeStatusRegistration, registration, RegistrationStatusType} from "../../store/registrationReducer";
+import {useNavigate} from "react-router-dom";
 
 type InputsType = {
     email: string
@@ -13,6 +14,8 @@ type InputsType = {
 
 function Registration() {
 
+    const navigate = useNavigate();
+
     const dispatch = useDispatch();
 
     const statusRegistration = useSelector<RootReducerType, RegistrationStatusType>(state => state.registration.status);
@@ -21,6 +24,11 @@ function Registration() {
     const {register, handleSubmit, watch, formState: {errors}} = useForm<InputsType>({mode: "onSubmit"});
     const passwordValue = watch("password");
     const onSubmit: SubmitHandler<InputsType> = data => dispatch(registration(data.email, data.password));
+
+    if (statusRegistration === "succeeded") {
+        dispatch(changeStatusRegistration("idle"));
+        navigate('/login');
+    }
 
     return (
         <div className={styles.wrapper}>
@@ -39,7 +47,7 @@ function Registration() {
                                        message: 'Invalid email'
                                    },
                                })}/>
-                        {errors.email && <div className={styles.error}>{errors.email.message}</div>}
+                        {errors.email && <div className={styles.errorInput}>{errors.email.message}</div>}
                     </div>
                     <div className={styles.inputWrapper}>
                         <input placeholder='Password'
@@ -47,9 +55,9 @@ function Registration() {
                                type="password"
                                {...register("password", {
                                    required: {value: true, message: 'Password is required'},
-                                   minLength: {value: 4, message: 'Password must be more than 7 characters'},
+                                   minLength: {value: 8, message: 'Password must be more than 7 characters'},
                                })}/>
-                        {errors.password && <div className={styles.error}>{errors.password.message}</div>}
+                        {errors.password && <div className={styles.errorInput}>{errors.password.message}</div>}
                     </div>
                     <div className={styles.inputWrapper}>
                         <input placeholder='Confirm password'
@@ -59,14 +67,16 @@ function Registration() {
                                    required: {value: true, message: 'Confirm password is required'},
                                    validate: value => value === passwordValue || 'Password mismatch',
                                })}/>
-                        {errors.confirmPassword && <div className={styles.error}>{errors.confirmPassword.message}</div>}
+                        {errors.confirmPassword && <div className={styles.errorInput}>{errors.confirmPassword.message}</div>}
                     </div>
                     <div className={styles.btns}>
-                        <button className={styles.btn}>Cancel</button>
+                        <button onClick={() => {navigate('/')}}
+                                className={styles.btn}>Cancel
+                        </button>
                         <div>{statusRegistration === "loading" ? "loading" : ""}</div>
                         <button disabled={statusRegistration === "loading"} type="submit">Register</button>
                     </div>
-                    {errorRegistration}
+                    <div className={styles.errorBox}>{errorRegistration}</div>
                 </form>
             </div>
         </div>

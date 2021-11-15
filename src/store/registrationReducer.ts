@@ -1,5 +1,6 @@
 import {Dispatch} from "redux";
 import {registrationAPI} from "../api/registrationAPI";
+import axios from 'axios';
 
 export type RegistrationStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
 
@@ -43,9 +44,9 @@ export const registration = (email: string, password: string) => async (dispatch
         await registrationAPI.register(email, password);
         dispatch(changeStatusRegistration("succeeded"));
     } catch (e) {
-        dispatch(changeStatusRegistration("failed"));
-        //@ts-ignore
-        dispatch(setErrorRegistration(e.response.data.error))
-        //TODO доделать отображение ошибки и сменить валидацию пароля (7 символов)
+        if (axios.isAxiosError(e) && e.response) {
+            dispatch(changeStatusRegistration("failed"));
+            dispatch(setErrorRegistration(e.response.data.error));
+        }
     }
 }

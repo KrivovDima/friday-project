@@ -7,7 +7,7 @@
 
 .box {
     min-width: 413px;
-    padding: 25px 33px 60px;
+    padding: 25px 33px 50px;
     color: #2D2E46;
     background-color: #F9F9FE;
     border-radius: 8px;
@@ -43,7 +43,7 @@
 }
 
 .btns {
-    margin-top: 60px;
+    margin: 60px 0 10px;
     display: flex;
     justify-content: space-between;
 }
@@ -52,7 +52,20 @@
 
 }
 
-.error {
+.errorInput,
+.errorBox {
     color: tomato;
-    font-size: 12px;
 }
+
+.errorInput {
+    font-size: 14px;
+}
+
+.errorBox {
+    min-height: 25px;
+    text-align: center;
+}
+
+
+
+

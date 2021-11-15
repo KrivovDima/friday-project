@@ -16,11 +16,11 @@ type RegisterResponseType = {
     error?: string
 }
 
-export type RegisterErrorType = {
-    emailRegExp: {}
-    error: string
-    in: string
-    isEmailValid: boolean
-    isPassValid: boolean
-    passwordRegExp: string
-}
+// export type RegisterErrorType = {
+//     emailRegExp: {}
+//     error: string
+//     in: string
+//     isEmailValid: boolean
+//     isPassValid: boolean
+//     passwordRegExp: string
+// }
