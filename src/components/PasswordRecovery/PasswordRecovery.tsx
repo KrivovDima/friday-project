@@ -1,6 +1,11 @@
 import React from 'react';
 import s from './passwordRecovery.module.css'
 import {SubmitHandler, useForm} from "react-hook-form";
+import {useDispatch, useSelector} from "react-redux";
+import {RootReducerType} from "../../store/store";
+import {passwordRecovery, RecoveryStatusType} from "../../store/passwordRecoveryReducer";
+import {stat} from "fs";
+import {Navigate} from "react-router-dom";
 
 type InputType = {
     email: string
@@ -8,8 +13,26 @@ type InputType = {
 
 function PasswordRecovery() {
 
+    const messageForEmail = () => {
+        return <div style={{'backgroundColor': 'lime', 'padding': '15px'}}>
+            password recovery link:
+            <a href='http://localhost:3000/#/set-new-password/$token$'>link</a>
+        </div>
+    }
+
+    const dispatch = useDispatch();
+
+    const statusRecovery = useSelector<RootReducerType, RecoveryStatusType>(state => state.passwordRecovery.status);
+    const errorRecovery = useSelector<RootReducerType, string>(state => state.passwordRecovery.error);
+
     const {register, handleSubmit, watch, formState: {errors}} = useForm<InputType>({mode: "onBlur"});
-    const onSubmit: SubmitHandler<InputType> = data => console.log(data);
+    const onSubmit: SubmitHandler<InputType> = data => {
+        dispatch(passwordRecovery(data.email, messageForEmail))
+    };
+
+    if(statusRecovery === 'failed') {
+        return <Navigate to={'/inputNewPassword'}/>
+    }
 
     return (
         <div className={s.wrapper}>
@@ -31,7 +54,9 @@ function PasswordRecovery() {
                     {errors.email && <div className={s.error}>{errors.email.message}</div>}
                     <label className={s.description} htmlFor="email">Enter your email address and we will send you further instructions </label>
                 </div>
+                <div>{statusRecovery === "loading" ? "loading" : ""}</div>
                 <button className={s.mainButton} type="submit">Send Instructions</button>
+                {errorRecovery}
             </form>
             <span className={s.remember}>Did you remember your password?</span>
 
