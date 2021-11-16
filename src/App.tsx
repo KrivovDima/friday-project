@@ -2,11 +2,11 @@ import React from 'react';
 import {Route, Routes} from 'react-router-dom';
 import './App.css';
 import PasswordRecovery from './components/PasswordRecovery/PasswordRecovery';
-import Profile from './components/Profile/Profile';
 import Registration from './components/Registration/Registration';
 import InputNewPassword from './components/InputNewPassword/InputNewPassword';
 import TestPage from './components/TestPage/TestPage';
 import {Login} from './components/Login/Login';
+import {Profile} from './components/Profile/Profile';
 
 function App() {
     return (

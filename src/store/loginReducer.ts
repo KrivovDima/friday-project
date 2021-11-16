@@ -63,6 +63,7 @@ export const setError = (payload: { isLoggedIn: boolean, error: string }) => ({t
 
 export const loginTC = (data: LoginParamsType) => async (dispatch: Dispatch) => {
     try {
+        dispatch(setError({isLoggedIn: false, error: ''}))
         const response = await loginApi.login(data)
         dispatch(setIsLoggedIn({isLoggedIn: true, userData: {...response.data}}))
     } catch (e: any) {
@@ -81,5 +82,3 @@ type ActionsType =
     | ReturnType<typeof setIsLoggedIn>
     | ReturnType<typeof setIsLoggedOut>
     | ReturnType<typeof setError>
-
-type ThunkDispatch = any

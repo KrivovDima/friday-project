@@ -14,23 +14,23 @@ type LogoutResponseType = {
     info: string
     error?: string
 }
-type LoginResponseType = {
-    _id: string
-    email: string
-    name: string
-    avatar?: string
-    publicCardPacksCount: number
-    created: Date | null
-    updated: Date | null
-    isAdmin: boolean
-    verified: boolean
-    rememberMe: boolean
-    error?: string
-    deviceTokens: any
-    token: string
-    __v: number
-
-}
+// type LoginResponseType = {
+//     _id: string
+//     email: string
+//     name: string
+//     avatar?: string
+//     publicCardPacksCount: number
+//     created: Date | null
+//     updated: Date | null
+//     isAdmin: boolean
+//     verified: boolean
+//     rememberMe: boolean
+//     error?: string
+//     deviceTokens: any
+//     token: string
+//     __v: number
+//
+// }
 
 
 export const loginApi = {
@@ -38,7 +38,7 @@ export const loginApi = {
         return instance.post('auth/login', data)
     },
     me() {
-        return instance.get('auth/me')
+        return instance.post('auth/me')
     },
     logout() {
         return instance.delete<AxiosResponse<LogoutResponseType>>('auth/me')
