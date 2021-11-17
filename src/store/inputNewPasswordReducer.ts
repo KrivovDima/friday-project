@@ -1,6 +1,7 @@
 import {RecoveryStatusType} from "./passwordRecoveryReducer";
 import {Dispatch} from "redux";
 import {passwordRecoveryAPI} from "../api/passwordRecoveryAPI";
+import axios from "axios";
 
 type InitialStateType = {
   status: RecoveryStatusType
@@ -44,8 +45,9 @@ export const inputNewPassword = (password: string, resetPasswordToken: string | 
     await passwordRecoveryAPI.inputNewPass(password, resetPasswordToken);
     dispatch(setNewPasswordStatus("succeeded"));
   } catch (e) {
-    dispatch(setNewPasswordStatus("failed"));
-    //@ts-ignore
-    dispatch(setError(e.response.data.error))
+    if(axios.isAxiosError(e) && e.response) {
+      dispatch(setNewPasswordStatus("failed"));
+      dispatch(setError(e.response.data.error))
+    }
   }
 }

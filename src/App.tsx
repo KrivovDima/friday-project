@@ -8,12 +8,8 @@ import Registration from "./components/Registration/Registration";
 import InputNewPassword from "./components/InputNewPassword/InputNewPassword";
 import TestPage from "./components/TestPage/TestPage";
 import CheckEmail from "./components/PasswordRecovery/checkEmail/CheckEmail";
-import {useSelector} from "react-redux";
-import {RootReducerType} from "./store/store";
 
 function App() {
-
-  const email = useSelector<RootReducerType, string>(state => state.passwordRecovery.email);
 
   return (
     <div className="App">
@@ -24,7 +20,7 @@ function App() {
         <Route path="profile" element={<Profile/>}/>
         <Route path="registration" element={<Registration/>}/>
         <Route path="set-new-password/:token" element={<InputNewPassword/>}/>
-        <Route path="checkEmail" element={<CheckEmail email={email}/>}/>
+        <Route path="checkEmail" element={<CheckEmail />}/>
       </Routes>
     </div>
   );
