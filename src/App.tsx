@@ -7,8 +7,15 @@ import Profile from './components/Profile/Profile';
 import Registration from "./components/Registration/Registration";
 import InputNewPassword from "./components/InputNewPassword/InputNewPassword";
 import TestPage from "./components/TestPage/TestPage";
-//dfwdcwd
+import CheckEmail from "./components/PasswordRecovery/checkEmail/CheckEmail";
+import {useSelector} from "react-redux";
+import {RootReducerType} from "./store/store";
+import {RecoveryStatusType} from "./store/passwordRecoveryReducer";
+
 function App() {
+
+  const email = useSelector<RootReducerType, string>(state => state.passwordRecovery.email);
+
   return (
     <div className="App">
       <Routes>
@@ -17,7 +24,8 @@ function App() {
         <Route path="passwordRecovery" element={<PasswordRecovery/>}/>
         <Route path="profile" element={<Profile/>}/>
         <Route path="registration" element={<Registration/>}/>
-        <Route path="inputNewPassword" element={<InputNewPassword/>}/>
+        <Route path="set-new-password/:token" element={<InputNewPassword/>}/>
+        <Route path="checkEmail" element={<CheckEmail email={email}/>}/>
       </Routes>
     </div>
   );

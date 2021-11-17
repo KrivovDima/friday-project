@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import s from './passwordRecovery.module.css'
 import {SubmitHandler, useForm} from "react-hook-form";
 import {useDispatch, useSelector} from "react-redux";
@@ -30,39 +30,42 @@ function PasswordRecovery() {
         dispatch(passwordRecovery(data.email, messageForEmail))
     };
 
-    if(statusRecovery === 'failed') {
-        return <Navigate to={'/inputNewPassword'}/>
+    if(statusRecovery === 'succeeded') {
+        return <Navigate to={'/checkEmail'}/>
     }
 
     return (
-        <div className={s.wrapper}>
-            <div className={s.title}>It-incubator</div>
-            <div className={s.forgot}>Forgot your password?</div>
-            <form className={s.formContainer} onSubmit={handleSubmit(onSubmit)}>
-                <div>
-                    <label className={s.description} htmlFor="email">Email</label>
-                    <input type="text"
-                           id="email"
-                           placeholder={'enter your e-mail'}
-                           {...register("email", {
-                               required: {value: true, message: 'Email is required'},
-                               pattern: {
-                                   value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-                                   message: 'Invalid email'
-                               },
-                           })}/>
-                    {errors.email && <div className={s.error}>{errors.email.message}</div>}
-                    <label className={s.description} htmlFor="email">Enter your email address and we will send you further instructions </label>
-                </div>
-                <div>{statusRecovery === "loading" ? "loading" : ""}</div>
-                <button className={s.mainButton} type="submit">Send Instructions</button>
-                {errorRecovery}
-            </form>
-            <span className={s.remember}>Did you remember your password?</span>
+        <>
+            <div className={s.wrapper}>
+                <div className={s.title}>It-incubator</div>
+                <div className={s.forgot}>Forgot your password?</div>
+                <form className={s.formContainer} onSubmit={handleSubmit(onSubmit)}>
+                    <div>
+                        <label className={s.description} htmlFor="email">Email</label>
+                        <input type="text"
+                               id="email"
+                               placeholder={'enter your e-mail'}
+                               {...register("email", {
+                                   required: {value: true, message: 'Email is required'},
+                                   pattern: {
+                                       value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                                       message: 'Invalid email'
+                                   },
+                               })}/>
+                        {errors.email && <div className={s.error}>{errors.email.message}</div>}
+                        <label className={s.description} htmlFor="email">Enter your email address and we will send you further instructions </label>
+                    </div>
+                    <div>{statusRecovery === "loading" ? "loading" : ""}</div>
+                    <button className={s.mainButton} type="submit">Send Instructions</button>
+                    {errorRecovery}
+                </form>
+                <span className={s.remember}>Did you remember your password?</span>
 
-            <a className={s.tryLogin}>Try logging in</a>
+                <a className={s.tryLogin}>Try logging in</a>
 
-        </div>
+            </div>
+        </>
+
     );
 }
 

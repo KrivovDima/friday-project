@@ -1,0 +1,46 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 347px;
+    margin: 60px auto;
+    background: #F9F9FE;
+    border-radius: 8px;
+    padding: 25px 33px;
+}
+
+.title {
+    color: #2D2E46;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 26px;
+    line-height: 39px;
+    margin: 0 auto;
+}
+
+.check {
+    color: #2D2E46;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 22px;
+    line-height: 33px;
+    margin: 32px auto 38px;
+}
+
+.mainButton:hover {
+    cursor: pointer;
+}
+
+.description {
+    font-family: 'SF UI Display', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 24px;
+    text-align: center;
+    opacity: 50%;
+}
+
+.icon {
+    margin: 36px auto 24px;
+    width: 85px;
+    height: 85px;
+}

@@ -38,7 +38,7 @@ export const setError = (error: string) => ({
   payload: {error}
 } as const);
 
-export const inputNewPassword = (password: string, resetPasswordToken: string) => async (dispatch: Dispatch<ActionsType>) => {
+export const inputNewPassword = (password: string, resetPasswordToken: string | undefined) => async (dispatch: Dispatch<ActionsType>) => {
   try {
     dispatch(setNewPasswordStatus("loading"));
     await passwordRecoveryAPI.inputNewPass(password, resetPasswordToken);
