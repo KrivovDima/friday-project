@@ -10,7 +10,6 @@ import TestPage from "./components/TestPage/TestPage";
 import CheckEmail from "./components/PasswordRecovery/checkEmail/CheckEmail";
 import {useSelector} from "react-redux";
 import {RootReducerType} from "./store/store";
-import {RecoveryStatusType} from "./store/passwordRecoveryReducer";
 
 function App() {
 

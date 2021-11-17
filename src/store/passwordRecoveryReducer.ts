@@ -49,7 +49,7 @@ export const setEmail = (email: string) => ({
     payload: {email}
 } as const);
 
-export const passwordRecovery = (email: string, message: () => any) => async (dispatch: Dispatch<ActionsType>) => {
+export const passwordRecovery = (email: string, message: () => JSX.Element) => async (dispatch: Dispatch<ActionsType>) => {
     try {
         dispatch(setStatusPasswordRecovery("loading"));
         await passwordRecoveryAPI.passRecovery(email, message);

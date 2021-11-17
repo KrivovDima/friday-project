@@ -6,7 +6,6 @@ import {useDispatch, useSelector} from "react-redux";
 import {RootReducerType} from "../../store/store";
 import {inputNewPassword} from "../../store/inputNewPasswordReducer";
 import {Navigate, useParams} from "react-router-dom";
-import Login from "../Login/Login";
 
 type InputType = {
     password: string
@@ -21,7 +20,7 @@ function InputNewPassword() {
     const statusNewPassword = useSelector<RootReducerType, RecoveryStatusType>(state => state.inputNewPassword.status);
     const error = useSelector<RootReducerType, string>(state => state.inputNewPassword.error);
 
-    const {register, handleSubmit, watch, formState: {errors}} = useForm<InputType>({mode: "onBlur"});
+    const {register, handleSubmit, formState: {errors}} = useForm<InputType>({mode: "onBlur"});
     const onSubmit: SubmitHandler<InputType> = data => {
         dispatch(inputNewPassword(data.password, token))
     };
