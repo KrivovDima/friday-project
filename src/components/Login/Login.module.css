@@ -1,0 +1,172 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 347px;
+    margin: 60px auto;
+    background: #F9F9FE;
+    border-radius: 8px;
+    padding: 25px 33px;
+}
+
+.title {
+    color: #2D2E46;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 26px;
+    line-height: 39px;
+    margin: 0 auto;
+}
+
+.signIn {
+    color: #2D2E46;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 22px;
+    line-height: 33px;
+    margin: 32px auto 38px;
+}
+
+.formContainer {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.description {
+    color: #24254A;
+    font-family: 'SF UI Display', sans-serif;
+    font-weight: normal;
+    font-size: 13px;
+    line-height: 20px;
+    opacity: 50%;
+    display: block;
+}
+
+.inputWrapper {
+    text-align: left;
+}
+form input,
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px #F9F9FE inset !important;
+    outline: none;
+    border: none;
+    border-bottom: 2px solid rgba(36, 37, 74, 0.2);
+    width: 100%;
+    color: #2D2E46;
+    font-family: 'SF UI Display', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    margin: 0 0 24px;
+}
+
+form input[type=checkbox] {
+    width: 13px;
+    height: 13px;
+    background-color: #F9F9FE;
+    border-radius: 50%;
+    vertical-align: middle;
+    border: 1px solid rgba(36, 37, 74, 0.2);
+    -webkit-appearance: none;
+    outline: none;
+    cursor: pointer;
+    margin: 0 10px 3px 0;
+}
+
+form input[type=checkbox]:checked {
+    -webkit-box-shadow: 0 0 0 0 #F9F9FE inset !important;
+    border: none;
+    background-color: #21268F;
+}
+
+.rememberMe {
+    color: #2D2E46;
+    align-self: flex-end;
+    margin: 24px 18px 32px 0;
+    font-family: 'SF UI Display', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+}
+.rememberMe:hover {
+    cursor: pointer;
+}
+
+.forgotPass {
+    color: #2D2E46;
+    align-self: flex-end;
+    margin: 24px 18px 32px 0;
+    font-family: 'SF UI Display', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+}
+
+.forgotPass:hover {
+    cursor: pointer;
+}
+
+.mainButton {
+    width: 266px;
+    margin: 60px auto 31px;
+    border: none;
+    background: #21268F;
+    box-shadow: 0 4px 18px rgba(33, 38, 143, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    border-radius: 30px;
+    color: #ECECF9;
+    padding: 9px 0;
+    font-family: 'SF UI Display', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 19px;
+    text-align: center;
+    letter-spacing: 0.01em;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.25);
+}
+
+.mainButton:hover {
+    cursor: pointer;
+}
+
+.withoutAcc {
+    font-family: 'SF UI Display', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 24px;
+    text-align: center;
+    opacity: 50%;
+}
+
+.signUp {
+    margin: 11px auto 0;
+    color: #21268F;
+    font-family: 'SF UI Display', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 24px;
+    border: none;
+    font-style: normal;
+}
+
+.signUp:hover {
+    cursor: pointer;
+}
+
+.errorMassage {
+    color: #F1453D;
+    font-family: 'SF UI Display', sans-serif;
+    font-weight: normal;
+    font-size: 13px;
+    line-height: 20px;
+    display: block;
+}
+
+.serverError {
+    position: absolute;
+    top: 225px;
+    text-align: center;
+    width: 100%;
+}
