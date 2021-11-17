@@ -2,9 +2,9 @@ import React from 'react';
 import styles from './Registration.module.css';
 import {SubmitHandler, useForm} from "react-hook-form";
 import {useDispatch, useSelector} from "react-redux";
-import {RootReducerType} from "../../store/store";
 import {changeStatusRegistration, registration, RegistrationStatusType} from "../../store/registrationReducer";
 import {useNavigate} from "react-router-dom";
+import {AppRootStateType} from "../../store/store";
 
 type InputsType = {
     email: string
@@ -18,8 +18,8 @@ function Registration() {
 
     const dispatch = useDispatch();
 
-    const statusRegistration = useSelector<RootReducerType, RegistrationStatusType>(state => state.registration.status);
-    const errorRegistration = useSelector<RootReducerType, string>(state => state.registration.error);
+    const statusRegistration = useSelector<AppRootStateType, RegistrationStatusType>(state => state.registration.status);
+    const errorRegistration = useSelector<AppRootStateType, string>(state => state.registration.error);
 
     const {register, handleSubmit, watch, formState: {errors}} = useForm<InputsType>({mode: "onSubmit"});
     const passwordValue = watch("password");

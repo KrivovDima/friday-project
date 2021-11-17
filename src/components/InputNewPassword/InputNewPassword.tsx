@@ -3,7 +3,7 @@ import s from "../PasswordRecovery/passwordRecovery.module.css";
 import {SubmitHandler, useForm} from "react-hook-form";
 import {RecoveryStatusType} from "../../store/passwordRecoveryReducer";
 import {useDispatch, useSelector} from "react-redux";
-import {RootReducerType} from "../../store/store";
+import {AppRootStateType} from "../../store/store";
 import {inputNewPassword} from "../../store/inputNewPasswordReducer";
 import {Navigate, useParams} from "react-router-dom";
 
@@ -17,8 +17,8 @@ function InputNewPassword() {
 
     const dispatch = useDispatch();
 
-    const statusNewPassword = useSelector<RootReducerType, RecoveryStatusType>(state => state.inputNewPassword.status);
-    const error = useSelector<RootReducerType, string>(state => state.inputNewPassword.error);
+    const statusNewPassword = useSelector<AppRootStateType, RecoveryStatusType>(state => state.inputNewPassword.status);
+    const error = useSelector<AppRootStateType, string>(state => state.inputNewPassword.error);
 
     const {register, handleSubmit, formState: {errors}} = useForm<InputType>({mode: "onBlur"});
     const onSubmit: SubmitHandler<InputType> = data => {

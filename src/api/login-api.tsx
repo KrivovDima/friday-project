@@ -1,9 +1,6 @@
-import axios, {AxiosResponse} from 'axios';
+import {AxiosResponse} from 'axios';
+import {instance} from "./instanceAPI";
 
-const instance = axios.create({
-    baseURL: 'http://localhost:7542/2.0/',
-    withCredentials: true,
-})
 
 export type LoginParamsType = {
     email: string

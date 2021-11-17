@@ -2,9 +2,9 @@ import React from 'react';
 import s from './passwordRecovery.module.css'
 import {SubmitHandler, useForm} from "react-hook-form";
 import {useDispatch, useSelector} from "react-redux";
-import {RootReducerType} from "../../store/store";
 import {passwordRecovery, RecoveryStatusType} from "../../store/passwordRecoveryReducer";
 import {Navigate} from "react-router-dom";
+import {AppRootStateType} from "../../store/store";
 
 type InputType = {
     email: string
@@ -21,8 +21,8 @@ function PasswordRecovery() {
 
     const dispatch = useDispatch();
 
-    const statusRecovery = useSelector<RootReducerType, RecoveryStatusType>(state => state.passwordRecovery.status);
-    const errorRecovery = useSelector<RootReducerType, string>(state => state.passwordRecovery.error);
+    const statusRecovery = useSelector<AppRootStateType, RecoveryStatusType>(state => state.passwordRecovery.status);
+    const errorRecovery = useSelector<AppRootStateType, string>(state => state.passwordRecovery.error);
 
     const {register, handleSubmit, formState: {errors}} = useForm<InputType>({mode: "onBlur"});
     const onSubmit: SubmitHandler<InputType> = data => {

@@ -1,12 +1,12 @@
 import React from 'react';
 import s from "./checkEmail.module.css";
-import icon from '../../../img/envelope-open.svg'
+import icon from './../../../img/envelope-open.svg'
 import {useSelector} from "react-redux";
-import {RootReducerType} from "../../../store/store";
+import {AppRootStateType} from "../../../store/store";
 
 const CheckEmail = () => {
 
-    const email = useSelector<RootReducerType, string>(state => state.passwordRecovery.email);
+    const email = useSelector<AppRootStateType, string>(state => state.passwordRecovery.email);
 
     return (
         <div className={s.wrapper}>
