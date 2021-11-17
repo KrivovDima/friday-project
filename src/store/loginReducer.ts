@@ -1,3 +1,4 @@
+import axios from 'axios';
 import {Dispatch} from 'redux'
 import {loginApi, LoginParamsType} from '../api/login-api';
 
@@ -66,10 +67,11 @@ export const loginTC = (data: LoginParamsType) => async (dispatch: Dispatch) => 
         dispatch(setError({isLoggedIn: false, error: ''}))
         const response = await loginApi.login(data)
         dispatch(setIsLoggedIn({isLoggedIn: true, userData: {...response.data}}))
-    } catch (e: any) {
-        e.response.data.error ?
-            dispatch(setError({isLoggedIn: false, error: e.response.data.error})) :
+    } catch (e) {
+        if (axios.isAxiosError(e) && e.response) {
+            dispatch(setError({isLoggedIn: false, error: e.response.data.error}))
             dispatch(setError({isLoggedIn: false, error: 'some error occurred'}))
+        }
     }
 }
 export const logoutTC = () => async (dispatch: Dispatch) => {
