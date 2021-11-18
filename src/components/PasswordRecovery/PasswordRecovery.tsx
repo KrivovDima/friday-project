@@ -5,6 +5,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {passwordRecovery, RecoveryStatusType} from "../../store/passwordRecoveryReducer";
 import {Navigate} from "react-router-dom";
 import {AppRootStateType} from "../../store/store";
+import { NavLink } from 'react-router-dom';
 
 type InputType = {
     email: string
@@ -60,7 +61,7 @@ function PasswordRecovery() {
                 </form>
                 <span className={s.remember}>Did you remember your password?</span>
 
-                <a className={s.tryLogin}>Try logging in</a>
+                <NavLink to={'/login'} className={s.tryLogin}>Try logging in</NavLink>
 
             </div>
         </>

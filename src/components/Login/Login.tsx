@@ -5,6 +5,7 @@ import s from './Login.module.css'
 import {loginTC} from '../../store/loginReducer';
 import {AppRootStateType} from '../../store/store';
 import {Navigate} from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 type Inputs = {
     email: string,
@@ -66,12 +67,12 @@ export const Login = () => {
                         Remember Me
                     </label>
                 </div>
-                <a className={s.forgotPass}>Forgot Password</a>
+                <NavLink to={'/passwordRecovery'} className={s.forgotPass}>Forgot Password</NavLink>
                 {error && <span className={`${s.errorMassage} ${s.serverError}`}>Connection error: {error}</span>}
                 <button type={'submit'} className={s.mainButton}>Login</button>
             </form>
             <span className={s.withoutAcc}>Don't have an account?</span>
-            <a className={s.signUp}>Sign Up</a>
+            <NavLink to={'/registration'} className={s.signUp}>Sign Up</NavLink>
         </div>
     )
 }

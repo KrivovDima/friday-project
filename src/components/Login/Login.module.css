@@ -45,6 +45,7 @@
 .inputWrapper {
     text-align: left;
 }
+
 form input,
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
@@ -91,6 +92,7 @@ form input[type=checkbox]:checked {
     font-size: 14px;
     line-height: 17px;
 }
+
 .rememberMe:hover {
     cursor: pointer;
 }
@@ -103,6 +105,7 @@ form input[type=checkbox]:checked {
     font-weight: 400;
     font-size: 14px;
     line-height: 17px;
+    text-decoration: none;
 }
 
 .forgotPass:hover {
@@ -149,6 +152,7 @@ form input[type=checkbox]:checked {
     line-height: 24px;
     border: none;
     font-style: normal;
+    text-decoration: none;
 }
 
 .signUp:hover {
