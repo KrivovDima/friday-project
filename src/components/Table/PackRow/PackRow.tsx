@@ -22,7 +22,7 @@ function PackRow(props: PackRowPropsType) {
     } = props.data
 
     return (
-        <div className={`row ${props.indexRow % 2 !== 0 && 'segregateRow'}`}>
+        <div className={`packRow ${props.indexRow % 2 !== 0 && 'segregateRow'}`}>
             <div>{question}</div>
             <div>{answer}</div>
             <div>{updated}</div>

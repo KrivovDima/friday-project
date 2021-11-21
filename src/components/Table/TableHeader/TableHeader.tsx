@@ -11,7 +11,7 @@ function TableHeader(props: TableHeaderType) {
     const packsHeader = ['Question', 'Answer', 'Last Updated', 'Grade'];
 
     return (
-        <div className={styles.header}>
+        <div className={props.tableMode === 'packsList' ? 'packListRow' : 'packRow'}>
             {
                 props.tableMode === "packsList"
                 ? packsListHeader.map(cell => <div className='tableCell'>{cell}</div>)

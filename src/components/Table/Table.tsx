@@ -13,7 +13,7 @@ function Table() {
             "user_id": "6197ce125fac6b0b9ccbe334",
             "user_name": "qwe123@mail.ru",
             "private": false,
-            "name": "131",
+            "name": "name name name name name name name name name name name name name name name name name name name name",
             "path": "/def",
             "grade": 0,
             "shots": 0,
@@ -78,13 +78,13 @@ function Table() {
         }
     ];
     const dataPack: any = [{
-        answer: "no answer1",
+        answer: "no answer1no answer1no answer1no answer1no answer1no answer1no answer1no answer1no answer1no answer1no answer1no answer1no answer1no answer1",
         question: "no question1",
         updated: "2020-05-13T11:05:44.867Z",
         grade: 4.987525071790364,
     }, {
         answer: "no answer2",
-        question: "no question2",
+        question: "no question2no answer1no answer1no answer1no answer1no answer1no answer1no answer1no answer1no answer1no",
         updated: "2020-05-13T11:05:44.867Z",
         grade: 4.987525071790364,
     }, {
@@ -93,7 +93,7 @@ function Table() {
         updated: "2020-05-13T11:05:44.867Z",
         grade: 4.987525071790364,
     }];
-    const tableMode: TableModeType = 'pack';
+    const tableMode: TableModeType = 'packsList';
 
     return (
         (dataPacksList.length || dataPack.length)

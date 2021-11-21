@@ -1,7 +1,18 @@
-.row {
+.table {
     display: flex;
-    padding: 16px 24px;
-    justify-content: space-between;
+    flex-direction: column;
+}
+
+.packListRow {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    padding: 10px;
+}
+
+.packRow {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    padding: 10px;
 }
 
 .segregateRow {
