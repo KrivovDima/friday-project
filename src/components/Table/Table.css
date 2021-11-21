@@ -1,7 +1,9 @@
-.header {
+.row {
     display: flex;
     padding: 16px 24px;
     justify-content: space-between;
-    font-weight: bold;
-    background-color: #ECECF9;
+}
+
+.segregateRow {
+    background-color: #F8F7FD;
 }
