@@ -1,0 +1,39 @@
+.buttonsWrapper {
+    margin: 5px;
+    display: flex;
+    position: relative;
+}
+
+.button {
+    width: 97px;
+    height: 36px;
+    background: #FFFFFF;
+    border-radius: 2px;
+    font-family: SF UI Display, sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 17px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #2D2E46;
+    cursor: pointer;
+}
+
+.selectedButton {
+    background: #9A91C8;
+    color: #FFFFFF;
+}
+
+.disabledButton {
+    pointer-events: none;
+}
+
+.border {
+    position: absolute;
+    height: 36px;
+    width: 0;
+    border: 1px solid #635D80;
+    left: 96px;
+}

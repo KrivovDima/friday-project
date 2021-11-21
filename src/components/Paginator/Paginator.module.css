@@ -1,0 +1,85 @@
+.paginatorWrapper {
+    margin: 10px 5px;
+    display: flex;
+    height: 30px;
+    /*justify-content: center;*/
+    align-items: center;
+    font-family: Lato, sans-serif;;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    text-align: center;
+    color: #2D2E46;
+    flex-wrap: wrap;
+}
+
+.pagesBar {
+    margin: 5px 10px;
+    width: 290px;
+    height: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pages {
+    display: flex;
+
+}
+
+.page {
+    margin: 0 5px;
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
+    cursor: pointer;
+}
+
+.selectedPage {
+    height: 24px;
+    line-height: 24px;
+    background: #21268F;
+    border-radius: 2px;
+    color: #F2F5F7;
+
+}
+
+.arrow {
+    width: 6px;
+    height: 6px;
+    border-top: 2px solid #2D2E46;
+    border-right: 2px solid #2D2E46;
+    transform: rotate(-135deg);
+    cursor: pointer;
+
+}
+
+.arrow_left {
+    transform: rotate(-135deg);
+}
+
+.arrow_right {
+    transform: rotate(45deg);
+}
+
+.disabledButton {
+    pointer-events: none;
+    opacity: 0.5;
+}
+
+.portionWrapper {
+    margin: 5px 20px;
+    min-width: 153px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.customSelect {
+    margin: 0 5px;
+    width: 39px;
+    height: 24px;
+    background: #FFFFFF;
+    border: 1px solid #635D80;
+    box-sizing: border-box;
+}
