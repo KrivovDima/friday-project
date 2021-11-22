@@ -1,6 +1,9 @@
 import React from 'react';
+import styles from './PackListRow.module.css';
+import {formattingDate} from "../../../utils/formattingDate";
 
 export type PackListRowDataType = {
+    _id: string
     name: string
     cardsCount: number
     updated: string
@@ -21,15 +24,15 @@ function PackListRow(props: PackListRowPropsType) {
     } = props.data
 
     return (
-        <div className={`packListRow ${props.indexRow % 2 !== 0 && 'segregateRow'}`}>
-            <div>{name}</div>
-            <div>{cardsCount}</div>
-            <div>{updated}</div>
-            <div>{user_name}</div>
-            <div>
-                <button>Delete</button>
-                <button>Edit</button>
-                <button>Learn</button>
+        <div className={`packListRow ${props.indexRow % 2 !== 0 ? 'segregateRow' : ''}`}>
+            <div className='tableCell'>{name}</div>
+            <div className='tableCell'>{cardsCount}</div>
+            <div className='tableCell'>{formattingDate(updated)}</div>
+            <div className='tableCell'>{user_name}</div>
+            <div className={styles.btns}>
+                <button className={`${styles.btn} ${styles.btnDelete}`}>Delete</button>
+                <button className={styles.btn}>Edit</button>
+                <button className={styles.btn}>Learn</button>
             </div>
         </div>
     );

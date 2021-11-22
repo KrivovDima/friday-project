@@ -1,7 +1,8 @@
 import React from 'react';
-import styles from "../PacklistRow/PackListRow.module.css";
+import {formattingDate} from "../../../utils/formattingDate";
 
 export type PackRowDataType = {
+    _id: string
     answer: string
     question: string
     updated: string
@@ -22,11 +23,11 @@ function PackRow(props: PackRowPropsType) {
     } = props.data
 
     return (
-        <div className={`packRow ${props.indexRow % 2 !== 0 && 'segregateRow'}`}>
-            <div>{question}</div>
-            <div>{answer}</div>
-            <div>{updated}</div>
-            <div>{grade}</div>
+        <div className={`packRow ${props.indexRow % 2 !== 0 ? 'segregateRow' : ''}`}>
+            <div className='tableCell'>{question}</div>
+            <div className='tableCell'>{answer}</div>
+            <div className='tableCell'>{formattingDate(updated)}</div>
+            <div className='tableCell'>{Number(grade.toFixed(2))}</div>
         </div>
     );
 }

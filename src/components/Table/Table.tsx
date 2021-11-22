@@ -103,12 +103,12 @@ function Table() {
                     //@ts-ignore
                     tableMode === 'packsList'
                         ? dataPacksList.map(
-                            ({name, cardsCount, updated, user_name}: PackListRowDataType, index: number) =>
-                                (<PackListRow key={index} data={{name, cardsCount, updated, user_name}} indexRow={index}/>)
+                            ({name, cardsCount, updated, user_name, _id}: PackListRowDataType, index: number) =>
+                                (<PackListRow key={_id} data={{name, cardsCount, updated, user_name, _id}} indexRow={index}/>)
                         )
                         : dataPack.map(
-                            ({answer, question, grade, updated}: PackRowDataType, index: number) =>
-                                (<PackRow key={index} data={{answer, question, grade, updated}} indexRow={index}/>)
+                            ({answer, question, grade, updated, _id}: PackRowDataType, index: number) =>
+                                (<PackRow key={_id} data={{answer, question, grade, updated, _id}} indexRow={index}/>)
                         )
                 }
             </div>)
@@ -117,3 +117,4 @@ function Table() {
 }
 
 export default Table;
+

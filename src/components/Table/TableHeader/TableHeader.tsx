@@ -1,6 +1,6 @@
 import React from 'react';
-import styles from './TableHeader.module.css';
 import {TableModeType} from "../Table";
+import styles from './TableHeader.module.css'
 
 type TableHeaderType = {
     tableMode: TableModeType
@@ -11,11 +11,11 @@ function TableHeader(props: TableHeaderType) {
     const packsHeader = ['Question', 'Answer', 'Last Updated', 'Grade'];
 
     return (
-        <div className={props.tableMode === 'packsList' ? 'packListRow' : 'packRow'}>
+        <div className={`${styles.header} ${props.tableMode === 'packsList' ? 'packListRow' : 'packRow'}`}>
             {
                 props.tableMode === "packsList"
-                ? packsListHeader.map(cell => <div className='tableCell'>{cell}</div>)
-                : packsHeader.map(cell => <div className='tableCell'>{cell}</div>)
+                ? packsListHeader.map((cell, index) => <div key={index} className='tableCell'>{cell}</div>)
+                : packsHeader.map((cell, index) => <div key={index} className='tableCell'>{cell}</div>)
             }
         </div>
     );
