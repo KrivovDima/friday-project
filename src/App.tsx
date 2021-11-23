@@ -8,11 +8,13 @@ import {Profile} from './components/Profile/Profile';
 import Registration from './components/Registration/Registration';
 import InputNewPassword from './components/InputNewPassword/InputNewPassword';
 import Table from "./components/Table/Table";
+import Header from "./components/Header/Header";
 
 function App() {
     return (
         <div className="App">
             <div className="AppInner">
+                <Header/>
                 <Routes>
                     <Route path="/" element={<Table/>}/>
                     <Route path="login" element={<Login/>}/>

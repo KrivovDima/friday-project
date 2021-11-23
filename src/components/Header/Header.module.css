@@ -1,0 +1,65 @@
+.wrapper {
+    display: flex;
+    height: 60px;
+    background-color: #EBE0E9;
+    padding: 0 136px;
+}
+
+.logo {
+    font-weight: 600;
+    font-size: 26px;
+    line-height: 60px;
+    color: #2D2E46;
+    margin-right: 168px;
+}
+
+.menu {
+    display: flex;
+}
+
+.navLink {
+    display: inline-block;
+    font-size: 14px;
+    line-height: 60px;
+    color: rgba(45, 46, 70, .4);;
+    text-decoration: none;
+    border-bottom: 3px solid inherit;
+    position: relative;
+    transition: all .2s;
+}
+
+.activeLink,
+.navLink:hover {
+    border-bottom: 3px solid #21268F;
+    background-color: #DCCCDB;
+    color: #2D2E46;
+}
+
+.packList {
+    padding: 0 35px 0 78px;
+}
+
+.profile {
+    padding: 0 44px 0 88px;
+}
+
+.packList::before,
+.profile::before {
+    content: '';
+    display: block;
+    position: absolute;
+    width: 36px;
+    height: 36px;
+    top: 12px;
+}
+
+.packList::before {
+    left: 34px;
+    background-image: url('./icons/packs-list.svg');
+}
+
+.profile::before {
+    left: 44px;
+    background-image: url('./icons/profile.svg');
+}
+
