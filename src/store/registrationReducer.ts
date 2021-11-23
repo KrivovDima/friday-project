@@ -47,6 +47,9 @@ export const registration = (email: string, password: string) => async (dispatch
         if (axios.isAxiosError(e) && e.response) {
             dispatch(changeStatusRegistration("failed"));
             dispatch(setErrorRegistration(e.response.data.error));
+        } else {
+            dispatch(changeStatusRegistration("failed"));
+            dispatch(setErrorRegistration('Error, contact support'));
         }
     }
 }

@@ -5,6 +5,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {changeStatusRegistration, registration, RegistrationStatusType} from "../../store/registrationReducer";
 import {useNavigate} from "react-router-dom";
 import {AppRootStateType} from "../../store/store";
+import Preloader from "../Preloader/Preloader";
 
 type InputsType = {
     email: string
@@ -69,12 +70,14 @@ function Registration() {
                                })}/>
                         {errors.confirmPassword && <div className={styles.errorInput}>{errors.confirmPassword.message}</div>}
                     </div>
+                    <div className={styles.preloaderWrapper}>{statusRegistration === "loading" && <Preloader/>}</div>
                     <div className={styles.btns}>
                         <button onClick={() => {navigate('/')}}
-                                className={styles.btn}>Cancel
+                                className={`${styles.btn} ${styles.btnCancel}`}>Cancel
                         </button>
-                        <div>{statusRegistration === "loading" ? "loading" : ""}</div>
-                        <button disabled={statusRegistration === "loading"} type="submit">Register</button>
+                        <button className={styles.btn}
+                                disabled={statusRegistration === "loading"}
+                                type="submit">Register</button>
                     </div>
                     <div className={styles.errorBox}>{errorRegistration}</div>
                 </form>
