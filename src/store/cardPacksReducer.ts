@@ -88,7 +88,7 @@ const initialState: InitialStateType = {
 export const cardPacksReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
     switch (action.type) {
         case 'SET-CARD-PACKS':
-            return {...state, currentCardPacks: action.payload.cardPacks};
+            return {...state, currentCardPacks: {...state.currentCardPacks, ...action.payload.cardPacks}};
         case 'SET-MIN-MAX-CARDS-COUNT':
             return {
                 ...state,
