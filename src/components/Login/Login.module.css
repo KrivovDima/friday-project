@@ -97,6 +97,10 @@ form input[type=checkbox]:checked {
     cursor: pointer;
 }
 
+.rememberMe:hover:disabled {
+    cursor: initial;
+}
+
 .forgotPass {
     color: #2D2E46;
     align-self: flex-end;
@@ -133,6 +137,9 @@ form input[type=checkbox]:checked {
 .mainButton:hover {
     cursor: pointer;
 }
+.mainButton:hover:disabled {
+    cursor: initial;
+}
 
 .withoutAcc {
     font-family: 'SF UI Display', sans-serif;
@@ -159,7 +166,7 @@ form input[type=checkbox]:checked {
     cursor: pointer;
 }
 
-.errorMassage {
+.errorMessage {
     color: #F1453D;
     font-family: 'SF UI Display', sans-serif;
     font-weight: normal;

@@ -6,6 +6,8 @@ import {setMinMaxCardsCount, setPacksPage, setPacksPageCount} from '../../store/
 import s from './TestPage.module.css'
 import {Paginator} from '../Paginator/Paginator';
 import {ShowPacksCardsButtons} from '../ShowPacksCardsButtons/ShowPacksCardsButtons';
+import {SearchInput} from '../SearchInput/SearchInput';
+import {AppStatusType} from '../../store/appReducer';
 
 function TestPage() {
 
@@ -16,6 +18,8 @@ function TestPage() {
     const currentPageCount = useSelector((state: AppRootStateType) => state.cardPacks.currentCardPacks.pageCount)
     const cardPacksTotalCount = useSelector((state: AppRootStateType) => state.cardPacks.currentCardPacks.cardPacksTotalCount)
 
+    const appStatus = useSelector((state: AppRootStateType) => state.app.status)
+
     return (
         <div className={s.testPageContainer}>
             TestPage
@@ -25,7 +29,7 @@ function TestPage() {
                 min={minPacksCount}
                 max={maxPacksCount}
                 setMinMaxAction={setMinMaxCardsCount}
-                disabled={false}
+                disabled={appStatus === 'loading'}
             />
             <hr/>
             <Paginator
@@ -37,11 +41,14 @@ function TestPage() {
                 totalCount={999}
                 setPageAction={setPacksPage}
                 setPageCountAction={setPacksPageCount}
+                disabled={appStatus === 'loading'}
             />
-<hr/>
+            <hr/>
             <ShowPacksCardsButtons
-
-            />
+                disabled={appStatus === 'loading'}/>
+            <hr/>
+            <SearchInput
+            disabled={appStatus === 'loading'}/>
 
         </div>
     );

@@ -86,7 +86,6 @@ const initialState: InitialStateType = {
 }
 
 export const cardPacksReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
-    debugger
     switch (action.type) {
         case 'SET-CARD-PACKS':
             return {...state, currentCardPacks: action.payload.cardPacks};

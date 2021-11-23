@@ -10,11 +10,19 @@ import Registration from './components/Registration/Registration';
 import InputNewPassword from './components/InputNewPassword/InputNewPassword';
 import {useDispatch, useSelector} from 'react-redux';
 import {AppRootStateType} from './store/store';
+import {initializeAPP} from './store/appReducer';
 
 function App() {
 
     const dispatch = useDispatch()
 
+    useEffect(() => {
+        dispatch(initializeAPP())
+
+    }, [])
+
+    const isInitialized = useSelector((state: AppRootStateType) => state.app.isInitialized)
+    const isLoggedIn = useSelector((state: AppRootStateType) => state.login.isLoggedIn)
     const minPacksCount = useSelector((state: AppRootStateType) => state.cardPacks.currentCardPacks.minCardsCount)
     const maxPacksCount = useSelector((state: AppRootStateType) => state.cardPacks.currentCardPacks.maxCardsCount)
     const currentPage = useSelector((state: AppRootStateType) => state.cardPacks.currentCardPacks.page)
@@ -22,21 +30,24 @@ function App() {
     const currentCardsPage = useSelector((state: AppRootStateType) => state.cardPacks.currentCards.page)
     const currentCardsPageCount = useSelector((state: AppRootStateType) => state.cardPacks.currentCards.pageCount)
 
-    
 
-    useEffect(()=>{
+    /*useEffect(()=>{
         dispatch('Thunk') //запрос на сервер за колодами и картами
     }, [minPacksCount,maxPacksCount, currentPage, currentPageCount, currentCardsPage, currentCardsPageCount])
+*/
+    if (!isInitialized) {
+        return <div> Loading... </div>
+    }
 
 
     return (
         <div className="App">
             <div className="AppInner">
                 <Routes>
-                    <Route path="/" element={<TestPage/>}/>
+                    <Route path="/" element={<Profile/>}/>
+                    <Route path="testPage" element={<TestPage/>}/>
                     <Route path="login" element={<Login/>}/>
                     <Route path="passwordRecovery" element={<PasswordRecovery/>}/>
-                    <Route path="profile" element={<Profile/>}/>
                     <Route path="registration" element={<Registration/>}/>
                     <Route path="set-new-password/:token" element={<InputNewPassword/>}/>
                     <Route path="checkEmail" element={<CheckEmail/>}/>

@@ -83,3 +83,7 @@
     border: 1px solid #635D80;
     box-sizing: border-box;
 }
+
+.disabledButton {
+    pointer-events: none;
+}

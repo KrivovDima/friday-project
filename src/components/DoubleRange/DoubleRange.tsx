@@ -41,6 +41,7 @@ export const DoubleRange = (props: DoubleRangePropsType) => {
                     disabled={props.disabled}
                     value={values[0]}
                     onClick={onMouseUpHandler}
+
                 />
                 <div className={s.fakeTrack}></div>
                 <input

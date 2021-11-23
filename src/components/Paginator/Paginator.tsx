@@ -10,13 +10,14 @@ type PaginatorPropsType = {
     totalCount: number
     setPageAction: typeof setPacksPage
     setPageCountAction: typeof setPacksPageCount
+    disabled: boolean
 }
 
 export const Paginator = (props: PaginatorPropsType) => {
 
     const dispatch = useDispatch()
 
-    let portionSize: number = 5
+    const portionSize = 5;
 
     const [portionNumber, setPortionNumber] = useState<number>(Math.ceil(props.page / portionSize))
 
@@ -32,7 +33,7 @@ export const Paginator = (props: PaginatorPropsType) => {
     let rightBorder = portionNumber * portionSize;
 
     return (
-        <div className={s.paginatorWrapper}>
+        <div className={props.disabled ?  `${s.paginatorWrapper} ${s.disabledButton}` : s.paginatorWrapper}>
 
             <div className={s.pagesBar}>
                 <div
@@ -40,7 +41,8 @@ export const Paginator = (props: PaginatorPropsType) => {
                         setPortionNumber(portionNumber - 1)
                     }}
                     className={`${s.arrow} ${s.arrow_left} ${portionNumber === leftBorder ? s.disabledButton : ''}`}/>
-                {portionNumber < portionsCount ?
+                {portionNumber < portionsCount
+                    ?
                     <div className={s.pages}>
                         {pages
                             .filter(p => p >= leftBorder && p <= rightBorder)
@@ -81,7 +83,6 @@ export const Paginator = (props: PaginatorPropsType) => {
                     className={`${s.arrow} ${s.arrow_right} ${portionNumber === portionsCount ? s.disabledButton : ''}`}
                 />
             </div>
-
             <div className={s.portionWrapper}>
                 Show
                 <select
@@ -98,6 +99,8 @@ export const Paginator = (props: PaginatorPropsType) => {
                 Cards per Page
             </div>
         </div>
+
+
     )
 }
 

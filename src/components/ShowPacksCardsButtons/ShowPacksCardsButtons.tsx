@@ -4,7 +4,10 @@ import {useDispatch, useSelector} from 'react-redux';
 import {useParams} from 'react-router-dom';
 import {AppRootStateType} from '../../store/store';
 
-type ShowPacksCardsButtonsPropsType = {}
+
+type ShowPacksCardsButtonsPropsType = {
+    disabled: boolean
+}
 
 export const ShowPacksCardsButtons = (props: ShowPacksCardsButtonsPropsType) => {
 
@@ -17,8 +20,9 @@ export const ShowPacksCardsButtons = (props: ShowPacksCardsButtonsPropsType) => 
 
     return (
         <div>
-            <div className={s.buttonsWrapper}>
+            <div className={props.disabled ? `${s.disabledButton} ${s.buttonsWrapper}` : s.buttonsWrapper}>
                 <div
+
                     onClick={() => {
                     }} // запрос на сервер с user_id, затем setpacks
                     className={params.user_id ? `${s.button} ${s.selectedButton}` : `${s.button} ${s.disabledButton}`}>My

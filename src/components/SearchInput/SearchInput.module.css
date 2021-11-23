@@ -1,0 +1,27 @@
+.inputWrapper input {
+    display: flex;
+    margin: 5px;
+    max-width: 960px;
+}
+
+.input {
+    width: 100%;
+    padding: 6px 17px;
+    height: 36px;
+    background: rgba(236, 236, 249, 0.5);;
+    opacity: 0.5;
+    border: 1px solid #635D80;
+    border-radius: 2px;
+    font-family: SF UI Display, sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 24px;
+    align-items: center;
+    color: #2D2E46;
+}
+
+.input:focus {
+    opacity: 1;
+    border: 1px solid rgba(99, 93, 128, 0.5);
+}
