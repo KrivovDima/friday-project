@@ -23,6 +23,16 @@ function PackListRow(props: PackListRowPropsType) {
         user_name,
     } = props.data
 
+    const onClickDeleteHandle = () => {
+
+    }
+    const onClickEditHandle = () => {
+
+    }
+    const onClickLearnHandle = () => {
+
+    }
+
     return (
         <div className={`packListRow ${props.indexRow % 2 !== 0 ? 'segregateRow' : ''}`}>
             <div className='tableCell'>{name}</div>
@@ -30,9 +40,9 @@ function PackListRow(props: PackListRowPropsType) {
             <div className='tableCell'>{formattingDate(updated)}</div>
             <div className='tableCell'>{user_name}</div>
             <div className={styles.btns}>
-                <button className={`${styles.btn} ${styles.btnDelete}`}>Delete</button>
-                <button className={styles.btn}>Edit</button>
-                <button className={styles.btn}>Learn</button>
+                <button onClick={onClickDeleteHandle} className={`${styles.btn} ${styles.btnDelete}`}>Delete</button>
+                <button onClick={onClickEditHandle} className={styles.btn}>Edit</button>
+                <button onClick={onClickLearnHandle} className={styles.btn}>Learn</button>
             </div>
         </div>
     );

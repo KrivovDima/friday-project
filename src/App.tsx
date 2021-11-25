@@ -7,7 +7,6 @@ import CheckEmail from './components/PasswordRecovery/checkEmail/CheckEmail';
 import {Profile} from './components/Profile/Profile';
 import Registration from './components/Registration/Registration';
 import InputNewPassword from './components/InputNewPassword/InputNewPassword';
-import Table from "./components/Table/Table";
 import Header from "./components/Header/Header";
 
 function App() {
@@ -16,7 +15,7 @@ function App() {
             <div className="AppInner">
                 <Header/>
                 <Routes>
-                    <Route path="/" element={<Registration/>}/>
+                    <Route path="/" element={<Profile/>}/>
                     <Route path="login" element={<Login/>}/>
                     <Route path="passwordRecovery" element={<PasswordRecovery/>}/>
                     <Route path="profile" element={<Profile/>}/>
