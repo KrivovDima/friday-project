@@ -1,4 +1,4 @@
-import {packsAPI} from "../api/packs-api";
+import {packsAPI, QueryRequestType} from "../api/packs-api";
 import {Dispatch} from "redux";
 
 export type PackType = {
@@ -163,15 +163,9 @@ type CardsActionsTypes = | ReturnType<typeof setCards>
 
 type ActionsType = CardPacksActionsTypes | CardsActionsTypes
 
-export const requestCardPack = (packName?: string,
-                                min?: number,
-                                max?: number,
-                                sortPacks?: number,
-                                page?: number,
-                                pageCount?: number,
-                                userID?: string) => async (dispatch: Dispatch) => {
-    dispatch(setPacksPage(page))
-    let response = await packsAPI.getPacks(packName, min, max, sortPacks, page, pageCount, userID);
+export const requestCardPack = (data: QueryRequestType) => async (dispatch: Dispatch) => {
+    dispatch(setPacksPage(data.page))
+    let response = await packsAPI.getPacks(data);
     debugger
     dispatch(setCardPacks(response.data.cardPacks))
     // dispatch(setMinMaxCardsCount())

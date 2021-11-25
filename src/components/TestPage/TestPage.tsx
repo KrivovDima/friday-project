@@ -9,12 +9,7 @@ function TestPage() {
     const packs = useSelector<AppRootStateType, Array<any>>(state => state.cardPacks.currentCardPacks.cardPacks);
     const dispatch = useDispatch()
     useEffect(() => {
-        dispatch(requestCardPack(undefined,
-            undefined,
-            undefined,
-            0,
-            1,
-            10))
+        dispatch(requestCardPack({pageCount: 10, page: 4, packName: 'Fun'}))
     }, [])
 
     debugger
