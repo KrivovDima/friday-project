@@ -5,7 +5,7 @@ import s from './Login.module.css'
 import {loginTC} from '../../store/loginReducer';
 import {AppRootStateType} from '../../store/store';
 import {Navigate} from 'react-router-dom';
-import { NavLink } from 'react-router-dom';
+import {NavLink} from 'react-router-dom';
 
 type Inputs = {
     email: string,
@@ -19,14 +19,17 @@ export const Login = () => {
 
     const isLoggedIn = useSelector((state: AppRootStateType) => state.login.isLoggedIn)
     const error = useSelector((state: AppRootStateType) => state.login.userData.error)
+    const appStatus = useSelector((state: AppRootStateType) => state.app.status)
 
     const {register, handleSubmit, formState: {errors}} = useForm<Inputs>();
     const onSubmit: SubmitHandler<Inputs> = data => dispatch(loginTC(data));
 
     // {email: 'nya-admin@nya.nya', password: '1qazxcvBG', rememberMe: false} for tests
 
+    const linksDisabler = appStatus === 'loading' && {pointerEvents: 'none'}
+
     if (isLoggedIn) {
-        return <Navigate to={'/profile'}/>
+        return <Navigate to={'/'}/>
     }
 
     return (
@@ -38,6 +41,7 @@ export const Login = () => {
                     {errors.email ? <span className={s.errorMassage}>{errors.email.message}</span> :
                         <label className={s.description} htmlFor="email">Email</label>}
                     <input type="text"
+                           disabled={appStatus === 'loading'}
                            placeholder={'enter your e-mail'}
                            {...register('email', {
                                required: true,
@@ -45,12 +49,14 @@ export const Login = () => {
                                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
                                    message: 'Invalid email address'
                                }
-                           })}/>
+                           })}
+                    />
                 </div>
                 <div className={s.inputWrapper}>
                     {errors.password ? <span className={s.errorMassage}>{errors.password.message}</span> :
                         <label className={s.description} htmlFor="password">Password</label>}
                     <input type="password"
+                           disabled={appStatus === 'loading'}
                            placeholder={'enter your password'}
                            {...register('password', {
                                required: true,
@@ -58,21 +64,41 @@ export const Login = () => {
                                    value: 8,
                                    message: 'Password must have at least 8 characters'
                                }
-                           })}/>
+                           })}
+                    />
                 </div>
                 <div className={s.rememberMeWrapper}>
                     <label className={s.rememberMe}>
-                        <input type="checkbox" defaultChecked={false}
-                               {...register('rememberMe', {required: false})}/>
+                        <input
+                            disabled={appStatus === 'loading'}
+                            type="checkbox" defaultChecked={false}
+                            {...register('rememberMe', {required: false})}
+                        />
                         Remember Me
                     </label>
                 </div>
-                <NavLink to={'/passwordRecovery'} className={s.forgotPass}>Forgot Password</NavLink>
-                {error && <span className={`${s.errorMassage} ${s.serverError}`}>Connection error: {error}</span>}
-                <button type={'submit'} className={s.mainButton}>Login</button>
+                <NavLink to={'/passwordRecovery'}
+                         className={s.forgotPass}
+                         style={appStatus === 'loading' ? {pointerEvents: 'none'} : {pointerEvents: 'initial'}}
+                >
+                    Forgot Password
+                </NavLink>
+                {error && <span className={`${s.errorMessage} ${s.serverError}`}>Connection error: {error}</span>}
+                <button
+                    disabled={appStatus === 'loading'}
+                    type={'submit'}
+                    className={s.mainButton}
+                >
+                    Login
+                </button>
             </form>
             <span className={s.withoutAcc}>Don't have an account?</span>
-            <NavLink to={'/registration'} className={s.signUp}>Sign Up</NavLink>
+            <NavLink to={'/registration'}
+                     className={s.signUp}
+                     style={appStatus === 'loading' ? {pointerEvents: 'none'} : {pointerEvents: 'initial'}}
+            >
+                Sign Up
+            </NavLink>
         </div>
     )
 }

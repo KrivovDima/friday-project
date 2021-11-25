@@ -1,6 +1,7 @@
 import axios from 'axios';
 import {Dispatch} from 'redux'
 import {loginApi, LoginParamsType} from '../api/login-api';
+import {setAppStatus} from './appReducer';
 
 type UserDataType = {
     _id: string
@@ -13,7 +14,7 @@ type UserDataType = {
     isAdmin: boolean
     verified: boolean
     rememberMe: boolean
-    error?: string
+    error?: string | null
 }
 type InitialStateType = {
     isLoggedIn: boolean
@@ -34,8 +35,8 @@ const initialState: InitialStateType = {
         isAdmin: false,
         verified: false,
         rememberMe: false,
-        error: '',
-    }
+        error: null
+    },
 }
 
 export const loginReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
@@ -45,9 +46,7 @@ export const loginReducer = (state: InitialStateType = initialState, action: Act
         case 'SET-IS-LOGGED-OUT':
             return {...state, isLoggedIn: action.payload.isLoggedIn, userData: {...initialState.userData}};
         case 'SET-ERROR':
-            const copyState = {...state}
-            copyState.userData.error = action.payload.error
-            return copyState
+            return {...state, userData: {...state.userData, error: action.payload.error}};
         default:
             return state
     }
@@ -57,30 +56,34 @@ export const loginReducer = (state: InitialStateType = initialState, action: Act
 export const setIsLoggedIn = (payload: { isLoggedIn: boolean, userData: UserDataType }) => ({
     type: 'SET-IS-LOGGED-IN',
     payload
-} as const)
-export const setIsLoggedOut = (payload: { isLoggedIn: boolean }) => ({type: 'SET-IS-LOGGED-OUT', payload} as const)
-export const setError = (payload: { isLoggedIn: boolean, error: string }) => ({type: 'SET-ERROR', payload} as const)
+} as const);
+export const setIsLoggedOut = (payload: { isLoggedIn: boolean }) => ({type: 'SET-IS-LOGGED-OUT', payload} as const);
+export const setLoginError = (payload: { isLoggedIn: boolean, error: string }) => ({type: 'SET-ERROR', payload} as const);
 
 
 export const loginTC = (data: LoginParamsType) => async (dispatch: Dispatch) => {
     try {
-        dispatch(setError({isLoggedIn: false, error: ''}))
+        dispatch(setAppStatus({status: 'loading'}))
+        dispatch(setLoginError({isLoggedIn: false, error: ''}))
         const response = await loginApi.login(data)
         dispatch(setIsLoggedIn({isLoggedIn: true, userData: {...response.data}}))
+        dispatch(setAppStatus({status: 'succeeded'}))
     } catch (e) {
         if (axios.isAxiosError(e) && e.response) {
-            dispatch(setError({isLoggedIn: false, error: e.response.data.error}))
-            dispatch(setError({isLoggedIn: false, error: 'some error occurred'}))
-        }
+            dispatch(setLoginError({isLoggedIn: false, error: e.response.data.error}))
+        } else dispatch(setLoginError({isLoggedIn: false, error: 'some error occurred'}))
+        dispatch(setAppStatus({status: 'idle'}))
     }
 }
 export const logoutTC = () => async (dispatch: Dispatch) => {
+    dispatch(setAppStatus({status: 'loading'}))
     await loginApi.logout()
     dispatch(setIsLoggedOut({isLoggedIn: false}))
+    dispatch(setAppStatus({status: 'succeeded'}))
 }
 
 
 type ActionsType =
     | ReturnType<typeof setIsLoggedIn>
     | ReturnType<typeof setIsLoggedOut>
-    | ReturnType<typeof setError>
+    | ReturnType<typeof setLoginError>
