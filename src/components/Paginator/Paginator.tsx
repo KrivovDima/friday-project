@@ -21,6 +21,7 @@ export const Paginator = (props: PaginatorPropsType) => {
 
     const [portionNumber, setPortionNumber] = useState<number>(Math.ceil(props.page / portionSize))
 
+
     let allPagesCount = Math.ceil(props.totalCount / props.pageCount);
     let pages: number[] = [];
     for (let i = 1; i <= allPagesCount; i++) {

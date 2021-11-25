@@ -12,6 +12,7 @@ import Header from "./components/Header/Header";
 import {useDispatch, useSelector} from 'react-redux';
 import {AppRootStateType} from './store/store';
 import {initializeAPP} from './store/appReducer';
+import TestPage from "./components/TestPage/TestPage";
 
 function App() {
 
@@ -35,8 +36,8 @@ function App() {
             <div className="AppInner">
                 <Header/>
                 <Routes>
-                    <Route path="/" element={<Profile/>}/>
-                    <Route path="testPage" element={<TestPage/>}/>
+                    <Route path="/" element={<TestPage/>}/>
+                    <Route path="packList" element={<TestPage/>}/>
                     <Route path="login" element={<Login/>}/>
                     <Route path="passwordRecovery" element={<PasswordRecovery/>}/>
                     <Route path="registration" element={<Registration/>}/>

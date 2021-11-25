@@ -2,10 +2,13 @@ import React, {useState} from 'react'
 import s from './SearchInput.module.css';
 import {useDispatch, useSelector} from 'react-redux';
 import {useParams} from 'react-router-dom';
+import {QueryRequestType} from "../../api/packs-api";
+import {Dispatch} from "redux";
 
 
 type SearchInputPropsType = {
     disabled: boolean
+    setSearch: (data: QueryRequestType) => (dispatch: Dispatch) => void
 }
 
 
@@ -16,8 +19,7 @@ export const SearchInput = (props: SearchInputPropsType) => {
 
     const searchRequestHandler = () => {
         console.log(value)
-        // dispatch('thunk with value')
-        // setValue('')
+        dispatch(props.setSearch({packName: value}))
     }
 
     return (

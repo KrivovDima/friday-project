@@ -1,9 +1,3 @@
-.testContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
+.testPageContainer {
 
-.names {
-    padding: 10px;
 }

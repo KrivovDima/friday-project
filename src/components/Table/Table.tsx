@@ -3,11 +3,14 @@ import './Table.css';
 import TableHeader from "./TableHeader/TableHeader";
 import PackListRow, {PackListRowDataType} from "./PacklistRow/PackListRow";
 import PackRow, {PackRowDataType} from "./PackRow/PackRow";
+import {useSelector} from "react-redux";
+import {AppRootStateType} from "../../store/store";
+import {PackType} from "../../store/cardPacksReducer";
 
 export type TableModeType = 'packsList' | 'pack'
 
 function Table() {
-    const dataPacksList: any = [
+   /* const dataPacksList: any = [
         {
             "_id": "619960925665e51adcfdbcac",
             "user_id": "6197ce125fac6b0b9ccbe334",
@@ -92,8 +95,12 @@ function Table() {
         question: "no question2",
         updated: "2020-05-13T11:05:44.867Z",
         grade: 4.987525071790364,
-    }];
+    }];*/
+    const dataPacksList = useSelector((state: AppRootStateType) => state.cardPacks.currentCardPacks.cardPacks)
+    debugger
     const tableMode: TableModeType = 'packsList';
+
+    const dataPack: any = [];
 
     return (
         (dataPacksList.length || dataPack.length)
@@ -103,7 +110,7 @@ function Table() {
                     //@ts-ignore
                     tableMode === 'packsList'
                         ? dataPacksList.map(
-                            ({name, cardsCount, updated, user_name, _id}: PackListRowDataType, index: number) =>
+                            ({name, cardsCount, updated, user_name, _id}: PackType, index: number) =>
                                 (<PackListRow key={_id} data={{name, cardsCount, updated, user_name, _id}} indexRow={index}/>)
                         )
                         : dataPack.map(

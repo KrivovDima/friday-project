@@ -1,15 +1,17 @@
-import React from 'react';
-import {useSelector} from 'react-redux';
+import React, {useEffect} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 import {AppRootStateType} from '../../store/store';
 import {DoubleRange} from '../DoubleRange/DoubleRange';
-import {setMinMaxCardsCount, setPacksPage, setPacksPageCount} from '../../store/cardPacksReducer';
+import {requestCardPack, setMinMaxCardsCount, setPacksPage, setPacksPageCount} from '../../store/cardPacksReducer';
 import s from './TestPage.module.css'
 import {Paginator} from '../Paginator/Paginator';
 import {ShowPacksCardsButtons} from '../ShowPacksCardsButtons/ShowPacksCardsButtons';
 import {SearchInput} from '../SearchInput/SearchInput';
-import {AppStatusType} from '../../store/appReducer';
+import Table from "../Table/Table";
 
 function TestPage() {
+
+    const dispatch = useDispatch()
 
     const minPacksCount = useSelector((state: AppRootStateType) => state.cardPacks.currentCardPacks.minCardsCount)
     const maxPacksCount = useSelector((state: AppRootStateType) => state.cardPacks.currentCardPacks.maxCardsCount)
@@ -18,7 +20,13 @@ function TestPage() {
     const currentPageCount = useSelector((state: AppRootStateType) => state.cardPacks.currentCardPacks.pageCount)
     const cardPacksTotalCount = useSelector((state: AppRootStateType) => state.cardPacks.currentCardPacks.cardPacksTotalCount)
 
-    const appStatus = useSelector((state: AppRootStateType) => state.app.status)
+   // const appStatus = useSelector((state: AppRootStateType) => state.app.status)
+
+    const appStatus = 'idle'
+
+    useEffect(() => {
+        dispatch(requestCardPack({packName: 'alo'}))
+    }, [])
 
     return (
         <div className={s.testPageContainer}>
@@ -29,27 +37,32 @@ function TestPage() {
                 min={minPacksCount}
                 max={maxPacksCount}
                 setMinMaxAction={setMinMaxCardsCount}
-                disabled={appStatus === 'loading'}
+                disabled={false}
             />
+
+           {/* disabled={appStatus === 'loading'}*/}
 
             <hr/>
             <Paginator
                 // page={currentPage}
-                page={4}
+                page={currentPage}
                 // pageCount={currentPageCount}
-                pageCount={7}
+                pageCount={currentPageCount}
                 // totalCount={cardPacksTotalCount}
                 totalCount={200}
                 setPageAction={setPacksPage}
                 setPageCountAction={setPacksPageCount}
-                disabled={appStatus === 'loading'}
+                disabled={false}
             />
             <hr/>
             <ShowPacksCardsButtons
-                disabled={appStatus === 'loading'}/>
+                disabled={false}/>
             <hr/>
             <SearchInput
-            disabled={appStatus === 'loading'}/>
+                setSearch={requestCardPack}
+            disabled={false}/>
+
+            <Table />
 
         </div>
     );

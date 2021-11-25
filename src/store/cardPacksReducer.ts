@@ -4,7 +4,7 @@ import {Dispatch} from "redux";
 export type PackType = {
     _id: string
     user_id: string
-    user_nam: string
+    user_name: string
     private: boolean
     name: string
     // path: string
@@ -89,9 +89,10 @@ const initialState: InitialStateType = {
 }
 
 export const cardPacksReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
+    debugger
     switch (action.type) {
         case 'SET-CARD-PACKS':
-            return {...state, currentCardPacks: {...state.currentCardPacks, ...action.payload.cardPacks}};
+            return {...state, currentCardPacks: {...state.currentCardPacks, cardPacks: action.payload.cardPacks}};
         case 'SET-MIN-MAX-CARDS-COUNT':
             return {
                 ...state,
@@ -117,7 +118,7 @@ export const cardPacksReducer = (state: InitialStateType = initialState, action:
 }
 
 
-export const setCardPacks = (payload: { cardPacks: CardPacksType }) => ({type: 'SET-CARD-PACKS', payload} as const)
+export const setCardPacks = (cardPacks: Array<PackType>) => ({type: 'SET-CARD-PACKS', payload: {cardPacks}} as const)
 export const setMinMaxCardsCount = (payload: {
     minCardsCount: number,
     maxCardsCount: number
