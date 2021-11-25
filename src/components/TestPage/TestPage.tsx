@@ -36,9 +36,9 @@ function TestPage() {
                 // page={currentPage}
                 page={4}
                 // pageCount={currentPageCount}
-                pageCount={10}
+                pageCount={7}
                 // totalCount={cardPacksTotalCount}
-                totalCount={999}
+                totalCount={200}
                 setPageAction={setPacksPage}
                 setPageCountAction={setPacksPageCount}
                 disabled={appStatus === 'loading'}

@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useState} from 'react'
+import React, {ChangeEvent, useEffect, useState} from 'react'
 import s from './Paginator.module.css';
 import {useDispatch} from 'react-redux';
 import {setPacksPage, setPacksPageCount} from '../../store/cardPacksReducer';
@@ -17,7 +17,7 @@ export const Paginator = (props: PaginatorPropsType) => {
 
     const dispatch = useDispatch()
 
-    const portionSize = 5;
+    const portionSize: number = 5
 
     const [portionNumber, setPortionNumber] = useState<number>(Math.ceil(props.page / portionSize))
 
