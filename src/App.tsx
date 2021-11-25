@@ -14,7 +14,7 @@ function App() {
         <div className="App">
             <div className="AppInner">
                 <Routes>
-                    <Route path="/" element={<Login/>}/>
+                    <Route path="/" element={<TestPage/>}/>
                     <Route path="login" element={<Login/>}/>
                     <Route path="passwordRecovery" element={<PasswordRecovery/>}/>
                     <Route path="profile" element={<Profile/>}/>
