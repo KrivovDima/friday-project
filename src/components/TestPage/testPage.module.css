@@ -1,0 +1,9 @@
+.testContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.names {
+    padding: 10px;
+}
