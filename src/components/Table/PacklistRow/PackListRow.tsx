@@ -37,8 +37,8 @@ function PackListRow(props: PackListRowPropsType) {
     }
     const onClickLearnHandle = () => {
         alert(_id)
-        props.openLearn()
         dispatch(requestCards({cardsPack_id: _id}))
+        props.openLearn()
     }
 
     return (

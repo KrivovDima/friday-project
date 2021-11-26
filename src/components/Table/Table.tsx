@@ -108,6 +108,7 @@ function Table() {
         setTableMode(!tableMode)
     }
 
+
     return (
         (dataPacksList.length || dataPack.length)
             ? (<div className='table'>

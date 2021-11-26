@@ -90,7 +90,6 @@ export const initialState: InitialStateType = {
 }
 
 export const cardPacksReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
-    debugger
     switch (action.type) {
         case 'SET-CARD-PACKS':
             return {...state, currentCardPacks: {...state.currentCardPacks, cardPacks: action.payload.cardPacks}};
@@ -147,7 +146,6 @@ type ActionsType = CardPacksActionsTypes
 export const requestCardPack = (data: QueryRequestType) => async (dispatch: Dispatch) => {
     //dispatch(setPacksPage(data.page))
     let response = await packsAPI.getPacks(data);
-    debugger
     dispatch(setCardPacks(response.data.cardPacks))
     // dispatch(setMinMaxCardsCount())
     //dispatch(setPacksPageCount())
