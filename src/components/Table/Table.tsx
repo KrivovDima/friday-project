@@ -1,11 +1,12 @@
-import React from 'react';
+import React, {useState} from 'react';
 import './Table.css';
 import TableHeader from "./TableHeader/TableHeader";
 import PackListRow, {PackListRowDataType} from "./PacklistRow/PackListRow";
 import PackRow, {PackRowDataType} from "./PackRow/PackRow";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../store/store";
 import {PackType} from "../../store/cardPacksReducer";
+import {requestCards} from "../../store/cards-reducer";
 
 export type TableModeType = 'packsList' | 'pack'
 
@@ -97,21 +98,25 @@ function Table() {
         grade: 4.987525071790364,
     }];*/
     const dataPacksList = useSelector((state: AppRootStateType) => state.cardPacks.currentCardPacks.cardPacks)
-    debugger
-    const tableMode: TableModeType = 'packsList';
+    const dataPack = useSelector((state: AppRootStateType) => state.cards.currentCards.cards);
 
-    const dataPack: any = [];
+    const [tableMode, setTableMode] = useState(false)
+
+   // const tableMode: TableModeType = 'packsList';
+
+    const openLearn = () => {
+        setTableMode(!tableMode)
+    }
 
     return (
         (dataPacksList.length || dataPack.length)
             ? (<div className='table'>
-                <TableHeader tableMode={tableMode}/>
+                <TableHeader tableMode={!tableMode}/>
                 {
-                    //@ts-ignore
-                    tableMode === 'packsList'
+                    !tableMode
                         ? dataPacksList.map(
                             ({name, cardsCount, updated, user_name, _id}: PackType, index: number) =>
-                                (<PackListRow key={_id} data={{name, cardsCount, updated, user_name, _id}} indexRow={index}/>)
+                                (<PackListRow key={_id} data={{name, cardsCount, updated, user_name, _id}} indexRow={index} openLearn={openLearn}/>)
                         )
                         : dataPack.map(
                             ({answer, question, grade, updated, _id}: PackRowDataType, index: number) =>

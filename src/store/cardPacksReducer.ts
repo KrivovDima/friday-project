@@ -1,6 +1,7 @@
 import {packsAPI, QueryRequestType} from "../api/packs-api";
 import {Dispatch} from "redux";
 
+
 export type PackType = {
     _id: string
     user_id: string
@@ -18,7 +19,7 @@ export type PackType = {
     more_id: string
     // __v: number
 }
-type CardPacksType = {
+export type CardPacksType = {
     cardPacks: PackType[]
     page: number
     pageCount: number,
@@ -29,7 +30,7 @@ type CardPacksType = {
     // tokenDeathTime: number
 }
 
-type CardType = {
+export type CardType = {
     answer: string
     answerImg: null | string
     answerVideo: null | string
@@ -48,7 +49,7 @@ type CardType = {
     // __v: string
     _id: string
 }
-type CardsType = {
+export type CardsType = {
     cards: CardType[]
     cardsTotalCount: number
     maxGrade: number
@@ -60,13 +61,13 @@ type CardsType = {
     tokenDeathTime: number
 }
 
-type InitialStateType = {
+export type InitialStateType = {
     currentCardPacks: CardPacksType
     currentCards: CardsType
 }
 
 
-const initialState: InitialStateType = {
+export const initialState: InitialStateType = {
     currentCardPacks: {
         cardPacks: [],
         page: 1,
@@ -106,12 +107,14 @@ export const cardPacksReducer = (state: InitialStateType = initialState, action:
             return {...state, currentCardPacks: {...state.currentCardPacks, page: action.payload.page}};
         case 'SET-PACKS-PAGE-COUNT':
             return {...state, currentCardPacks: {...state.currentCardPacks, pageCount: action.payload.pageCount}};
-        case 'SET-CARDS':
-            return {...state, currentCards: action.payload.cards};
-        case 'SET-CARDS-PAGE':
-            return {...state, currentCards: {...state.currentCards, page: action.payload.page}};
-        case 'SET-CARDS-PAGE-COUNT':
-            return {...state, currentCards: {...state.currentCards, pageCount: action.payload.pageCount}};
+        case 'ADD-PACK':
+            return {
+                ...state,
+                currentCardPacks: {
+                    ...state.currentCardPacks,
+                    cardPacks: [action.payload, ...state.currentCardPacks.cardPacks]
+                }
+            }
         default:
             return state
     }
@@ -126,28 +129,31 @@ export const setMinMaxCardsCount = (payload: {
 export const setPacksPage = (payload: { page: number }) => ({type: 'SET-PACKS-PAGE', payload} as const)
 export const setPacksPageCount = (payload: { pageCount: number }) => ({type: 'SET-PACKS-PAGE-COUNT', payload} as const)
 
-export const setCards = (payload: { cards: CardsType }) => ({type: 'SET-CARDS', payload} as const)
-export const setCardsPage = (payload: { page: number }) => ({type: 'SET-CARDS-PAGE', payload} as const)
-export const setCardsPageCount = (payload: { pageCount: number }) => ({type: 'SET-CARDS-PAGE-COUNT', payload} as const)
+export const addPack = (newPack: PackType) => ({type: 'ADD-PACK', payload: newPack} as const)
+
+
 
 
 type CardPacksActionsTypes = | ReturnType<typeof setCardPacks>
     | ReturnType<typeof setMinMaxCardsCount>
     | ReturnType<typeof setPacksPage>
     | ReturnType<typeof setPacksPageCount>
-
-type CardsActionsTypes = | ReturnType<typeof setCards>
-    | ReturnType<typeof setCardsPage>
-    | ReturnType<typeof setCardsPageCount>
+    | ReturnType<typeof addPack>
 
 
-type ActionsType = CardPacksActionsTypes | CardsActionsTypes
+
+type ActionsType = CardPacksActionsTypes
 
 export const requestCardPack = (data: QueryRequestType) => async (dispatch: Dispatch) => {
-   // dispatch(setPacksPage(data.page))
+    //dispatch(setPacksPage(data.page))
     let response = await packsAPI.getPacks(data);
     debugger
     dispatch(setCardPacks(response.data.cardPacks))
     // dispatch(setMinMaxCardsCount())
     //dispatch(setPacksPageCount())
+}
+
+export const addCardPack = (data: PackType) => async (dispatch: Dispatch) => {
+    let response = await packsAPI.postPacks(data)
+    dispatch(addPack(data))
 }
