@@ -10,7 +10,7 @@ import {PackType} from "../../store/cardPacksReducer";
 export type TableModeType = 'packsList' | 'pack'
 
 function Table() {
-   /* const dataPacksList: any = [
+    /*const dataPacksList: any = [
         {
             "_id": "619960925665e51adcfdbcac",
             "user_id": "6197ce125fac6b0b9ccbe334",
@@ -97,7 +97,6 @@ function Table() {
         grade: 4.987525071790364,
     }];*/
     const dataPacksList = useSelector((state: AppRootStateType) => state.cardPacks.currentCardPacks.cardPacks)
-    debugger
     const tableMode: TableModeType = 'packsList';
 
     const dataPack: any = [];

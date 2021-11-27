@@ -2,12 +2,18 @@ import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {AppRootStateType} from '../../store/store';
 import {DoubleRange} from '../DoubleRange/DoubleRange';
-import {requestCardPack, setMinMaxCardsCount, setPacksPage, setPacksPageCount} from '../../store/cardPacksReducer';
-import s from './TestPage.module.css'
+import {
+    requestCardPack,
+    setMinMaxCardsCount,
+    setPacksPage,
+    setPacksPageCount,
+    setSearchPacksName
+} from '../../store/cardPacksReducer';
 import {Paginator} from '../Paginator/Paginator';
 import {ShowPacksCardsButtons} from '../ShowPacksCardsButtons/ShowPacksCardsButtons';
 import {SearchInput} from '../SearchInput/SearchInput';
-import Table from "../Table/Table";
+import Table from '../Table/Table';
+import s from './TestPage.module.css'
 
 function TestPage() {
 
@@ -20,12 +26,12 @@ function TestPage() {
     const currentPageCount = useSelector((state: AppRootStateType) => state.cardPacks.currentCardPacks.pageCount)
     const cardPacksTotalCount = useSelector((state: AppRootStateType) => state.cardPacks.currentCardPacks.cardPacksTotalCount)
 
-   // const appStatus = useSelector((state: AppRootStateType) => state.app.status)
+    // const appStatus = useSelector((state: AppRootStateType) => state.app.status)
 
     const appStatus = 'idle'
 
     useEffect(() => {
-        dispatch(requestCardPack({packName: 'alo'}))
+        dispatch(requestCardPack())
     }, [])
 
     return (
@@ -40,7 +46,7 @@ function TestPage() {
                 disabled={false}
             />
 
-           {/* disabled={appStatus === 'loading'}*/}
+            {/* disabled={appStatus === 'loading'}*/}
 
             <hr/>
             <Paginator
@@ -59,10 +65,10 @@ function TestPage() {
                 disabled={false}/>
             <hr/>
             <SearchInput
-                setSearch={requestCardPack}
-            disabled={false}/>
+                setSearch={setSearchPacksName}
+                disabled={false}/>
 
-            <Table />
+            <Table/>
 
         </div>
     );

@@ -4,10 +4,11 @@ export type QueryRequestType = {
     packName?: string
     min?: number
     max?: number
-    sortPacks?: number
+    sortPacks?: string | null
     page?: number
     pageCount?: number
     userID?: string
+    name?: string
 }
 
 export const packsAPI = {

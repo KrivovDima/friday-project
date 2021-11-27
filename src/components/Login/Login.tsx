@@ -6,6 +6,7 @@ import {loginTC} from '../../store/loginReducer';
 import {AppRootStateType} from '../../store/store';
 import {Navigate} from 'react-router-dom';
 import {NavLink} from 'react-router-dom';
+import Preloader from '../Preloader/Preloader';
 
 type Inputs = {
     email: string,
@@ -16,24 +17,22 @@ type Inputs = {
 export const Login = () => {
 
     const dispatch = useDispatch()
-
     const isLoggedIn = useSelector((state: AppRootStateType) => state.login.isLoggedIn)
     const error = useSelector((state: AppRootStateType) => state.login.userData.error)
     const appStatus = useSelector((state: AppRootStateType) => state.app.status)
-
     const {register, handleSubmit, formState: {errors}} = useForm<Inputs>();
     const onSubmit: SubmitHandler<Inputs> = data => dispatch(loginTC(data));
 
-    // {email: 'nya-admin@nya.nya', password: '1qazxcvBG', rememberMe: false} for tests
-
-    const linksDisabler = appStatus === 'loading' && {pointerEvents: 'none'}
 
     if (isLoggedIn) {
-        return <Navigate to={'/'}/>
+        return <Navigate to={'/profile'}/>
     }
+
+
 
     return (
         <div className={s.wrapper}>
+            {appStatus === 'loading' && <Preloader/>}
             <div className={s.title}>It-incubator</div>
             <div className={s.signIn}>Sign in</div>
             <form className={s.formContainer} onSubmit={handleSubmit(onSubmit)}>

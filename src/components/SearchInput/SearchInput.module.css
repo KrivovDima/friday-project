@@ -1,11 +1,13 @@
-.inputWrapper input {
-    display: flex;
-    margin: 5px;
+.inputWrapper {
+    flex: 1;
+    /*display: flex;*/
+    /*margin: 5px;*/
     max-width: 960px;
+    width: 100%;
 }
 
 .input {
-    width: 100%;
+    /*width: 100%;*/
     padding: 6px 17px;
     height: 36px;
     background: rgba(236, 236, 249, 0.5);;

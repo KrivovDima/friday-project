@@ -1,7 +1,7 @@
 import axios from 'axios';
 import {Dispatch} from 'redux'
 import {loginApi} from '../api/login-api';
-import {setLoginError, setIsLoggedIn} from './loginReducer';
+import {setIsLoggedIn} from './loginReducer';
 
 export type AppStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
 
@@ -42,14 +42,19 @@ export const setIsInitialized = (payload: { isInitialized: boolean }) => ({
 
 export const initializeAPP = () => async (dispatch: Dispatch) => {
     try {
+        dispatch(setAppStatus({status: 'loading'}))
         const response = await loginApi.me()
         dispatch(setIsLoggedIn({isLoggedIn: true, userData: {...response.data}}))
     } catch (e) {
         if (axios.isAxiosError(e) && e.response) {
+            dispatch(setAppStatus({status: 'failed'}));
             dispatch(setAppError(e.response.data.error))
         }
+    } finally {
+        dispatch(setIsInitialized({isInitialized: true}))
+        dispatch(setAppStatus({status: 'succeeded'}))
     }
-    dispatch(setIsInitialized({isInitialized: true}))
+
 }
 
 

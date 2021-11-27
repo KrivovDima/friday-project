@@ -1,16 +1,37 @@
 .wrapper {
     display: flex;
+    justify-content: space-between; /*добавил*/
     height: 60px;
     background-color: #EBE0E9;
-    padding: 0 136px;
+    flex-wrap: wrap;
+    /*padding: 0 136px;*/
 }
+
+@media screen and (max-width: 868px) and (orientation: portrait){
+    .wrapper {
+        justify-content: center;
+    }
+}
+
+@media screen and (max-width: 497px) and (orientation: portrait){
+    .logo {
+        display: none;
+
+    }
+}
+
+/*@media screen and (min-width: 30em) and (orientation: landscape) { ...  }*/
+
+
 
 .logo {
     font-weight: 600;
     font-size: 26px;
     line-height: 60px;
     color: #2D2E46;
-    margin-right: 168px;
+    width: 30%; /*добавил*/
+    text-align: center; /*добавил*/
+    /*margin-right: 168px;*/
 }
 
 .menu {

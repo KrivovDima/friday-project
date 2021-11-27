@@ -22,6 +22,7 @@ function Header() {
                     Profile
                 </NavLink>
             </nav>
+            <div className={styles.logo}></div> {/*добавил для выравнивания*/}
         </div>
     );
 }

@@ -1,33 +1,37 @@
-import {Dispatch} from "redux";
-import {passwordRecoveryAPI} from "../api/passwordRecoveryAPI";
-import axios from "axios";
+import {Dispatch} from 'redux';
+import {passwordRecoveryAPI} from '../api/passwordRecoveryAPI';
+import axios from 'axios';
+import {setAppError, setAppStatus, setIsInitialized} from './appReducer';
 
 export type RecoveryStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
 
 type InitialStateType = {
     email: string
-    status: RecoveryStatusType
-    error: string
+    /*status: RecoveryStatusType
+    error: string*/
 }
 
 const initialState: InitialStateType = {
     email: '',
-    status: "idle",
-    error: '',
+    /*status: 'idle',
+    error: '',*/
 }
 
-type ActionsType = ReturnType<typeof setStatusPasswordRecovery> |
-    ReturnType<typeof setErrorPasswordRecovery> |
+type ActionsType = /*ReturnType<typeof setStatusPasswordRecovery> |
+    ReturnType<typeof setErrorPasswordRecovery> |*/
     ReturnType<typeof setEmail>
+    | ReturnType<typeof setAppStatus>
+    | ReturnType<typeof setAppError>
+    | ReturnType<typeof setIsInitialized>
 
 export const passwordRecoveryReducer = (state = initialState, action: ActionsType): InitialStateType => {
     switch (action.type) {
-        case 'SET_STATUS_PASSWORD_RECOVERY': {
+    /*    case 'SET_STATUS_PASSWORD_RECOVERY': {
             return {...state, ...action.payload};
         }
         case 'SET_ERROR_PASSWORD_RECOVERY': {
             return {...state, ...action.payload};
-        }
+        }*/
         case 'SET_EMAIL': {
             return {...state, ...action.payload};
         }
@@ -37,14 +41,14 @@ export const passwordRecoveryReducer = (state = initialState, action: ActionsTyp
     }
 }
 
-export const setStatusPasswordRecovery = (status: RecoveryStatusType) => ({
+/*export const setStatusPasswordRecovery = (status: RecoveryStatusType) => ({
     type: 'SET_STATUS_PASSWORD_RECOVERY',
     payload: {status}
 } as const);
 export const setErrorPasswordRecovery = (error: string) => ({
     type: 'SET_ERROR_PASSWORD_RECOVERY',
     payload: {error}
-} as const);
+} as const);*/
 export const setEmail = (email: string) => ({
     type: 'SET_EMAIL',
     payload: {email}
@@ -52,14 +56,14 @@ export const setEmail = (email: string) => ({
 
 export const passwordRecovery = (email: string, message: () => JSX.Element) => async (dispatch: Dispatch<ActionsType>) => {
     try {
-        dispatch(setStatusPasswordRecovery("loading"));
+        dispatch(setAppStatus({status: 'loading'}));
         await passwordRecoveryAPI.passRecovery(email, message);
-        dispatch(setStatusPasswordRecovery("succeeded"));
+        dispatch(setAppStatus({status: 'succeeded'}));
         dispatch((setEmail(email)))
     } catch (e) {
-        if(axios.isAxiosError(e) && e.response) {
-            dispatch(setStatusPasswordRecovery("failed"));
-            dispatch(setErrorPasswordRecovery(e.response.data.error))
+        if (axios.isAxiosError(e) && e.response) {
+            dispatch(setAppStatus({status: 'failed'}));
+            dispatch(setAppError(e.response.data.error))
         }
     }
 }

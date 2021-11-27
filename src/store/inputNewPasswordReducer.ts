@@ -2,8 +2,9 @@ import {RecoveryStatusType} from "./passwordRecoveryReducer";
 import {Dispatch} from "redux";
 import {passwordRecoveryAPI} from "../api/passwordRecoveryAPI";
 import axios from "axios";
+import {setAppError, setAppStatus, setIsInitialized} from './appReducer';
 
-type InitialStateType = {
+/*type InitialStateType = {
   status: RecoveryStatusType
   error: string
 }
@@ -27,9 +28,10 @@ export const inputNewPasswordReducer = (state= initialState, action: any) => {
       return state;
     }
   }
-}
+}*/
 
 
+/*
 export const setNewPasswordStatus = (status: RecoveryStatusType) => ({
   type: 'SET_NEW_PASSWORD_STATUS',
   payload: {status}
@@ -38,16 +40,22 @@ export const setError = (error: string) => ({
   type: 'SET_ERROR',
   payload: {error}
 } as const);
+*/
 
 export const inputNewPassword = (password: string, resetPasswordToken: string | undefined) => async (dispatch: Dispatch<ActionsType>) => {
   try {
-    dispatch(setNewPasswordStatus("loading"));
+    dispatch(setAppStatus({status:"loading"}));
     await passwordRecoveryAPI.inputNewPass(password, resetPasswordToken);
-    dispatch(setNewPasswordStatus("succeeded"));
+    dispatch(setAppStatus({status: "succeeded"}));
   } catch (e) {
     if(axios.isAxiosError(e) && e.response) {
-      dispatch(setNewPasswordStatus("failed"));
-      dispatch(setError(e.response.data.error))
+      dispatch(setAppStatus({status: "failed"}));
+      dispatch(setAppError(e.response.data.error))
     }
   }
 }
+
+type ActionsType =
+    | ReturnType<typeof setAppStatus>
+    | ReturnType<typeof setAppError>
+    | ReturnType<typeof setIsInitialized>
