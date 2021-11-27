@@ -22,7 +22,6 @@ export const PacksList = () => {
 
     const dispatch = useDispatch()
     const isLoggedIn = useSelector((state: AppRootStateType) => state.login.isLoggedIn)
-    const error = useSelector((state: AppRootStateType) => state.login.userData.error)
     const appStatus = useSelector((state: AppRootStateType) => state.app.status)
     const minCardsCount = useSelector((state: AppRootStateType) => state.cardPacks.currentCardPacks.minCardsCount)
     const min = useSelector((state: AppRootStateType) => state.cardPacks.currentCardPacks.min)
@@ -85,7 +84,6 @@ export const PacksList = () => {
                     setPageAction={setPacksPage}
                     setPageCountAction={setPacksPageCount}
                     disabled={appStatus === 'loading'}/>
-                {error && error}
             </div>
         </div>
     )

@@ -19,7 +19,6 @@ function InputNewPassword() {
     const dispatch = useDispatch();
 
     const appStatus = useSelector<AppRootStateType, RecoveryStatusType>(state => state.app.status);
-    const error = useSelector<AppRootStateType, string>(state => state.app.error);
 
     const {register, handleSubmit, formState: {errors}} = useForm<InputType>({mode: 'onBlur'});
     const onSubmit: SubmitHandler<InputType> = data => {
@@ -52,7 +51,6 @@ function InputNewPassword() {
                         disabled={appStatus === 'loading'}
                         type="submit">Create new password
                 </button>
-                {error && error}
             </form>
         </div>
     );

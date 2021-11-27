@@ -24,7 +24,6 @@ function PasswordRecovery() {
     const dispatch = useDispatch();
 
     const appStatus = useSelector<AppRootStateType, RecoveryStatusType>(state => state.app.status);
-    const appError = useSelector<AppRootStateType, string>(state => state.app.error);
 
     const {register, handleSubmit, formState: {errors}} = useForm<InputType>({mode: 'onBlur'});
     const onSubmit: SubmitHandler<InputType> = data => {
@@ -63,7 +62,6 @@ function PasswordRecovery() {
                             disabled={appStatus === 'loading'}
                             type="submit">Send Instructions
                     </button>
-                    {appError}
                 </form>
                 <span className={s.remember}>Did you remember your password?</span>
 

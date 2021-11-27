@@ -45,8 +45,6 @@ export const loginReducer = (state: InitialStateType = initialState, action: Act
             return {...state, isLoggedIn: action.payload.isLoggedIn, userData: {...action.payload.userData}};
         case 'SET-IS-LOGGED-OUT':
             return {...state, isLoggedIn: action.payload.isLoggedIn, userData: {...initialState.userData}};
-        /*case 'SET-ERROR':
-            return {...state, userData: {...state.userData, error: action.payload.error}};*/
         default:
             return state
     }
@@ -58,7 +56,6 @@ export const setIsLoggedIn = (payload: { isLoggedIn: boolean, userData: UserData
     payload
 } as const);
 export const setIsLoggedOut = (payload: { isLoggedIn: boolean }) => ({type: 'SET-IS-LOGGED-OUT', payload} as const);
-// export const setLoginError = (payload: { isLoggedIn: boolean, error: string }) => ({type: 'SET-ERROR', payload} as const);
 
 
 export const loginTC = (data: LoginParamsType) => async (dispatch: Dispatch) => {
@@ -67,11 +64,12 @@ export const loginTC = (data: LoginParamsType) => async (dispatch: Dispatch) => 
         const response = await loginApi.login(data)
         dispatch(setIsLoggedIn({isLoggedIn: true, userData: {...response.data}}))
         dispatch(setAppStatus({status: 'succeeded'}))
+        dispatch(setAppError({error: ''}))
     } catch (e) {
         if (axios.isAxiosError(e) && e.response) {
             dispatch(setAppError({error: e.response.data.error}))
         } else dispatch(setAppError({error: 'some error occurred'}))
-        dispatch(setAppStatus({status: 'idle'}))
+        dispatch(setAppStatus({status: 'failed'}))
     }
 }
 export const logoutTC = () => async (dispatch: Dispatch) => {
@@ -79,10 +77,10 @@ export const logoutTC = () => async (dispatch: Dispatch) => {
     await loginApi.logout()
     dispatch(setIsLoggedOut({isLoggedIn: false}))
     dispatch(setAppStatus({status: 'succeeded'}))
+    dispatch(setAppError({error: ''}))
 }
 
 
 type ActionsType =
     | ReturnType<typeof setIsLoggedIn>
     | ReturnType<typeof setIsLoggedOut>
-    /*| ReturnType<typeof setLoginError>*/

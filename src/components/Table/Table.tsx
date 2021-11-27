@@ -1,13 +1,12 @@
 import React, {useState} from 'react';
 import './Table.css';
 import TableHeader from "./TableHeader/TableHeader";
-import PackListRow, {PackListRowDataType} from "./PacklistRow/PackListRow";
+import PackListRow from "./PacklistRow/PackListRow";
 import PackRow, {PackRowDataType} from "./PackRow/PackRow";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import {AppRootStateType} from "../../store/store";
-import {PackType} from "../../store/cardPacksReducer";
+import {PackType, setTableMode} from '../../store/cardPacksReducer';
 
-export type TableModeType = 'packsList' | 'pack'
 
 function Table() {
    /* const dataPacksList: any = [
@@ -101,8 +100,9 @@ function Table() {
     const [tableMode, setTableMode] = useState(false)
 
    // const tableMode: TableModeType = 'packsList';
-
+   //  const tableMode = useSelector((state: AppRootStateType)=> state.cardPacks.tableMode)
     const openLearn = () => {
+        // dispatch(setTableMode({tableMode: 'pack'}))
         setTableMode(!tableMode)
     }
 

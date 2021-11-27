@@ -68,9 +68,12 @@ type CardsType = {
     tokenDeathTime: number
 }
 
+export type TableModeType = 'packsList' | 'pack'
+
 type InitialStateType = {
     currentCardPacks: CardPacksType
     currentCards: CardsType
+    tableMode: TableModeType
 }
 
 
@@ -97,7 +100,8 @@ const initialState: InitialStateType = {
         pageCount: 4,
         token: '',
         tokenDeathTime: 0,
-    }
+    },
+    tableMode: 'packsList'
 }
 
 export const cardPacksReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
@@ -128,6 +132,8 @@ export const cardPacksReducer = (state: InitialStateType = initialState, action:
             return {...state, currentCards: {...state.currentCards, page: action.payload.page}};
         case 'SET-CARDS-PAGE-COUNT':
             return {...state, currentCards: {...state.currentCards, pageCount: action.payload.pageCount}};
+
+
         default:
             return state
     }
@@ -147,6 +153,8 @@ export const setPacksPageCount = (payload: { pageCount: number }) => ({type: 'SE
 export const setCards = (payload: { cards: CardsType }) => ({type: 'SET-CARDS', payload} as const)
 export const setCardsPage = (payload: { page: number }) => ({type: 'SET-CARDS-PAGE', payload} as const)
 export const setCardsPageCount = (payload: { pageCount: number }) => ({type: 'SET-CARDS-PAGE-COUNT', payload} as const)
+
+export const setTableMode = (payload: { tableMode: TableModeType }) => ({type: 'SET-TABLE-MODE', payload} as const)
 
 
 type CardPacksActionsTypes = | ReturnType<typeof setCardPacks>
@@ -178,11 +186,12 @@ export const requestCardPack = (data: QueryRequestType) => async (dispatch: Disp
         let response = await packsAPI.getPacks(requestData);
         dispatch(setCardPacks(response.data));
         dispatch(setAppStatus({status: 'succeeded'}))
+        dispatch(setAppError({error: ''}))
     } catch (e) {
         if (axios.isAxiosError(e) && e.response) {
-            dispatch(setAppStatus({status: 'failed'}));
-            dispatch(setAppError(e.response.data.error))
-        }
+            dispatch(setAppError({error: e.response.data.error}))
+        } else dispatch(setAppError({error: 'some error occurred'}))
+        dispatch(setAppStatus({status: 'failed'}))
     }
 }
 

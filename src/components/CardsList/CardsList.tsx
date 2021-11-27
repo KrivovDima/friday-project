@@ -10,7 +10,8 @@ import {
     setMinMaxCardsCount,
     setPacksPage,
     setPacksPageCount,
-    setSearchPacksName
+    setSearchPacksName,
+    setTableMode
 } from '../../store/cardPacksReducer';
 import Table from '../Table/Table';
 import {SearchInput} from '../SearchInput/SearchInput';
@@ -22,11 +23,8 @@ export const CardsList = () => {
 
     const dispatch = useDispatch()
     const isLoggedIn = useSelector((state: AppRootStateType) => state.login.isLoggedIn)
-    const error = useSelector((state: AppRootStateType) => state.login.userData.error)
     const appStatus = useSelector((state: AppRootStateType) => state.app.status)
-    const minCardsCount = useSelector((state: AppRootStateType) => state.cardPacks.currentCardPacks.minCardsCount)
     const min = useSelector((state: AppRootStateType) => state.cardPacks.currentCardPacks.min)
-    const maxCardsCount = useSelector((state: AppRootStateType) => state.cardPacks.currentCardPacks.maxCardsCount)
     const max = useSelector((state: AppRootStateType) => state.cardPacks.currentCardPacks.max)
     const page = useSelector((state:AppRootStateType) => state.cardPacks.currentCardPacks.page)
     const packName = useSelector((state:AppRootStateType) => state.cardPacks.currentCardPacks.packName)
@@ -52,7 +50,10 @@ export const CardsList = () => {
         <div className={s.listContainer}>
             {appStatus === 'loading' && <Preloader/>}
             <div className={s.viewInfo}>
-                <div>back</div>
+                <div
+                onClick={()=>{setTableMode({tableMode: 'packsList'})}}>
+                    back
+                </div>
                 <div className={s.title}>Pack Name</div>
                 <div className={s.inputWrapper}>
                     <SearchInput
@@ -67,7 +68,6 @@ export const CardsList = () => {
                     setPageAction={setPacksPage}
                     setPageCountAction={setPacksPageCount}
                     disabled={appStatus === 'loading'}/>
-                {error && error}
             </div>
         </div>
     )

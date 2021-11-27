@@ -1,5 +1,4 @@
 import React from 'react';
-import {TableModeType} from "../Table";
 import styles from './TableHeader.module.css'
 
 type TableHeaderType = {

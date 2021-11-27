@@ -21,7 +21,6 @@ function Registration() {
     const dispatch = useDispatch();
 
     const appStatus = useSelector<AppRootStateType, AppStatusType>(state => state.app.status);
-    const error = useSelector<AppRootStateType, string>(state => state.app.error);
 
     const {register, handleSubmit, watch, formState: {errors}} = useForm<InputsType>({mode: 'onSubmit'});
     const passwordValue = watch('password');
@@ -91,7 +90,7 @@ function Registration() {
                                 type="submit">Register
                         </button>
                     </div>
-                    {error && <div className={styles.errorBox}>{error}</div>}
+                    {/*{error && <div className={styles.errorBox}>{error}</div>}*/}
                 </form>
             </div>
         </div>

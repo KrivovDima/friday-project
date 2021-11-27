@@ -18,7 +18,6 @@ export const Login = () => {
 
     const dispatch = useDispatch()
     const isLoggedIn = useSelector((state: AppRootStateType) => state.login.isLoggedIn)
-    const error = useSelector((state: AppRootStateType) => state.login.userData.error)
     const appStatus = useSelector((state: AppRootStateType) => state.app.status)
     const {register, handleSubmit, formState: {errors}} = useForm<Inputs>();
     const onSubmit: SubmitHandler<Inputs> = data => dispatch(loginTC(data));
@@ -82,7 +81,7 @@ export const Login = () => {
                 >
                     Forgot Password
                 </NavLink>
-                {error && <span className={`${s.errorMessage} ${s.serverError}`}>Connection error: {error}</span>}
+                {/*{error && <span className={`${s.errorMessage} ${s.serverError}`}>Connection error: {error}</span>}*/}
                 <button
                     disabled={appStatus === 'loading'}
                     type={'submit'}
