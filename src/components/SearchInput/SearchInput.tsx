@@ -1,7 +1,8 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import s from './SearchInput.module.css';
 import {useDispatch} from 'react-redux';
 import {setSearchPacksName} from '../../store/cardPacksReducer';
+import useDebounce from '../../utils/useDebounce';
 
 
 type SearchInputPropsType = {
@@ -15,9 +16,13 @@ export const SearchInput = (props: SearchInputPropsType) => {
     const dispatch = useDispatch()
     const [value, setValue] = useState<string>('')
 
-    const searchRequestHandler = () => {
-        dispatch(props.setSearch({packName: value}))
-    }
+    const searchValue = useDebounce(value, 1500)
+
+
+    useEffect(()=>{
+        dispatch(props.setSearch({packName: searchValue}))
+    })
+
 
     return (
         <div className={s.inputWrapper}>
@@ -28,12 +33,6 @@ export const SearchInput = (props: SearchInputPropsType) => {
                 value={value}
                 onChange={(e) => {
                     setValue(e.currentTarget.value)
-                }}
-                onBlur={searchRequestHandler}
-                onKeyPress={(e) => {
-                    if (e.key === 'Enter') {
-                        searchRequestHandler()
-                    }
                 }}
             />
         </div>

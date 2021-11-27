@@ -1,7 +1,8 @@
-import React, {ChangeEvent, useState} from 'react'
+import React, {ChangeEvent, useEffect, useState} from 'react'
 import s from './DoubleRange.module.css';
 import {useDispatch} from 'react-redux';
 import {setMinMaxCardsCount} from '../../store/cardPacksReducer';
+import useDebounce from '../../utils/useDebounce';
 
 type DoubleRangePropsType = {
     setMinMaxAction: typeof setMinMaxCardsCount
@@ -27,10 +28,17 @@ export const DoubleRange = (props: DoubleRangePropsType) => {
         }
     }
 
-    const onMouseUpHandler = () => {
+    const searchValues = useDebounce(values, 1500)
+
+    useEffect(()=>{
+        dispatch(props.setMinMaxAction({min: searchValues[0], max: searchValues[1]}))
+    })
+
+
+   /* const onMouseUpHandler = () => {
         dispatch(props.setMinMaxAction({min: values[0], max: values[1]}))
         // dispatch(setMinMaxCardsCount({minCardsCount: 20, maxCardsCount: 60}))
-    }
+    }*/
 
     return (
         <div>
@@ -40,7 +48,7 @@ export const DoubleRange = (props: DoubleRangePropsType) => {
                     onChange={onChangeMin}
                     disabled={props.disabled}
                     value={values[0]}
-                    onClick={onMouseUpHandler}
+                    // onClick={onMouseUpHandler}
                     min={props.min}
                     max={props.max}
 
@@ -51,7 +59,7 @@ export const DoubleRange = (props: DoubleRangePropsType) => {
                     onChange={onChangeMax}
                     disabled={props.disabled}
                     value={values[1]}
-                    onClick={onMouseUpHandler}
+                    // onClick={onMouseUpHandler}
                     min={props.min}
                     max={props.max}
                 />
