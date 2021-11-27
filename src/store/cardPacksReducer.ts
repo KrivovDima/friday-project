@@ -74,6 +74,7 @@ type InitialStateType = {
     currentCardPacks: CardPacksType
     currentCards: CardsType
     tableMode: TableModeType
+    user_id: null | string
 }
 
 
@@ -101,7 +102,8 @@ const initialState: InitialStateType = {
         token: '',
         tokenDeathTime: 0,
     },
-    tableMode: 'packsList'
+    tableMode: 'packsList',
+    user_id: null
 }
 
 export const cardPacksReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
@@ -133,6 +135,11 @@ export const cardPacksReducer = (state: InitialStateType = initialState, action:
         case 'SET-CARDS-PAGE-COUNT':
             return {...state, currentCards: {...state.currentCards, pageCount: action.payload.pageCount}};
 
+        case 'SET-TABLE-MODE':
+            return {...state, tableMode: action.payload.tableMode}
+
+        case 'SET-USER-ID':
+        return {...state, user_id: action.payload.user_id}
 
         default:
             return state
@@ -156,6 +163,8 @@ export const setCardsPageCount = (payload: { pageCount: number }) => ({type: 'SE
 
 export const setTableMode = (payload: { tableMode: TableModeType }) => ({type: 'SET-TABLE-MODE', payload} as const)
 
+export const setUserId = (payload: { user_id: string }) => ({type: 'SET-USER-ID', payload} as const)
+
 
 type CardPacksActionsTypes = | ReturnType<typeof setCardPacks>
     | ReturnType<typeof setMinMaxCardsCount>
@@ -169,10 +178,11 @@ type CardsActionsTypes = | ReturnType<typeof setCards>
     | ReturnType<typeof setCardsPageCount>
 
 
-type ActionsType = CardPacksActionsTypes | CardsActionsTypes
+type ActionsType = CardPacksActionsTypes | CardsActionsTypes | ReturnType<typeof setTableMode> | ReturnType<typeof setUserId>
 
 export const requestCardPack = (data: QueryRequestType) => async (dispatch: Dispatch, getState: () => AppRootStateType) => {
     const {cardPacks, ...requestData} = getState().cardPacks.currentCardPacks
+    const user_id = getState().cardPacks.user_id
     /*const page = state.cardPacks.currentCardPacks.page;
     const min = state.cardPacks.currentCardPacks.minCardsCount;
     const max = state.cardPacks.currentCardPacks.maxCardsCount;
@@ -183,7 +193,7 @@ export const requestCardPack = (data: QueryRequestType) => async (dispatch: Disp
 
     try {
         dispatch(setAppStatus({status: 'loading'}))
-        let response = await packsAPI.getPacks(requestData);
+        let response = await packsAPI.getPacks({...requestData, user_id});
         dispatch(setCardPacks(response.data));
         dispatch(setAppStatus({status: 'succeeded'}))
         dispatch(setAppError({error: ''}))

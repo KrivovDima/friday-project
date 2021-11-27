@@ -8,7 +8,7 @@ export type QueryRequestType = {
     sortPacks?: string | null
     page?: number
     pageCount?: number
-    userID?: string
+    user_id?: string | null
     name?: string
 }
 
