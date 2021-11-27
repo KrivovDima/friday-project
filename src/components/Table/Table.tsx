@@ -99,7 +99,7 @@ function Table() {
     }];*/
     const dataPacksList = useSelector((state: AppRootStateType) => state.cardPacks.currentCardPacks.cardPacks)
     const dataPack = useSelector((state: AppRootStateType) => state.cards.currentCards.cards);
-
+debugger
     const [tableMode, setTableMode] = useState(false)
 
    // const tableMode: TableModeType = 'packsList';
@@ -107,6 +107,7 @@ function Table() {
     const openLearn = () => {
         setTableMode(!tableMode)
     }
+
 
 
     return (

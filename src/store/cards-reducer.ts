@@ -6,10 +6,8 @@ export const cardReducer = (state: InitialStateType = initialState, action: Card
     debugger
     switch (action.type) {
         case 'SET-CARDS':
-            return {...state, currentCards: {
-                ...state.currentCards,
-                    cards: action.payload.cards
-                }};
+            debugger
+            return {...state, currentCards: action.payload.cards}
         case 'SET-CARDS-PAGE':
             return {...state, currentCards: {...state.currentCards, page: action.payload.page}};
         case 'SET-CARDS-PAGE-COUNT':
@@ -24,12 +22,12 @@ type CardsActionsTypes = | ReturnType<typeof setCards>
     | ReturnType<typeof setCardsPageCount>
 
 
-export const setCards = (cards: CardsType) => ({type: 'SET-CARDS', payload: cards} as const)
+export const setCards = (cards: CardsType) => ({type: 'SET-CARDS', payload: {cards}} as const)
 export const setCardsPage = (payload: { page: number }) => ({type: 'SET-CARDS-PAGE', payload} as const)
 export const setCardsPageCount = (payload: { pageCount: number }) => ({type: 'SET-CARDS-PAGE-COUNT', payload} as const)
 
 export const requestCards = (data: CardsQueryRequestType) => async (dispatch: Dispatch) => {
     let response = await cardsAPI.getCards(data)
-    dispatch(setCards(response.data.cards))
+    dispatch(setCards(response.data))
     debugger
 }
