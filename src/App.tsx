@@ -15,6 +15,7 @@ import {initializeAPP} from './store/appReducer';
 import TestPage from "./components/TestPage/TestPage";
 import {PacksList} from './components/PacksList/PacksList';
 import Preloader from './components/Preloader/Preloader';
+import { CardsList } from './components/CardsList/CardsList';
 
 function App() {
 
@@ -40,6 +41,7 @@ function App() {
                 <Routes>
                     {/*<Route path="/" element={<PacksList/>}/>*/}
                     <Route path="packsList" element={<PacksList/>}/>
+                    <Route path="cardsList" element={<CardsList/>}/>
                     <Route path="profile" element={<Profile/>}/>
                     <Route path="/" element={<Login/>}/>
                     <Route path="/login" element={<Login/>}/>
