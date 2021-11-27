@@ -10,15 +10,8 @@ import {
     setSearchPacksName
 } from '../../store/cardPacksReducer';
 import {
-    addCardPack,
-    addPack,
     PackType,
-    requestCardPack,
-    setMinMaxCardsCount,
-    setPacksPage,
-    setPacksPageCount
 } from '../../store/cardPacksReducer';
-import s from './TestPage.module.css'
 import {Paginator} from '../Paginator/Paginator';
 import {ShowPacksCardsButtons} from '../ShowPacksCardsButtons/ShowPacksCardsButtons';
 import {SearchInput} from '../SearchInput/SearchInput';
@@ -59,12 +52,12 @@ function TestPage() {
     const appStatus = 'idle'
 
     useEffect(() => {
-        dispatch(requestCardPack())
+         dispatch(requestCardPack({}))
     }, [])
 
 
     const addPacks = () => {
-        dispatch(addCardPack(newPack))
+        // dispatch(addCardPack(newPack))
     }
 
     return (

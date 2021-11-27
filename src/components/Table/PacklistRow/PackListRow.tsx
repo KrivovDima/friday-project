@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './PackListRow.module.css';
 import {formattingDate} from "../../../utils/formattingDate";
 import {useDispatch} from "react-redux";
-import {requestCards} from "../../../store/cards-reducer";
+import { requestCards } from '../../../store/cardPacksReducer';
 
 export type PackListRowDataType = {
     _id: string

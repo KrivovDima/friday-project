@@ -97,7 +97,7 @@ function Table() {
         grade: 4.987525071790364,
     }];*/
     const dataPacksList = useSelector((state: AppRootStateType) => state.cardPacks.currentCardPacks.cardPacks)
-    const dataPack = useSelector((state: AppRootStateType) => state.cards.currentCards.cards);
+    const dataPack = useSelector((state: AppRootStateType) => state.cardPacks.currentCards.cards);
 debugger
     const [tableMode, setTableMode] = useState(false)
 

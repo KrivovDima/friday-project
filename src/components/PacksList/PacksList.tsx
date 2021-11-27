@@ -33,12 +33,7 @@ export const PacksList = () => {
 
     useEffect(()=>{
         debugger
-        isLoggedIn && dispatch(requestCardPack())
-    },[])
-
-    useEffect(()=>{
-        debugger
-        isLoggedIn && dispatch(requestCardPack())
+        isLoggedIn && dispatch(requestCardPack({}))
     },[min, max, page, pageCount, packName])
 
     if (!isLoggedIn) {
@@ -46,7 +41,7 @@ export const PacksList = () => {
     }
 
     const onAdd = () => {
-        dispatch(requestCardPack())
+        dispatch(requestCardPack({}))
     }
 
     return (

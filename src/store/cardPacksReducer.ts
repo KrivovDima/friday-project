@@ -3,6 +3,7 @@ import {Dispatch} from 'redux';
 import {AppRootStateType} from './store';
 import {setAppError, setAppStatus} from './appReducer';
 import axios from 'axios';
+import {cardsAPI, CardsQueryRequestType} from '../api/cards-api';
 
 export type PackType = {
     _id: string
@@ -158,7 +159,7 @@ type CardsActionsTypes = | ReturnType<typeof setCards>
 
 type ActionsType = CardPacksActionsTypes | CardsActionsTypes
 
-export const requestCardPack = () => async (dispatch: Dispatch, getState: () => AppRootStateType) => {
+export const requestCardPack = (data: QueryRequestType) => async (dispatch: Dispatch, getState: () => AppRootStateType) => {
     const {page, minCardsCount, maxCardsCount, pageCount, packName, sortPacks} = getState().cardPacks.currentCardPacks
     /*const page = state.cardPacks.currentCardPacks.page;
     const min = state.cardPacks.currentCardPacks.minCardsCount;
@@ -169,7 +170,7 @@ export const requestCardPack = () => async (dispatch: Dispatch, getState: () => 
     const request = {page, min, max, pageCount, packName, sortPacks}*/
     try {
         dispatch(setAppStatus({status: 'loading'}))
-        let response = await packsAPI.getPacks({page, min: minCardsCount, max: maxCardsCount, pageCount, packName, sortPacks});
+        let response = await packsAPI.getPacks({...data, page, min: minCardsCount, max: maxCardsCount, pageCount, packName, sortPacks});
         dispatch(setCardPacks(response.data));
         dispatch(setAppStatus({status: 'succeeded'}))
     } catch (e) {
@@ -178,4 +179,10 @@ export const requestCardPack = () => async (dispatch: Dispatch, getState: () => 
             dispatch(setAppError(e.response.data.error))
         }
     }
+}
+
+export const requestCards = (data: CardsQueryRequestType) => async (dispatch: Dispatch) => {
+    let response = await cardsAPI.getCards(data)
+    dispatch(setCards(response.data))
+    debugger
 }

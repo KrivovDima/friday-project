@@ -16,7 +16,7 @@ export const Profile = () => {
     const appStatus = useSelector((state: AppRootStateType) => state.app.status)
 
     useEffect(()=>{
-        isLoggedIn && dispatch(requestCardPack())
+        isLoggedIn && dispatch(requestCardPack({}))
     },[])
 
     const onLogout = () => {
