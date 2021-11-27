@@ -28,7 +28,9 @@ type CardPacksType = {
     pageCount: number,
     cardPacksTotalCount: number,
     minCardsCount: number,
+    min: number,
     maxCardsCount: number,
+    max: number,
     packName: string,
     sortPacks: string | null
     // token: string,
@@ -79,7 +81,9 @@ const initialState: InitialStateType = {
         pageCount: 4,
         cardPacksTotalCount: 0,
         minCardsCount: 0,
+        min: 0,
         maxCardsCount: 999,
+        max: 999,
         packName: '',
         sortPacks: null
     },
@@ -99,14 +103,14 @@ const initialState: InitialStateType = {
 export const cardPacksReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
     switch (action.type) {
         case 'SET-CARD-PACKS':
-            return {...state, currentCardPacks: action.payload.cardPacks};
+            return {...state, currentCardPacks: {...state.currentCardPacks, ...action.payload.cardPacks}};
         case 'SET-MIN-MAX-CARDS-COUNT':
             return {
                 ...state,
                 currentCardPacks: {
                     ...state.currentCardPacks,
-                    minCardsCount: action.payload.minCardsCount,
-                    maxCardsCount: action.payload.maxCardsCount
+                    min: action.payload.min,
+                    max: action.payload.max
                 }
             };
         case 'SET-PACKS-PAGE':
@@ -119,7 +123,7 @@ export const cardPacksReducer = (state: InitialStateType = initialState, action:
             return {...state, currentCardPacks: {...state.currentCardPacks, sortPacks: action.payload.sortPacks}}
 
         case 'SET-CARDS':
-            return {...state, currentCards: action.payload.cards};
+            return {...state, currentCards: {...state.currentCards, ...action.payload.cards}};
         case 'SET-CARDS-PAGE':
             return {...state, currentCards: {...state.currentCards, page: action.payload.page}};
         case 'SET-CARDS-PAGE-COUNT':
@@ -133,10 +137,10 @@ export const cardPacksReducer = (state: InitialStateType = initialState, action:
 export const setCardPacks = (cardPacks: CardPacksType) => ({type: 'SET-CARD-PACKS', payload: {cardPacks}} as const)
 export const setSearchPacksName = (payload: { packName: string }) => ({type: 'SET-SEARCH-PACKS-NAME', payload} as const)
 export const setSortPacks = (payload: { sortPacks: string }) => ({type: 'SET-SORT-PACKS', payload} as const)
-export const setMinMaxCardsCount = (payload: {
-    minCardsCount: number,
-    maxCardsCount: number
-}) => ({type: 'SET-MIN-MAX-CARDS-COUNT', payload} as const)
+export const setMinMaxCardsCount = (payload: { min: number, max: number }) => ({
+    type: 'SET-MIN-MAX-CARDS-COUNT',
+    payload
+} as const)
 export const setPacksPage = (payload: { page: number }) => ({type: 'SET-PACKS-PAGE', payload} as const)
 export const setPacksPageCount = (payload: { pageCount: number }) => ({type: 'SET-PACKS-PAGE-COUNT', payload} as const)
 
@@ -160,7 +164,7 @@ type CardsActionsTypes = | ReturnType<typeof setCards>
 type ActionsType = CardPacksActionsTypes | CardsActionsTypes
 
 export const requestCardPack = (data: QueryRequestType) => async (dispatch: Dispatch, getState: () => AppRootStateType) => {
-    const {page, minCardsCount, maxCardsCount, pageCount, packName, sortPacks} = getState().cardPacks.currentCardPacks
+    const {cardPacks, ...requestData} = getState().cardPacks.currentCardPacks
     /*const page = state.cardPacks.currentCardPacks.page;
     const min = state.cardPacks.currentCardPacks.minCardsCount;
     const max = state.cardPacks.currentCardPacks.maxCardsCount;
@@ -168,9 +172,10 @@ export const requestCardPack = (data: QueryRequestType) => async (dispatch: Disp
     const packName = state.cardPacks.currentCardPacks.packName;
     const sortPacks = state.cardPacks.currentCardPacks.sortPacks
     const request = {page, min, max, pageCount, packName, sortPacks}*/
+
     try {
         dispatch(setAppStatus({status: 'loading'}))
-        let response = await packsAPI.getPacks({...data, page, min: minCardsCount, max: maxCardsCount, pageCount, packName, sortPacks});
+        let response = await packsAPI.getPacks(requestData);
         dispatch(setCardPacks(response.data));
         dispatch(setAppStatus({status: 'succeeded'}))
     } catch (e) {

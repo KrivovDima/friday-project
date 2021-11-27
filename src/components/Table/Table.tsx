@@ -98,7 +98,6 @@ function Table() {
     }];*/
     const dataPacksList = useSelector((state: AppRootStateType) => state.cardPacks.currentCardPacks.cardPacks)
     const dataPack = useSelector((state: AppRootStateType) => state.cardPacks.currentCards.cards);
-debugger
     const [tableMode, setTableMode] = useState(false)
 
    // const tableMode: TableModeType = 'packsList';

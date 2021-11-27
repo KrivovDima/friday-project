@@ -24,8 +24,10 @@ export const PacksList = () => {
     const isLoggedIn = useSelector((state: AppRootStateType) => state.login.isLoggedIn)
     const error = useSelector((state: AppRootStateType) => state.login.userData.error)
     const appStatus = useSelector((state: AppRootStateType) => state.app.status)
-    const min = useSelector((state: AppRootStateType) => state.cardPacks.currentCardPacks.minCardsCount)
-    const max = useSelector((state: AppRootStateType) => state.cardPacks.currentCardPacks.maxCardsCount)
+    const minCardsCount = useSelector((state: AppRootStateType) => state.cardPacks.currentCardPacks.minCardsCount)
+    const min = useSelector((state: AppRootStateType) => state.cardPacks.currentCardPacks.min)
+    const maxCardsCount = useSelector((state: AppRootStateType) => state.cardPacks.currentCardPacks.maxCardsCount)
+    const max = useSelector((state: AppRootStateType) => state.cardPacks.currentCardPacks.max)
     const page = useSelector((state:AppRootStateType) => state.cardPacks.currentCardPacks.page)
     const packName = useSelector((state:AppRootStateType) => state.cardPacks.currentCardPacks.packName)
     const pageCount = useSelector((state:AppRootStateType) => state.cardPacks.currentCardPacks.pageCount)
@@ -55,8 +57,8 @@ export const PacksList = () => {
                     disabled={appStatus === 'loading'}/>
                 <div className={s.description}>Number of cards</div>
                 <DoubleRange
-                    min={min}
-                    max={max}
+                    min={minCardsCount}
+                    max={maxCardsCount}
                     setMinMaxAction={setMinMaxCardsCount}
                     disabled={appStatus === 'loading'}/>
             </div>

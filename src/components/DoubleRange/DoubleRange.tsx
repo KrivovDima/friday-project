@@ -28,7 +28,7 @@ export const DoubleRange = (props: DoubleRangePropsType) => {
     }
 
     const onMouseUpHandler = () => {
-        dispatch(props.setMinMaxAction({minCardsCount: values[0], maxCardsCount: values[1]}))
+        dispatch(props.setMinMaxAction({min: values[0], max: values[1]}))
         // dispatch(setMinMaxCardsCount({minCardsCount: 20, maxCardsCount: 60}))
     }
 
@@ -41,6 +41,8 @@ export const DoubleRange = (props: DoubleRangePropsType) => {
                     disabled={props.disabled}
                     value={values[0]}
                     onClick={onMouseUpHandler}
+                    min={props.min}
+                    max={props.max}
 
                 />
                 <div className={s.fakeTrack}></div>
@@ -50,6 +52,8 @@ export const DoubleRange = (props: DoubleRangePropsType) => {
                     disabled={props.disabled}
                     value={values[1]}
                     onClick={onMouseUpHandler}
+                    min={props.min}
+                    max={props.max}
                 />
             </div>
             <div className={s.values}>
