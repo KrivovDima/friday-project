@@ -3,7 +3,7 @@ import {TableModeType} from "../Table";
 import styles from './TableHeader.module.css'
 
 type TableHeaderType = {
-    tableMode: TableModeType
+    tableMode: boolean
 }
 
 function TableHeader(props: TableHeaderType) {
@@ -11,9 +11,9 @@ function TableHeader(props: TableHeaderType) {
     const packsHeader = ['Question', 'Answer', 'Last Updated', 'Grade'];
 
     return (
-        <div className={`${styles.header} ${props.tableMode === 'packsList' ? 'packListRow' : 'packRow'}`}>
+        <div className={`${styles.header} ${props.tableMode ? 'packListRow' : 'packRow'}`}>
             {
-                props.tableMode === "packsList"
+                props.tableMode
                 ? packsListHeader.map((cell, index) => <div key={index} className='tableCell'>{cell}</div>)
                 : packsHeader.map((cell, index) => <div key={index} className='tableCell'>{cell}</div>)
             }

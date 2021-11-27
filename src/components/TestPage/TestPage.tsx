@@ -9,6 +9,16 @@ import {
     setPacksPageCount,
     setSearchPacksName
 } from '../../store/cardPacksReducer';
+import {
+    addCardPack,
+    addPack,
+    PackType,
+    requestCardPack,
+    setMinMaxCardsCount,
+    setPacksPage,
+    setPacksPageCount
+} from '../../store/cardPacksReducer';
+import s from './TestPage.module.css'
 import {Paginator} from '../Paginator/Paginator';
 import {ShowPacksCardsButtons} from '../ShowPacksCardsButtons/ShowPacksCardsButtons';
 import {SearchInput} from '../SearchInput/SearchInput';
@@ -16,6 +26,24 @@ import Table from '../Table/Table';
 import s from './TestPage.module.css'
 
 function TestPage() {
+
+    const newPack: PackType = {
+        _id: '213124234',
+        user_id: 'fewfewfwefwefwe',
+        user_name: 'DmitriyKoms',
+        private: false,
+        name: 'New pack for test',
+        // path: string,
+        // grade: number,
+        // shots: number,
+        cardsCount: 222,
+        // type: string,
+        // rating: number,
+        created: 'dfwfw',
+        updated: 'efqdqwd',
+        more_id: 'f1fd131',
+        // __v: number,
+    }
 
     const dispatch = useDispatch()
 
@@ -26,13 +54,18 @@ function TestPage() {
     const currentPageCount = useSelector((state: AppRootStateType) => state.cardPacks.currentCardPacks.pageCount)
     const cardPacksTotalCount = useSelector((state: AppRootStateType) => state.cardPacks.currentCardPacks.cardPacksTotalCount)
 
-    // const appStatus = useSelector((state: AppRootStateType) => state.app.status)
+   // const appStatus = useSelector((state: AppRootStateType) => state.app.status)
 
     const appStatus = 'idle'
 
     useEffect(() => {
         dispatch(requestCardPack())
     }, [])
+
+
+    const addPacks = () => {
+        dispatch(addCardPack(newPack))
+    }
 
     return (
         <div className={s.testPageContainer}>
@@ -46,7 +79,7 @@ function TestPage() {
                 disabled={false}
             />
 
-            {/* disabled={appStatus === 'loading'}*/}
+           {/* disabled={appStatus === 'loading'}*/}
 
             <hr/>
             <Paginator
@@ -67,6 +100,10 @@ function TestPage() {
             <SearchInput
                 setSearch={setSearchPacksName}
                 disabled={false}/>
+
+            <button onClick={addPacks}>
+                Add packs
+            </button>
 
             <Table/>
 

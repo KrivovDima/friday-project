@@ -1,6 +1,8 @@
 import React from 'react';
 import styles from './PackListRow.module.css';
 import {formattingDate} from "../../../utils/formattingDate";
+import {useDispatch} from "react-redux";
+import {requestCards} from "../../../store/cards-reducer";
 
 export type PackListRowDataType = {
     _id: string
@@ -13,15 +15,19 @@ export type PackListRowDataType = {
 type PackListRowPropsType = {
     data: PackListRowDataType
     indexRow: number
+    openLearn: () => void
 }
 
 function PackListRow(props: PackListRowPropsType) {
     const {
+        _id,
         name,
         cardsCount,
         updated,
         user_name,
     } = props.data
+
+    const dispatch = useDispatch()
 
     const onClickDeleteHandle = () => {
 
@@ -30,7 +36,9 @@ function PackListRow(props: PackListRowPropsType) {
 
     }
     const onClickLearnHandle = () => {
-
+        alert(_id)
+        dispatch(requestCards({cardsPack_id: _id}))
+        props.openLearn()
     }
 
     return (
