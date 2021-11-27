@@ -31,6 +31,8 @@ export const PacksList = () => {
     const pageCount = useSelector((state:AppRootStateType) => state.cardPacks.currentCardPacks.pageCount)
     const totalCount = useSelector((state:AppRootStateType) => state.cardPacks.currentCardPacks.cardPacksTotalCount)
 
+
+
     useEffect(()=>{
         debugger
         isLoggedIn && dispatch(requestCardPack({}))
@@ -41,7 +43,7 @@ export const PacksList = () => {
     }
 
     const onAdd = () => {
-        dispatch(requestCardPack({}))
+        // dispatch(   ({name: 'bla bla'}))
     }
 
     return (
