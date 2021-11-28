@@ -6,6 +6,7 @@ import {Navigate} from 'react-router-dom';
 import {ShowPacksCardsButtons} from '../ShowPacksCardsButtons/ShowPacksCardsButtons';
 import {DoubleRange} from '../DoubleRange/DoubleRange';
 import {
+    addNewCardsPack,
     requestCardPack,
     setMinMaxCardsCount,
     setPacksPage,
@@ -27,24 +28,24 @@ export const PacksList = () => {
     const min = useSelector((state: AppRootStateType) => state.cardPacks.currentCardPacks.min)
     const maxCardsCount = useSelector((state: AppRootStateType) => state.cardPacks.currentCardPacks.maxCardsCount)
     const max = useSelector((state: AppRootStateType) => state.cardPacks.currentCardPacks.max)
-    const page = useSelector((state:AppRootStateType) => state.cardPacks.currentCardPacks.page)
-    const packName = useSelector((state:AppRootStateType) => state.cardPacks.currentCardPacks.packName)
-    const pageCount = useSelector((state:AppRootStateType) => state.cardPacks.currentCardPacks.pageCount)
-    const totalCount = useSelector((state:AppRootStateType) => state.cardPacks.currentCardPacks.cardPacksTotalCount)
+    const page = useSelector((state: AppRootStateType) => state.cardPacks.currentCardPacks.page)
+    const packName = useSelector((state: AppRootStateType) => state.cardPacks.currentCardPacks.packName)
+    const pageCount = useSelector((state: AppRootStateType) => state.cardPacks.currentCardPacks.pageCount)
+    const totalCount = useSelector((state: AppRootStateType) => state.cardPacks.currentCardPacks.cardPacksTotalCount)
+    const userIdForRequest = useSelector((state: AppRootStateType) => state.cardPacks.user_id)
 
 
-
-    useEffect(()=>{
+    useEffect(() => {
         debugger
         isLoggedIn && dispatch(requestCardPack({}))
-    },[min, max, page, pageCount, packName])
+    }, [min, max, page, pageCount, packName, userIdForRequest])
 
     if (!isLoggedIn) {
         return <Navigate to={'/login'}/>
     }
 
     const onAdd = () => {
-        // dispatch(   ({name: 'bla bla'}))
+        dispatch(addNewCardsPack({cardsPack: {name: 'bla bla'}}))
     }
 
     return (

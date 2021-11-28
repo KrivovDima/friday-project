@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import s from './CardsList.module.css'
 import {AppRootStateType} from '../../store/store';
-import {Navigate} from 'react-router-dom';
+import {Navigate, useNavigate} from 'react-router-dom';
 import {ShowPacksCardsButtons} from '../ShowPacksCardsButtons/ShowPacksCardsButtons';
 import {DoubleRange} from '../DoubleRange/DoubleRange';
 import {
@@ -30,7 +30,6 @@ export const CardsList = () => {
     const packName = useSelector((state:AppRootStateType) => state.cardPacks.currentCardPacks.packName)
     const pageCount = useSelector((state:AppRootStateType) => state.cardPacks.currentCardPacks.pageCount)
     const totalCount = useSelector((state:AppRootStateType) => state.cardPacks.currentCardPacks.cardPacksTotalCount)
-
 
 
     useEffect(()=>{

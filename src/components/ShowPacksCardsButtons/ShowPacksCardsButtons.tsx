@@ -1,8 +1,8 @@
 import React from 'react'
 import s from './ShowPacksCardsButtons.module.css';
 import {useDispatch, useSelector} from 'react-redux';
-import {useParams} from 'react-router-dom';
 import {AppRootStateType} from '../../store/store';
+import {setUserId} from '../../store/cardPacksReducer';
 
 
 type ShowPacksCardsButtonsPropsType = {
@@ -13,9 +13,9 @@ export const ShowPacksCardsButtons = (props: ShowPacksCardsButtonsPropsType) => 
 
     const dispatch = useDispatch()
 
+    const userIdForRequest = useSelector((state: AppRootStateType) => state.cardPacks.user_id)
     const userId = useSelector((state: AppRootStateType) => state.login.userData._id)
 
-    const params = useParams()
 
 
     return (
@@ -23,15 +23,13 @@ export const ShowPacksCardsButtons = (props: ShowPacksCardsButtonsPropsType) => 
             <div className={props.disabled ? `${s.disabledButton} ${s.buttonsWrapper}` : s.buttonsWrapper}>
                 <div
 
-                    onClick={() => {
-                    }} // запрос на сервер с user_id, затем setpacks
-                    className={params.user_id ? `${s.button} ${s.selectedButton}` : `${s.button} ${s.disabledButton}`}>My
+                    onClick={() => {dispatch(setUserId({user_id: userId}))}}
+                    className={!userIdForRequest ? `${s.button} ${s.selectedButton}` : `${s.button} ${s.disabledButton}`}>My
                 </div>
                 <div className={s.border}></div>
                 <div
-                    onClick={() => {
-                    }} // запрос на сервер за всеми колодами и затем setpacks
-                    className={!params.user_id ? `${s.button} ${s.selectedButton}` : `${s.button} ${s.disabledButton}`}>All
+                    onClick={() => {dispatch(setUserId({user_id: ''}))}}
+                    className={!!userIdForRequest ? `${s.button} ${s.selectedButton}` : `${s.button} ${s.disabledButton}`}>All
                 </div>
 
             </div>

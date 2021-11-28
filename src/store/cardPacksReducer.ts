@@ -68,6 +68,17 @@ type CardsType = {
     tokenDeathTime: number
 }
 
+type NewCardsPackType = {
+    name?: string
+    path?: string
+    grade?: number | null
+    shots?: number | null
+    rating?: number | null
+    deckCover?: string
+    private?: boolean
+    type?: string
+}
+
 export type TableModeType = 'packsList' | 'pack'
 
 type InitialStateType = {
@@ -75,6 +86,7 @@ type InitialStateType = {
     currentCards: CardsType
     tableMode: TableModeType
     user_id: null | string
+    newCardsPack: NewCardsPackType
 }
 
 
@@ -103,7 +115,17 @@ const initialState: InitialStateType = {
         tokenDeathTime: 0,
     },
     tableMode: 'packsList',
-    user_id: null
+    user_id: null,
+    newCardsPack: {
+        name: '',
+        path: '',
+        grade: null,
+        shots: null,
+        rating: null,
+        deckCover: '',
+        private: false,
+        type: '',
+    }
 }
 
 export const cardPacksReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
@@ -141,6 +163,9 @@ export const cardPacksReducer = (state: InitialStateType = initialState, action:
         case 'SET-USER-ID':
         return {...state, user_id: action.payload.user_id}
 
+        case 'ADD-NEW-CARDS-PACK':
+            return {...state, newCardsPack: {...action.payload.cardsPack}}
+
         default:
             return state
     }
@@ -165,6 +190,9 @@ export const setTableMode = (payload: { tableMode: TableModeType }) => ({type: '
 
 export const setUserId = (payload: { user_id: string }) => ({type: 'SET-USER-ID', payload} as const)
 
+export const addNewCardsPack = (payload: { cardsPack: NewCardsPackType }) => ({type: 'ADD-NEW-CARDS-PACK', payload} as const)
+
+
 
 type CardPacksActionsTypes = | ReturnType<typeof setCardPacks>
     | ReturnType<typeof setMinMaxCardsCount>
@@ -172,6 +200,7 @@ type CardPacksActionsTypes = | ReturnType<typeof setCardPacks>
     | ReturnType<typeof setPacksPageCount>
     | ReturnType<typeof setSearchPacksName>
     | ReturnType<typeof setSortPacks>
+    | ReturnType<typeof addNewCardsPack>
 
 type CardsActionsTypes = | ReturnType<typeof setCards>
     | ReturnType<typeof setCardsPage>
@@ -204,6 +233,9 @@ export const requestCardPack = (data: QueryRequestType) => async (dispatch: Disp
         dispatch(setAppStatus({status: 'failed'}))
     }
 }
+
+//санка для добавления  newCardsPack из redux, после получения всех тасок, newCardsPack в redux очистить
+// санка для сортировки (отправить sortpacks из redux) затем после ответа занулить в redux
 
 export const requestCards = (data: CardsQueryRequestType) => async (dispatch: Dispatch) => {
     let response = await cardsAPI.getCards(data)
