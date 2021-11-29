@@ -1,5 +1,5 @@
 import {instance} from "./instanceAPI";
-import {PackType} from "../store/cardPacksReducer";
+import {NewCardsPackType} from "../store/cardPacksReducer";
 
 export type QueryRequestType = {
     packName?: string
@@ -16,7 +16,8 @@ export const packsAPI = {
     getPacks(data: QueryRequestType) {
         return instance.get(`cards/pack`, {params: data})
     },
-    postPacks(data: PackType) {
-return instance.post(`cards/pack`,  data)
+    postPacks(cardsPack: NewCardsPackType) {
+        debugger
+        return instance.post(`cards/pack`, {cardsPack})
     }
 }

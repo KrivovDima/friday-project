@@ -6,7 +6,7 @@ import {Navigate} from 'react-router-dom';
 import {ShowPacksCardsButtons} from '../ShowPacksCardsButtons/ShowPacksCardsButtons';
 import {DoubleRange} from '../DoubleRange/DoubleRange';
 import {
-    addNewCardsPack,
+    addNewCardPack,
     requestCardPack,
     setMinMaxCardsCount,
     setPacksPage,
@@ -45,7 +45,8 @@ export const PacksList = () => {
     }
 
     const onAdd = () => {
-        dispatch(addNewCardsPack({cardsPack: {name: 'bla bla'}}))
+        dispatch(addNewCardPack( {name: 'bla bla'}))
+        dispatch(requestCardPack({}))
     }
 
     return (

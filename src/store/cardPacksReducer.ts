@@ -68,7 +68,7 @@ type CardsType = {
     tokenDeathTime: number
 }
 
-type NewCardsPackType = {
+export type NewCardsPackType = {
     name?: string
     path?: string
     grade?: number | null
@@ -191,7 +191,7 @@ export const setTableMode = (payload: { tableMode: TableModeType }) => ({type: '
 
 export const setUserId = (payload: { user_id: string }) => ({type: 'SET-USER-ID', payload} as const)
 
-export const addNewCardsPack = (payload: { cardsPack: NewCardsPackType }) => ({type: 'ADD-NEW-CARDS-PACK', payload} as const)
+export const setNewCardsPack = (payload: { cardsPack: NewCardsPackType }) => ({type: 'ADD-NEW-CARDS-PACK', payload} as const)
 
 
 
@@ -201,7 +201,7 @@ type CardPacksActionsTypes = | ReturnType<typeof setCardPacks>
     | ReturnType<typeof setPacksPageCount>
     | ReturnType<typeof setSearchPacksName>
     | ReturnType<typeof setSortPacks>
-    | ReturnType<typeof addNewCardsPack>
+    | ReturnType<typeof setNewCardsPack>
 
 type CardsActionsTypes = | ReturnType<typeof setCards>
     | ReturnType<typeof setCardsPage>
@@ -227,12 +227,35 @@ export const requestCardPack = (data: QueryRequestType) => async (dispatch: Disp
         dispatch(setCardPacks(response.data));
         dispatch(setAppStatus({status: 'succeeded'}))
         dispatch(setAppError({error: ''}))
+
     } catch (e) {
         if (axios.isAxiosError(e) && e.response) {
             dispatch(setAppError({error: e.response.data.error}))
         } else dispatch(setAppError({error: 'some error occurred'}))
         dispatch(setAppStatus({status: 'failed'}))
     }
+}
+
+export const addNewCardPack = (data: NewCardsPackType) => async (dispatch: Dispatch) => {
+    debugger
+    let response = await packsAPI.postPacks(data);
+
+    dispatch(setNewCardsPack(response.data));
+
+    /*try {
+        dispatch(setAppStatus({status: 'loading'}))
+        let response = await packsAPI.postPacks(data);
+
+        dispatch(setNewCardsPack(response.data));
+        dispatch(setAppStatus({status: 'succeeded'}))
+        dispatch(setAppError({error: ''}))
+    } catch (e) {
+        debugger
+        if (axios.isAxiosError(e) && e.response) {
+            dispatch(setAppError({error: e.response.data.error}))
+        } else dispatch(setAppError({error: 'some error occurred'}))
+        dispatch(setAppStatus({status: 'failed'}))
+    }*/
 }
 
 //санка для добавления  newCardsPack из redux, после получения всех тасок, newCardsPack в redux очистить
