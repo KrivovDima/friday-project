@@ -151,7 +151,8 @@ export const cardPacksReducer = (state: InitialStateType = initialState, action:
             return {...state, currentCardPacks: {...state.currentCardPacks, sortPacks: action.payload.sortPacks}}
 
         case 'SET-CARDS':
-            return {...state, currentCards: {...state.currentCards, ...action.payload.cards}};
+            debugger
+            return {...state, currentCards: {...state.currentCards, cards: action.payload.cards}};
         case 'SET-CARDS-PAGE':
             return {...state, currentCards: {...state.currentCards, page: action.payload.page}};
         case 'SET-CARDS-PAGE-COUNT':
@@ -182,7 +183,7 @@ export const setMinMaxCardsCount = (payload: { min: number, max: number }) => ({
 export const setPacksPage = (payload: { page: number }) => ({type: 'SET-PACKS-PAGE', payload} as const)
 export const setPacksPageCount = (payload: { pageCount: number }) => ({type: 'SET-PACKS-PAGE-COUNT', payload} as const)
 
-export const setCards = (payload: { cards: CardsType }) => ({type: 'SET-CARDS', payload} as const)
+export const setCards = (payload: { cards: CardType[] }) => ({type: 'SET-CARDS', payload} as const)
 export const setCardsPage = (payload: { page: number }) => ({type: 'SET-CARDS-PAGE', payload} as const)
 export const setCardsPageCount = (payload: { pageCount: number }) => ({type: 'SET-CARDS-PAGE-COUNT', payload} as const)
 
