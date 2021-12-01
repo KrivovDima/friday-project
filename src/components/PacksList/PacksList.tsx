@@ -6,6 +6,7 @@ import {Navigate} from 'react-router-dom';
 import {ShowPacksCardsButtons} from '../ShowPacksCardsButtons/ShowPacksCardsButtons';
 import {DoubleRange} from '../DoubleRange/DoubleRange';
 import {
+    addNewCard,
     addNewCardPack,
     requestCardPack,
     setMinMaxCardsCount,
@@ -44,8 +45,12 @@ export const PacksList = () => {
         return <Navigate to={'/login'}/>
     }
 
-    const onAdd = () => {
+    const onAddPack = () => {
         dispatch(addNewCardPack( {name: 'bla bla'}))
+        dispatch(requestCardPack({}))
+    }
+    const onAddCard = () => {
+        //dispatch(addNewCard( {}))
         dispatch(requestCardPack({}))
     }
 
@@ -73,9 +78,16 @@ export const PacksList = () => {
                     <button
                         disabled={appStatus === 'loading'}
                         className={s.mainButton}
-                        onClick={onAdd}
+                        onClick={onAddPack}
                     >
                         Add new pack
+                    </button>
+                    <button
+                        disabled={appStatus === 'loading'}
+                        className={s.mainButton}
+                        onClick={onAddCard}
+                    >
+                        Add new card
                     </button>
                 </div>
                 <Table/>

@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './PackListRow.module.css';
 import {formattingDate} from "../../../utils/formattingDate";
 import {useDispatch} from "react-redux";
-import { requestCards } from '../../../store/cardPacksReducer';
+import {deleteCards, requestCardPack, requestCards} from '../../../store/cardPacksReducer';
 
 export type PackListRowDataType = {
     _id: string
@@ -30,13 +30,14 @@ function PackListRow(props: PackListRowPropsType) {
     const dispatch = useDispatch()
 
     const onClickDeleteHandle = () => {
-
+        dispatch(deleteCards(_id))
+        dispatch(requestCardPack({}))
+        props.openLearn()
     }
     const onClickEditHandle = () => {
 
     }
     const onClickLearnHandle = () => {
-        alert(_id)
         dispatch(requestCards({cardsPack_id: _id}))
         props.openLearn()
     }

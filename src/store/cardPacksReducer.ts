@@ -37,7 +37,7 @@ type CardPacksType = {
     // tokenDeathTime: number
 }
 
-type CardType = {
+export type CardType = {
     answer: string
     answerImg: null | string
     answerVideo: null | string
@@ -237,15 +237,9 @@ export const requestCardPack = (data: QueryRequestType) => async (dispatch: Disp
 }
 
 export const addNewCardPack = (data: NewCardsPackType) => async (dispatch: Dispatch) => {
-    debugger
-    let response = await packsAPI.postPacks(data);
-
-    dispatch(setNewCardsPack(response.data));
-
-    /*try {
+    try {
         dispatch(setAppStatus({status: 'loading'}))
         let response = await packsAPI.postPacks(data);
-
         dispatch(setNewCardsPack(response.data));
         dispatch(setAppStatus({status: 'succeeded'}))
         dispatch(setAppError({error: ''}))
@@ -255,7 +249,22 @@ export const addNewCardPack = (data: NewCardsPackType) => async (dispatch: Dispa
             dispatch(setAppError({error: e.response.data.error}))
         } else dispatch(setAppError({error: 'some error occurred'}))
         dispatch(setAppStatus({status: 'failed'}))
-    }*/
+    }
+}
+
+export const deleteCards = (packID: string) => async (dispatch: Dispatch) => {
+    try {
+        dispatch(setAppStatus({status: 'loading'}))
+        let response = await packsAPI.deletePacks(packID);
+        dispatch(setAppStatus({status: 'succeeded'}))
+        dispatch(setAppError({error: ''}))
+    } catch (e) {
+        debugger
+        if (axios.isAxiosError(e) && e.response) {
+            dispatch(setAppError({error: e.response.data.error}))
+        } else dispatch(setAppError({error: 'some error occurred'}))
+        dispatch(setAppStatus({status: 'failed'}))
+    }
 }
 
 //санка для добавления  newCardsPack из redux, после получения всех тасок, newCardsPack в redux очистить
@@ -265,4 +274,20 @@ export const requestCards = (data: CardsQueryRequestType) => async (dispatch: Di
     let response = await cardsAPI.getCards(data)
     dispatch(setCards(response.data))
     debugger
+}
+
+export const addNewCard = (data: CardType) => async (dispatch: Dispatch) => {
+    try {
+        dispatch(setAppStatus({status: 'loading'}))
+        let response = await cardsAPI.postCards(data);
+        dispatch(setNewCardsPack(response.data));
+        dispatch(setAppStatus({status: 'succeeded'}))
+        dispatch(setAppError({error: ''}))
+    } catch (e) {
+        debugger
+        if (axios.isAxiosError(e) && e.response) {
+            dispatch(setAppError({error: e.response.data.error}))
+        } else dispatch(setAppError({error: 'some error occurred'}))
+        dispatch(setAppStatus({status: 'failed'}))
+    }
 }
