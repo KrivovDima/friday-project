@@ -99,9 +99,6 @@ function TestPage() {
                 Add packs
             </button>
 
-
-            {showModal && <CardsLearning _id={'some_id_u283y8'} packName={'some_pack'} showModal={setShowModal} />}
-
         </div>
     );
 }

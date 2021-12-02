@@ -1,64 +1,106 @@
-.wrapper {
+.questionWrapper {
     display: flex;
     flex-direction: column;
-    width: 395px;
-    height: 221px;
+    width: 413px;
+    min-height: 300px;
+    margin: 60px auto;
     background: #F9F9FE;
-    border-radius: 2px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    padding: 15px 24px 24px 24px;
-
+    border-radius: 8px;
+    padding: 30px;
 }
 
-.titleWrapper {
-    display: flex;
-    justify-content: space-between;
-    height: 57px;
-    align-items: center;
-    border-bottom: 1px solid #EDF0F6;
-}
 .title {
     color: #2D2E46;
-    width: 106px;
     font-family: 'Poppins', sans-serif;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 18px;
-    line-height: 27px;
-    margin: 0 auto;
-    text-align: start;
-}
-
-.close {
-    color: #2D2E46;
-    font-family: 'Poppins', sans-serif;
-    /*font-weight: 600;*/
-    font-size: 28px;
-    line-height: 28px;
-}
-
-.buttonsWrapper {
-    display: flex;
-    justify-content: space-between;
+    font-weight: 600;
+    font-size: 22px;
+    line-height: 33px;
+    margin: 6px auto;
 }
 
 .description {
-    color: #24254A;
+    color: #2D2E46;
     font-family: 'SF UI Display', sans-serif;
     font-weight: normal;
-    font-size: 13px;
-    line-height: 20px;
-    opacity: 50%;
-    display: block;
+    font-size: 16px;
+    line-height: 24px;
+    margin: 27px 0;
+}
+
+.rateWrapper {
+    display: flex;
+    flex-direction: column;
+
+}
+
+.rate {
+    color: #2D2E46;
+    margin: 12px 6px;
+    font-family: 'SF UI Display', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+}
+
+
+form input[type=radio] {
+    width: 13px;
+    height: 13px;
+    background-color: white;
+    border-radius: 50%;
+    vertical-align: middle;
+    border: 1px solid #2D2E46;
+    -webkit-appearance: none;
+    outline: none;
+    cursor: pointer;
+    margin: 0 10px 3px 0;
+}
+
+form input[type=radio]:focus {
+    -webkit-box-shadow: 0 0 0 0 #F9F9FE inset !important;
+    border: 3px solid #21268F;
+    /*background-color: #21268F;*/
+}
+
+.evaluates:hover {
+    cursor: pointer;
+}
+
+.evaluates:hover:disabled {
+    cursor: initial;
+}
+
+
+
+
+.btnWrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 
 .cancelButton {
-    width: 266px;
-    margin: 60px auto 31px;
+    width: 124px;
+    margin: 30px auto;
+    border: none;
+    background: #D7D8EF;
+    border-radius: 30px;
+    color: #21268F;
+    padding: 9px 0;
+    font-family: 'SF UI Display', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 19px;
+    text-align: center;
+    letter-spacing: 0.01em;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.25)
+}
+
+
+.mainButton {
+    width: 187px;
+    margin: 30px auto;
     border: none;
     background: #21268F;
     box-shadow: 0 4px 18px rgba(33, 38, 143, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.3);
@@ -74,9 +116,12 @@
     text-shadow: 0 1px 1px rgba(0, 0, 0, 0.25);
 }
 
-.cancelButton:hover {
+.cancelButton,
+.mainButton:hover {
     cursor: pointer;
 }
-.cancelButton:hover:disabled {
+
+.cancelButton,
+.mainButton:hover:disabled {
     cursor: initial;
 }

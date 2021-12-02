@@ -5,7 +5,7 @@ import {useDispatch} from "react-redux";
 import {
     setCurrentCardsPackID,
     setCurrentPackName} from '../../store/cardPacksReducer';
-import {NavLink} from 'react-router-dom';
+import {NavLink, useNavigate} from 'react-router-dom';
 
 export type PackListRowDataType = {
     _id: string
@@ -31,7 +31,7 @@ function PackListRow(props: PackListRowPropsType) {
     } = props.data
 
     const dispatch = useDispatch()
-
+    const navigate = useNavigate()
     const onClickDeleteHandle = () => {
 
     }
@@ -44,7 +44,9 @@ function PackListRow(props: PackListRowPropsType) {
     }
 
     const onClickLearnHandle = () => {
-
+        dispatch(setCurrentCardsPackID({currentCardsPackId: _id}))
+        dispatch(setCurrentPackName({currentPackName: name}))
+        navigate('/cardsLearning')
     }
 
 

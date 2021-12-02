@@ -90,6 +90,13 @@
 
 .tableCell {
     padding-right: 10px;
+    text-decoration: none;
+    color: black;
+    font-size: 13px;
+    line-height: 16px;
+    font-family: SF UI Display, sans-serif;
+    font-style: normal;
+    font-weight: normal;
 }
 
 .packListRow {
