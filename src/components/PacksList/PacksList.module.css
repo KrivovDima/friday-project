@@ -84,7 +84,7 @@
 .table {
     display: flex;
     flex-direction: column;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
     font-size: 13px;
 }
 
@@ -100,4 +100,29 @@
 
 .packListRow {
     grid-template-columns: repeat(5, 1fr);
+}
+
+.btns {
+    display: flex;
+    align-items: flex-start;
+}
+
+.btn {
+    border: none;
+    margin-right: 6px;
+    font-size: 12px;
+    padding: 5px 6px;
+    color: #21268F;
+    border-radius: 2px;
+    background-color: #D7D8EF;
+    cursor: pointer;
+}
+
+.btnDelete {
+    color: #FFF;
+    background-color: #F1453D;
+}
+
+.segregateRow {
+    background-color: #F8F7FD;
 }

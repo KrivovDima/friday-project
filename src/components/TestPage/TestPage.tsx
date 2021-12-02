@@ -15,8 +15,6 @@ import {
 import {Paginator} from '../Paginator/Paginator';
 import {ShowPacksCardsButtons} from '../ShowPacksCardsButtons/ShowPacksCardsButtons';
 import {SearchInput} from '../SearchInput/SearchInput';
-import Table from '../Table/Table';
-// import s from './TestPage.module.css'
 import {CardsLearning} from '../CardsLearning/CardsLearning';
 
 function TestPage() {
@@ -101,7 +99,6 @@ function TestPage() {
                 Add packs
             </button>
 
-            <Table/>
 
             {showModal && <CardsLearning _id={'some_id_u283y8'} packName={'some_pack'} showModal={setShowModal} />}
 

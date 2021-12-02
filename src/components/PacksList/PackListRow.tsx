@@ -1,13 +1,10 @@
 import React from 'react';
-import s from './PacksListRow.module.css';
+import s from './PacksList.module.css';
 import {formattingDate} from "../../utils/formattingDate";
 import {useDispatch} from "react-redux";
 import {
-    requestCards,
     setCurrentCardsPackID,
-    setCurrentPackName,
-    setSearchPacksName
-} from '../../store/cardPacksReducer';
+    setCurrentPackName} from '../../store/cardPacksReducer';
 import {NavLink} from 'react-router-dom';
 
 export type PackListRowDataType = {
@@ -52,11 +49,11 @@ function PackListRow(props: PackListRowPropsType) {
 
 
     return (
-        <div className={`packListRow ${props.indexRow % 2 !== 0 ? s.segregateRow : ''}`}>
-            <NavLink to={'/cardsList'} className='tableCell' onClick={onClickShowCardsHandle}>{name}</NavLink>
-            <div className='tableCell'>{cardsCount}</div>
-            <div className='tableCell'>{formattingDate(updated)}</div>
-            <div className='tableCell'>{user_name}</div>
+        <div className={`${s.packListRow} ${props.indexRow % 2 !== 0 ? s.segregateRow : ''}`}>
+            <NavLink to={'/cardsList'} className={s.tableCell} onClick={onClickShowCardsHandle}>{name}</NavLink>
+            <div className={s.tableCell}>{cardsCount}</div>
+            <div className={s.tableCell}>{formattingDate(updated)}</div>
+            <div className={s.tableCell}>{user_name}</div>
             <div className={s.btns}>
                 <button onClick={onClickDeleteHandle} className={`${s.btn} ${s.btnDelete}`}>Delete</button>
                 <button onClick={onClickEditHandle} className={s.btn}>Edit</button>

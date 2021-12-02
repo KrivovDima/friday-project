@@ -114,3 +114,7 @@
 .packRow {
     grid-template-columns: repeat(4, 1fr);
 }
+
+.segregateRow {
+    background-color: #F8F7FD;
+}
