@@ -79,16 +79,14 @@ type NewCardsPackType = {
     type?: string
 }
 
-export type TableModeType = 'packsList' | 'pack'
-
 type InitialStateType = {
     currentCardPacks: CardPacksType
     currentCards: CardsType
-    tableMode: TableModeType
+    currentPackName: string,
+    currentCardsPackId: string
     user_id: null | string
     newCardsPack: NewCardsPackType
 }
-
 
 const initialState: InitialStateType = {
     currentCardPacks: {
@@ -114,7 +112,8 @@ const initialState: InitialStateType = {
         token: '',
         tokenDeathTime: 0,
     },
-    tableMode: 'packsList',
+    currentPackName: '',
+    currentCardsPackId: '',
     user_id: null,
     newCardsPack: {
         name: '',
@@ -149,20 +148,22 @@ export const cardPacksReducer = (state: InitialStateType = initialState, action:
             return {...state, currentCardPacks: {...state.currentCardPacks, packName: action.payload.packName}};
         case 'SET-SORT-PACKS':
             return {...state, currentCardPacks: {...state.currentCardPacks, sortPacks: action.payload.sortPacks}}
+        case 'SET-CURRENT-PACK-NAME':
+            return {...state, currentPackName: action.payload.currentPackName}
 
         case 'SET-CARDS':
             debugger
-            return {...state, currentCards: {...state.currentCards, cards: action.payload.cards}};
+            return {...state, currentCards: {...state.currentCards, ...action.payload.cards}};
         case 'SET-CARDS-PAGE':
             return {...state, currentCards: {...state.currentCards, page: action.payload.page}};
         case 'SET-CARDS-PAGE-COUNT':
             return {...state, currentCards: {...state.currentCards, pageCount: action.payload.pageCount}};
 
-        case 'SET-TABLE-MODE':
-            return {...state, tableMode: action.payload.tableMode}
+        case 'SET-CURRENT-CARDS-PACK-ID':
+            return {...state, currentCardsPackId: action.payload.currentCardsPackId};
 
         case 'SET-USER-ID':
-        return {...state, user_id: action.payload.user_id}
+            return {...state, user_id: action.payload.user_id}
 
         case 'ADD-NEW-CARDS-PACK':
             return {...state, newCardsPack: {...action.payload.cardsPack}}
@@ -176,6 +177,7 @@ export const cardPacksReducer = (state: InitialStateType = initialState, action:
 export const setCardPacks = (cardPacks: CardPacksType) => ({type: 'SET-CARD-PACKS', payload: {cardPacks}} as const)
 export const setSearchPacksName = (payload: { packName: string }) => ({type: 'SET-SEARCH-PACKS-NAME', payload} as const)
 export const setSortPacks = (payload: { sortPacks: string }) => ({type: 'SET-SORT-PACKS', payload} as const)
+export const setCurrentPackName = (payload: { currentPackName: string }) => ({type: 'SET-CURRENT-PACK-NAME', payload} as const)
 export const setMinMaxCardsCount = (payload: { min: number, max: number }) => ({
     type: 'SET-MIN-MAX-CARDS-COUNT',
     payload
@@ -183,16 +185,21 @@ export const setMinMaxCardsCount = (payload: { min: number, max: number }) => ({
 export const setPacksPage = (payload: { page: number }) => ({type: 'SET-PACKS-PAGE', payload} as const)
 export const setPacksPageCount = (payload: { pageCount: number }) => ({type: 'SET-PACKS-PAGE-COUNT', payload} as const)
 
-export const setCards = (payload: { cards: CardType[] }) => ({type: 'SET-CARDS', payload} as const)
+export const setCards = (cards: CardsType) => ({type: 'SET-CARDS', payload: {cards}} as const)
 export const setCardsPage = (payload: { page: number }) => ({type: 'SET-CARDS-PAGE', payload} as const)
 export const setCardsPageCount = (payload: { pageCount: number }) => ({type: 'SET-CARDS-PAGE-COUNT', payload} as const)
 
-export const setTableMode = (payload: { tableMode: TableModeType }) => ({type: 'SET-TABLE-MODE', payload} as const)
+export const setCurrentCardsPackID = (payload: { currentCardsPackId: string }) => ({
+    type: 'SET-CURRENT-CARDS-PACK-ID',
+    payload
+} as const)
 
 export const setUserId = (payload: { user_id: string }) => ({type: 'SET-USER-ID', payload} as const)
 
-export const addNewCardsPack = (payload: { cardsPack: NewCardsPackType }) => ({type: 'ADD-NEW-CARDS-PACK', payload} as const)
-
+export const addNewCardsPack = (payload: { cardsPack: NewCardsPackType }) => ({
+    type: 'ADD-NEW-CARDS-PACK',
+    payload
+} as const)
 
 
 type CardPacksActionsTypes = | ReturnType<typeof setCardPacks>
@@ -202,17 +209,23 @@ type CardPacksActionsTypes = | ReturnType<typeof setCardPacks>
     | ReturnType<typeof setSearchPacksName>
     | ReturnType<typeof setSortPacks>
     | ReturnType<typeof addNewCardsPack>
+    | ReturnType<typeof setCurrentPackName>
 
 type CardsActionsTypes = | ReturnType<typeof setCards>
     | ReturnType<typeof setCardsPage>
     | ReturnType<typeof setCardsPageCount>
 
 
-type ActionsType = CardPacksActionsTypes | CardsActionsTypes | ReturnType<typeof setTableMode> | ReturnType<typeof setUserId>
+type ActionsType =
+    CardPacksActionsTypes
+    | CardsActionsTypes
+    | ReturnType<typeof setUserId>
+    | ReturnType<typeof setCurrentCardsPackID>
 
-export const requestCardPack = (data: QueryRequestType) => async (dispatch: Dispatch, getState: () => AppRootStateType) => {
+export const requestCardPack = () => async (dispatch: Dispatch, getState: () => AppRootStateType) => {
     const {cardPacks, ...requestData} = getState().cardPacks.currentCardPacks
     const user_id = getState().cardPacks.user_id
+debugger
     /*const page = state.cardPacks.currentCardPacks.page;
     const min = state.cardPacks.currentCardPacks.minCardsCount;
     const max = state.cardPacks.currentCardPacks.maxCardsCount;
@@ -238,8 +251,13 @@ export const requestCardPack = (data: QueryRequestType) => async (dispatch: Disp
 //санка для добавления  newCardsPack из redux, после получения всех тасок, newCardsPack в redux очистить
 // санка для сортировки (отправить sortpacks из redux) затем после ответа занулить в redux
 
-export const requestCards = (data: CardsQueryRequestType) => async (dispatch: Dispatch) => {
-    let response = await cardsAPI.getCards(data)
-    dispatch(setCards(response.data))
+export const requestCards = (data?: CardsQueryRequestType) => async (dispatch: Dispatch, getState: () => AppRootStateType) => {
+    const page = getState().cardPacks.currentCards.page
+    const pageCount = getState().cardPacks.currentCards.pageCount
+    const currentCardsPackId = getState().cardPacks.currentCardsPackId
+
+    let response = await cardsAPI.getCards({...data, page, pageCount, cardsPack_id: currentCardsPackId})
     debugger
+    dispatch(setCards(response.data))
+
 }

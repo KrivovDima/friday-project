@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {AppRootStateType} from '../../store/store';
 import {DoubleRange} from '../DoubleRange/DoubleRange';
@@ -16,7 +16,8 @@ import {Paginator} from '../Paginator/Paginator';
 import {ShowPacksCardsButtons} from '../ShowPacksCardsButtons/ShowPacksCardsButtons';
 import {SearchInput} from '../SearchInput/SearchInput';
 import Table from '../Table/Table';
-import s from './TestPage.module.css'
+// import s from './TestPage.module.css'
+import {CardsLearning} from '../CardsLearning/CardsLearning';
 
 function TestPage() {
 
@@ -49,10 +50,12 @@ function TestPage() {
 
    // const appStatus = useSelector((state: AppRootStateType) => state.app.status)
 
+    const [showModal, setShowModal] = useState<boolean>(true)
+
     const appStatus = 'idle'
 
     useEffect(() => {
-         dispatch(requestCardPack({}))
+         dispatch(requestCardPack())
     }, [])
 
 
@@ -61,7 +64,7 @@ function TestPage() {
     }
 
     return (
-        <div className={s.testPageContainer}>
+        <div /*className={s.testPageContainer}*/>
             TestPage
             <hr/>
             <hr/>
@@ -99,6 +102,8 @@ function TestPage() {
             </button>
 
             <Table/>
+
+            {showModal && <CardsLearning _id={'some_id_u283y8'} packName={'some_pack'} showModal={setShowModal} />}
 
         </div>
     );

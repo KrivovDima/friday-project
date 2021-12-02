@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
 import './Table.css';
 import TableHeader from "./TableHeader/TableHeader";
-import PackListRow from "./PacklistRow/PackListRow";
-import PackRow, {PackRowDataType} from "./PackRow/PackRow";
+import PackListRow from "../PacksList/PackListRow";
+import PackRow, {PackRowDataType} from "../CardsList/PackRow";
 import {useSelector} from "react-redux";
 import {AppRootStateType} from "../../store/store";
-import {PackType, setTableMode} from '../../store/cardPacksReducer';
+import {PackType} from '../../store/cardPacksReducer';
 
 
 function Table() {

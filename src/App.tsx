@@ -28,8 +28,6 @@ function App() {
     const isInitialized = useSelector((state: AppRootStateType) => state.app.isInitialized)
     const error = useSelector((state: AppRootStateType) => state.app.error)
 
-    // const tableMode = useSelector((state: AppRootStateType)=> state.cardPacks.tableMode)
-
     if (!isInitialized) {
         return <Preloader/>
     }
@@ -50,6 +48,7 @@ function App() {
                     <Route path="registration" element={<Registration/>}/>
                     <Route path="set-new-password/:token" element={<InputNewPassword/>}/>
                     <Route path="checkEmail" element={<CheckEmail/>}/>
+                    <Route path="testPage" element={<TestPage/>}/>
                 </Routes>
                 <div className={'Error'}>{error && error}</div>
             </div>

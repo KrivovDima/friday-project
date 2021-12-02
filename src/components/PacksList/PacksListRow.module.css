@@ -1,3 +1,12 @@
+.packListRow {
+    display: grid;
+    padding: 16px 24px;
+}
+
+.packListRow {
+    grid-template-columns: repeat(5, 1fr);
+}
+
 .btns {
     display: flex;
     align-items: flex-start;
@@ -17,4 +26,8 @@
 .btnDelete {
     color: #FFF;
     background-color: #F1453D;
+}
+
+.segregateRow {
+    background-color: #F8F7FD;
 }

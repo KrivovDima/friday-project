@@ -1,15 +1,15 @@
 import React, {ChangeEvent, useEffect, useState} from 'react'
 import s from './Paginator.module.css';
 import {useDispatch} from 'react-redux';
-import {setPacksPage, setPacksPageCount} from '../../store/cardPacksReducer';
+import {setCardsPage, setCardsPageCount, setPacksPage, setPacksPageCount} from '../../store/cardPacksReducer';
 
 
 type PaginatorPropsType = {
     page: number
     pageCount: number
     totalCount: number
-    setPageAction: typeof setPacksPage
-    setPageCountAction: typeof setPacksPageCount
+    setPageAction: typeof setPacksPage | typeof setCardsPage
+    setPageCountAction: typeof setPacksPageCount | typeof setCardsPageCount
     disabled: boolean
 }
 
