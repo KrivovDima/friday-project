@@ -256,8 +256,19 @@ export const requestCards = (data?: CardsQueryRequestType) => async (dispatch: D
     const pageCount = getState().cardPacks.currentCards.pageCount
     const currentCardsPackId = getState().cardPacks.currentCardsPackId
 
-    let response = await cardsAPI.getCards({...data, page, pageCount, cardsPack_id: currentCardsPackId})
-    debugger
-    dispatch(setCards(response.data))
+   try {
+       dispatch(setAppStatus({status: 'loading'}))
+       let response = await cardsAPI.getCards({...data, page, pageCount, cardsPack_id: currentCardsPackId})
+       debugger
+       dispatch(setCards(response.data))
+       dispatch(setAppStatus({status: 'succeeded'}))
+       dispatch(setAppError({error: ''}))
+   } catch (e) {
+       if (axios.isAxiosError(e) && e.response) {
+           dispatch(setAppError({error: e.response.data.error}))
+       } else dispatch(setAppError({error: 'some error occurred'}))
+       dispatch(setAppStatus({status: 'failed'}))
+   }
+
 
 }
