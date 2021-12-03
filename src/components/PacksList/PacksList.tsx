@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import s from './PacksList.module.css'
 import {AppRootStateType} from '../../store/store';
@@ -17,6 +17,9 @@ import {SearchInput} from '../SearchInput/SearchInput';
 import {Paginator} from '../Paginator/Paginator';
 import Preloader from '../Preloader/Preloader';
 import PackListRow from './PackListRow';
+import ModalWindow from "../Modal/ModalWindow";
+import ModalDeletePack from "../Modal/ModalDeletePack";
+import ModalAddNewPack from "../Modal/ModalAddNewPack";
 
 
 export const PacksList = () => {
@@ -37,6 +40,7 @@ export const PacksList = () => {
 
 
     const packsListHeader = ['Name', 'Cards', 'Last Updated', 'Created by', 'Actions']
+    const [modalActive, setModalActive] = useState(false)
 
     useEffect(() => {
         debugger
@@ -47,58 +51,75 @@ export const PacksList = () => {
         return <Navigate to={'/login'}/>
     }
 
-
     const onAdd = () => {
+        setModalActive(true)
         dispatch(addNewCardsPack({cardsPack: {name: 'bla bla'}}))
     }
 
     return (
-        <div className={s.listContainer}>
-            {appStatus === 'loading' && <Preloader/>}
-            <div className={s.controls}>
-                <div className={s.description}>Show packs cards</div>
-                <ShowPacksCardsButtons
-                    disabled={appStatus === 'loading'}/>
-                <div className={s.description}>Number of cards</div>
-                <DoubleRange
-                    min={minCardsCount}
-                    max={maxCardsCount}
-                    setMinMaxAction={setMinMaxCardsCount}
-                    disabled={appStatus === 'loading'}/>
+        <>
+            <div>
+                <ModalWindow modalActive={modalActive} setModalActive={setModalActive}>
+                    <ModalAddNewPack setModalActive={setModalActive}
+                                  title={'Add new pack'}
+                    />
+                </ModalWindow>
             </div>
-            <div className={s.viewInfo}>
-                <div className={s.title}>Packs list</div>
-                <div className={s.inputWrapper}>
-                    <SearchInput
-                        setSearch={setSearchPacksName}
+            <div className={s.listContainer}>
+                {appStatus === 'loading' && <Preloader/>}
+                <div className={s.controls}>
+                    <div className={s.description}>Show packs cards</div>
+                    <ShowPacksCardsButtons
                         disabled={appStatus === 'loading'}/>
-                    <div style={{width: '24px'}}/>
-                    <button
-                        disabled={appStatus === 'loading'}
-                        className={s.mainButton}
-                        onClick={onAdd}
-                    >
-                        Add new pack
-                    </button>
+                    <div className={s.description}>Number of cards</div>
+                    <DoubleRange
+                        min={minCardsCount}
+                        max={maxCardsCount}
+                        setMinMaxAction={setMinMaxCardsCount}
+                        disabled={appStatus === 'loading'}/>
                 </div>
-                <div className={s.table}>
-                    <div className={`${s.header} ${s.packListRow}`}>
-                        {packsListHeader.map((cell, index) => <div key={index} className={s.tableCell}>{cell}</div>)}
+                <div className={s.viewInfo}>
+                    <div className={s.title}>Packs list</div>
+                    <div className={s.inputWrapper}>
+                        <SearchInput
+                            setSearch={setSearchPacksName}
+                            disabled={appStatus === 'loading'}/>
+                        <div style={{width: '24px'}}/>
+                        <button
+                            disabled={appStatus === 'loading'}
+                            className={s.mainButton}
+                            onClick={onAdd}
+                        >
+                            Add new pack
+                        </button>
                     </div>
-                    {dataPacksList.length &&
-                    dataPacksList.map(({name, cardsCount, updated, user_name, _id}: PackType, index: number) => (
-                        <PackListRow key={_id} data={{name, cardsCount, updated, user_name, _id}} indexRow={index}
-                                     openLearn={() => {
-                                     }}/>))}
+                    <div className={s.table}>
+                        <div className={`${s.header} ${s.packListRow}`}>
+                            {packsListHeader.map((cell, index) => <div key={index}
+                                                                       className={s.tableCell}>{cell}</div>)}
+                        </div>
+                        {dataPacksList.length &&
+                            dataPacksList.map(({
+                                                   name,
+                                                   cardsCount,
+                                                   updated,
+                                                   user_name,
+                                                   _id
+                                               }: PackType, index: number) => (
+                                <PackListRow key={_id} data={{name, cardsCount, updated, user_name, _id}}
+                                             indexRow={index}
+                                             openLearn={() => {
+                                             }}/>))}
+                    </div>
+                    <Paginator
+                        page={page}
+                        pageCount={pageCount}
+                        totalCount={totalCount}
+                        setPageAction={setPacksPage}
+                        setPageCountAction={setPacksPageCount}
+                        disabled={appStatus === 'loading'}/>
                 </div>
-                <Paginator
-                    page={page}
-                    pageCount={pageCount}
-                    totalCount={totalCount}
-                    setPageAction={setPacksPage}
-                    setPageCountAction={setPacksPageCount}
-                    disabled={appStatus === 'loading'}/>
             </div>
-        </div>
+        </>
     )
 }
