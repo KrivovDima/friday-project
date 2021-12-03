@@ -24,7 +24,6 @@ export const CardsLearning = () => {
     const appStatus = useSelector((state: AppRootStateType) => state.app.status)
     const currentPackName = useSelector((state: AppRootStateType) => state.cardPacks.currentPackName)
     const dataCardsList = useSelector((state: AppRootStateType) => state.cardPacks.currentCards.cards);
-    console.log(dataCardsList)
 
     const [showAnswer, setShowAnswer] = useState<boolean>(true)
 

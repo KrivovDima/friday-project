@@ -10,6 +10,20 @@
 }
 
 .Error {
+    position: absolute;
+    top: 90px;
+    left: 50%;
+    transform: translate(-50%, -50%);
     text-align: center;
+    background: #F9F9FE;
+    color: #F1453D;
+    border: 1px solid #F1453D;
+    border-radius: 8px;
+    padding: 5px 10px;
+    box-shadow: 0 4px 18px rgba(241, 69, 61, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+
+
+
+
 }
 

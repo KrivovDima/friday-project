@@ -1,7 +1,7 @@
-import axios from 'axios';
 import {Dispatch} from 'redux'
 import {loginApi} from '../api/login-api';
 import {setIsLoggedIn} from './loginReducer';
+import errorResponseHandler from '../utils/errorResponseHandler';
 
 export type AppStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
 
@@ -49,11 +49,12 @@ export const initializeAPP = () => async (dispatch: Dispatch) => {
         dispatch(setAppStatus({status: 'succeeded'}))
         dispatch(setIsInitialized({isInitialized: true}))
     } catch (e) {
-        if (axios.isAxiosError(e) && e.response) {
+        errorResponseHandler(e, dispatch)
+        /*if (axios.isAxiosError(e) && e.response) {
             dispatch(setAppStatus({status: 'failed'}));
             dispatch(setAppError(e.response.data.error))
             dispatch(setIsInitialized({isInitialized: true}))
-        }
+        }*/
     }
 }
 

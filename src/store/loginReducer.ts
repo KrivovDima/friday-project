@@ -1,7 +1,7 @@
-import axios from 'axios';
 import {Dispatch} from 'redux'
 import {loginApi, LoginParamsType} from '../api/login-api';
 import {setAppError, setAppStatus} from './appReducer';
+import errorResponseHandler from '../utils/errorResponseHandler';
 
 type UserDataType = {
     _id: string
@@ -62,14 +62,16 @@ export const loginTC = (data: LoginParamsType) => async (dispatch: Dispatch) => 
     try {
         dispatch(setAppStatus({status: 'loading'}))
         const response = await loginApi.login(data)
+        dispatch(setAppError({error: ''}))
         dispatch(setIsLoggedIn({isLoggedIn: true, userData: {...response.data}}))
         dispatch(setAppStatus({status: 'succeeded'}))
-        dispatch(setAppError({error: ''}))
+
     } catch (e) {
-        if (axios.isAxiosError(e) && e.response) {
+        errorResponseHandler(e, dispatch)
+        /*if (axios.isAxiosError(e) && e.response) {
             dispatch(setAppError({error: e.response.data.error}))
-        } else dispatch(setAppError({error: 'some error occurred'}))
-        dispatch(setAppStatus({status: 'failed'}))
+        } else dispatch(setAppError({error: 'Some error occurred, check your connection.'}))
+        dispatch(setAppStatus({status: 'failed'}))*/
     }
 }
 export const logoutTC = () => async (dispatch: Dispatch) => {

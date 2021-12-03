@@ -38,6 +38,7 @@ function App() {
         <div className="App">
             <div className="AppInner">
                 <Header/>
+                {error && <div className={'Error'}>{error}</div>}
                 <Routes>
                     {/*<Route path="/" element={<PacksList/>}/>*/}
                     <Route path="packsList" element={<PacksList/>}/>
@@ -52,7 +53,6 @@ function App() {
                     <Route path="checkEmail" element={<CheckEmail/>}/>
                     <Route path="testPage" element={<TestPage/>}/>
                 </Routes>
-                <div className={'Error'}>{error && error}</div>
             </div>
         </div>
     );

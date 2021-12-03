@@ -1,7 +1,7 @@
 import {Dispatch} from 'redux';
 import {passwordRecoveryAPI} from '../api/passwordRecoveryAPI';
-import axios from 'axios';
 import {setAppError, setAppStatus, setIsInitialized} from './appReducer';
+import errorResponseHandler from '../utils/errorResponseHandler';
 
 export type RecoveryStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
 
@@ -38,12 +38,14 @@ export const passwordRecovery = (email: string, message: () => JSX.Element) => a
     try {
         dispatch(setAppStatus({status: 'loading'}));
         await passwordRecoveryAPI.passRecovery(email, message);
+        dispatch(setAppError({error: ''}))
         dispatch(setAppStatus({status: 'succeeded'}));
         dispatch((setEmail(email)))
     } catch (e) {
-        if (axios.isAxiosError(e) && e.response) {
+        errorResponseHandler(e, dispatch)
+        /*if (axios.isAxiosError(e) && e.response) {
             dispatch(setAppStatus({status: 'failed'}));
             dispatch(setAppError(e.response.data.error))
-        }
+        }*/
     }
 }

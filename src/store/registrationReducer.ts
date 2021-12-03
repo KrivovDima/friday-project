@@ -1,21 +1,23 @@
 import {Dispatch} from 'redux';
 import {registrationAPI} from '../api/registrationAPI';
-import axios from 'axios';
 import {setAppError, setAppStatus, setIsInitialized} from './appReducer';
+import errorResponseHandler from '../utils/errorResponseHandler';
 
 export const registration = (email: string, password: string) => async (dispatch: Dispatch<ActionsType>) => {
     try {
         dispatch(setAppStatus({status: 'loading'}));
         await registrationAPI.register(email, password);
+        dispatch(setAppError({error: ''}))
         dispatch(setAppStatus({status: 'succeeded'}));
     } catch (e) {
-        if (axios.isAxiosError(e) && e.response) {
+        errorResponseHandler(e, dispatch)
+        /*if (axios.isAxiosError(e) && e.response) {
             dispatch(setAppStatus({status: 'failed'}));
             dispatch(setAppError(e.response.data.error));
         } else {
             dispatch(setAppStatus({status: 'failed'}));
-            dispatch(setAppError({error: 'Error, contact support'}));
-        }
+            dispatch(setAppError({error: 'Some error occurred, check your connection.'}));
+        }*/
     }
 }
 

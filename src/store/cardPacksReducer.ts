@@ -1,9 +1,9 @@
-import {packsAPI, QueryRequestType} from '../api/packs-api';
+import {packsAPI} from '../api/packs-api';
 import {Dispatch} from 'redux';
 import {AppRootStateType} from './store';
 import {setAppError, setAppStatus} from './appReducer';
-import axios from 'axios';
 import {cardsAPI, CardsQueryRequestType} from '../api/cards-api';
+import errorResponseHandler from '../utils/errorResponseHandler';
 
 export type PackType = {
     _id: string
@@ -152,7 +152,6 @@ export const cardPacksReducer = (state: InitialStateType = initialState, action:
             return {...state, currentPackName: action.payload.currentPackName}
 
         case 'SET-CARDS':
-            debugger
             return {...state, currentCards: {...state.currentCards, ...action.payload.cards}};
         case 'SET-CARDS-PAGE':
             return {...state, currentCards: {...state.currentCards, page: action.payload.page}};
@@ -225,7 +224,6 @@ type ActionsType =
 export const requestCardPack = () => async (dispatch: Dispatch, getState: () => AppRootStateType) => {
     const {cardPacks, ...requestData} = getState().cardPacks.currentCardPacks
     const user_id = getState().cardPacks.user_id
-debugger
     /*const page = state.cardPacks.currentCardPacks.page;
     const min = state.cardPacks.currentCardPacks.minCardsCount;
     const max = state.cardPacks.currentCardPacks.maxCardsCount;
@@ -241,11 +239,13 @@ debugger
         dispatch(setCardPacks(response.data));
         dispatch(setAppStatus({status: 'succeeded'}))
     } catch (e) {
-        if (axios.isAxiosError(e) && e.response) {
-            dispatch(setAppError({error: e.response.data.error}))
-        } else dispatch(setAppError({error: 'some error occurred'}))
-        dispatch(setAppStatus({status: 'failed'}))
+        errorResponseHandler(e, dispatch)
     }
+        /*if (axios.isAxiosError(e) && e.response) {
+            dispatch(setAppError({error: e.response.data.error}))
+        } else dispatch(setAppError({error: 'Some error occurred, check your connection.'}))
+        dispatch(setAppStatus({status: 'failed'}))
+    }*/
 }
 
 //санка для добавления  newCardsPack из redux, после получения всех тасок, newCardsPack в redux очистить
@@ -259,16 +259,17 @@ export const requestCards = (data?: CardsQueryRequestType) => async (dispatch: D
    try {
        dispatch(setAppStatus({status: 'loading'}))
        let response = await cardsAPI.getCards({...data, page, pageCount, cardsPack_id: currentCardsPackId})
-       debugger
        dispatch(setAppError({error: ''}))
        dispatch(setCards(response.data))
        dispatch(setAppStatus({status: 'succeeded'}))
    } catch (e) {
-       if (axios.isAxiosError(e) && e.response) {
-           dispatch(setAppError({error: e.response.data.error}))
-       } else dispatch(setAppError({error: 'some error occurred'}))
-       dispatch(setAppStatus({status: 'failed'}))
+        errorResponseHandler(e, dispatch)
    }
+      /* if (axios.isAxiosError(e) && e.response) {
+           dispatch(setAppError({error: e.response.data.error}))
+       } else dispatch(setAppError({error: 'Some error occurred, check your connection.'}))
+       dispatch(setAppStatus({status: 'failed'}))
+   }*/
 
 
 }
