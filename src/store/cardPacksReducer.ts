@@ -96,8 +96,8 @@ const initialState: InitialStateType = {
         cardPacksTotalCount: 0,
         minCardsCount: 0,
         min: 0,
-        maxCardsCount: 999,
-        max: 999,
+        maxCardsCount: 100,
+        max: 100,
         packName: '',
         sortPacks: null
     },
@@ -237,9 +237,9 @@ debugger
     try {
         dispatch(setAppStatus({status: 'loading'}))
         let response = await packsAPI.getPacks({...requestData, user_id});
+        dispatch(setAppError({error: ''}))
         dispatch(setCardPacks(response.data));
         dispatch(setAppStatus({status: 'succeeded'}))
-        dispatch(setAppError({error: ''}))
     } catch (e) {
         if (axios.isAxiosError(e) && e.response) {
             dispatch(setAppError({error: e.response.data.error}))
@@ -260,9 +260,9 @@ export const requestCards = (data?: CardsQueryRequestType) => async (dispatch: D
        dispatch(setAppStatus({status: 'loading'}))
        let response = await cardsAPI.getCards({...data, page, pageCount, cardsPack_id: currentCardsPackId})
        debugger
+       dispatch(setAppError({error: ''}))
        dispatch(setCards(response.data))
        dispatch(setAppStatus({status: 'succeeded'}))
-       dispatch(setAppError({error: ''}))
    } catch (e) {
        if (axios.isAxiosError(e) && e.response) {
            dispatch(setAppError({error: e.response.data.error}))

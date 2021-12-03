@@ -44,18 +44,17 @@ export const initializeAPP = () => async (dispatch: Dispatch) => {
     try {
         dispatch(setAppStatus({status: 'loading'}))
         const response = await loginApi.me()
-        dispatch(setIsLoggedIn({isLoggedIn: true, userData: {...response.data}}))
         dispatch(setAppError({error: ''}))
+        dispatch(setIsLoggedIn({isLoggedIn: true, userData: {...response.data}}))
+        dispatch(setAppStatus({status: 'succeeded'}))
+        dispatch(setIsInitialized({isInitialized: true}))
     } catch (e) {
         if (axios.isAxiosError(e) && e.response) {
             dispatch(setAppStatus({status: 'failed'}));
             dispatch(setAppError(e.response.data.error))
+            dispatch(setIsInitialized({isInitialized: true}))
         }
-    } finally {
-        dispatch(setIsInitialized({isInitialized: true}))
-        dispatch(setAppStatus({status: 'succeeded'}))
     }
-
 }
 
 
