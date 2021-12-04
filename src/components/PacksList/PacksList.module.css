@@ -126,3 +126,12 @@
 .segregateRow {
     background-color: #F8F7FD;
 }
+
+.privateBtns {
+    display: flex;
+}
+
+.btn:disabled {
+    opacity: .5;
+    cursor: auto;
+}

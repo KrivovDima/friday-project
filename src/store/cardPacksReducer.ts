@@ -1,4 +1,4 @@
-import {packsAPI, QueryRequestType} from '../api/packs-api';
+import {EditPackBodyType, packsAPI, QueryRequestType} from '../api/packs-api';
 import {Dispatch} from 'redux';
 import {AppRootStateType} from './store';
 import {setAppError, setAppStatus} from './appReducer';
@@ -124,13 +124,16 @@ const initialState: InitialStateType = {
         deckCover: '',
         private: false,
         type: '',
-    }
+    },
 }
 
 export const cardPacksReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
     switch (action.type) {
         case 'SET-CARD-PACKS':
-            return {...state, currentCardPacks: {...state.currentCardPacks, ...action.payload.cardPacks}};
+            return {
+                ...state,
+                currentCardPacks: {...state.currentCardPacks, ...action.payload.cardPacks}
+            };
         case 'SET-MIN-MAX-CARDS-COUNT':
             return {
                 ...state,
@@ -141,22 +144,52 @@ export const cardPacksReducer = (state: InitialStateType = initialState, action:
                 }
             };
         case 'SET-PACKS-PAGE':
-            return {...state, currentCardPacks: {...state.currentCardPacks, page: action.payload.page}};
+            return {
+                ...state,
+                currentCardPacks: {...state.currentCardPacks, page: action.payload.page}
+            };
         case 'SET-PACKS-PAGE-COUNT':
-            return {...state, currentCardPacks: {...state.currentCardPacks, pageCount: action.payload.pageCount}};
+            return {
+                ...state,
+                currentCardPacks: {
+                    ...state.currentCardPacks,
+                    pageCount: action.payload.pageCount
+                }
+            };
         case 'SET-SEARCH-PACKS-NAME':
-            return {...state, currentCardPacks: {...state.currentCardPacks, packName: action.payload.packName}};
+            return {
+                ...state,
+                currentCardPacks: {
+                    ...state.currentCardPacks,
+                    packName: action.payload.packName
+                }
+            };
         case 'SET-SORT-PACKS':
-            return {...state, currentCardPacks: {...state.currentCardPacks, sortPacks: action.payload.sortPacks}}
+            return {
+                ...state,
+                currentCardPacks: {
+                    ...state.currentCardPacks,
+                    sortPacks: action.payload.sortPacks
+                }
+            }
         case 'SET-CURRENT-PACK-NAME':
             return {...state, currentPackName: action.payload.currentPackName}
 
         case 'SET-CARDS':
-            return {...state, currentCards: {...state.currentCards, ...action.payload.cards}};
+            return {
+                ...state,
+                currentCards: {...state.currentCards, ...action.payload.cards}
+            };
         case 'SET-CARDS-PAGE':
-            return {...state, currentCards: {...state.currentCards, page: action.payload.page}};
+            return {
+                ...state,
+                currentCards: {...state.currentCards, page: action.payload.page}
+            };
         case 'SET-CARDS-PAGE-COUNT':
-            return {...state, currentCards: {...state.currentCards, pageCount: action.payload.pageCount}};
+            return {
+                ...state,
+                currentCards: {...state.currentCards, pageCount: action.payload.pageCount}
+            };
 
         case 'SET-CURRENT-CARDS-PACK-ID':
             return {...state, currentCardsPackId: action.payload.currentCardsPackId};
@@ -173,27 +206,57 @@ export const cardPacksReducer = (state: InitialStateType = initialState, action:
 }
 
 
-export const setCardPacks = (cardPacks: CardPacksType) => ({type: 'SET-CARD-PACKS', payload: {cardPacks}} as const)
-export const setSearchPacksName = (payload: { packName: string }) => ({type: 'SET-SEARCH-PACKS-NAME', payload} as const)
-export const setSortPacks = (payload: { sortPacks: string }) => ({type: 'SET-SORT-PACKS', payload} as const)
-export const setCurrentPackName = (payload: { currentPackName: string }) => ({type: 'SET-CURRENT-PACK-NAME', payload} as const)
+export const setCardPacks = (cardPacks: CardPacksType) => ({
+    type: 'SET-CARD-PACKS',
+    payload: {cardPacks}
+} as const)
+export const setSearchPacksName = (payload: { packName: string }) => ({
+    type: 'SET-SEARCH-PACKS-NAME',
+    payload
+} as const)
+export const setSortPacks = (payload: { sortPacks: string }) => ({
+    type: 'SET-SORT-PACKS',
+    payload
+} as const)
+export const setCurrentPackName = (payload: { currentPackName: string }) => ({
+    type: 'SET-CURRENT-PACK-NAME',
+    payload
+} as const)
 export const setMinMaxCardsCount = (payload: { min: number, max: number }) => ({
     type: 'SET-MIN-MAX-CARDS-COUNT',
     payload
 } as const)
-export const setPacksPage = (payload: { page: number }) => ({type: 'SET-PACKS-PAGE', payload} as const)
-export const setPacksPageCount = (payload: { pageCount: number }) => ({type: 'SET-PACKS-PAGE-COUNT', payload} as const)
+export const setPacksPage = (payload: { page: number }) => ({
+    type: 'SET-PACKS-PAGE',
+    payload
+} as const)
+export const setPacksPageCount = (payload: { pageCount: number }) => ({
+    type: 'SET-PACKS-PAGE-COUNT',
+    payload
+} as const)
 
-export const setCards = (cards: CardsType) => ({type: 'SET-CARDS', payload: {cards}} as const)
-export const setCardsPage = (payload: { page: number }) => ({type: 'SET-CARDS-PAGE', payload} as const)
-export const setCardsPageCount = (payload: { pageCount: number }) => ({type: 'SET-CARDS-PAGE-COUNT', payload} as const)
+export const setCards = (cards: CardsType) => ({
+    type: 'SET-CARDS',
+    payload: {cards}
+} as const)
+export const setCardsPage = (payload: { page: number }) => ({
+    type: 'SET-CARDS-PAGE',
+    payload
+} as const)
+export const setCardsPageCount = (payload: { pageCount: number }) => ({
+    type: 'SET-CARDS-PAGE-COUNT',
+    payload
+} as const)
 
 export const setCurrentCardsPackID = (payload: { currentCardsPackId: string }) => ({
     type: 'SET-CURRENT-CARDS-PACK-ID',
     payload
 } as const)
 
-export const setUserId = (payload: { user_id: string }) => ({type: 'SET-USER-ID', payload} as const)
+export const setUserId = (payload: { user_id: string }) => ({
+    type: 'SET-USER-ID',
+    payload
+} as const)
 
 export const addNewCardsPack = (payload: { cardsPack: NewCardsPackType }) => ({
     type: 'ADD-NEW-CARDS-PACK',
@@ -224,7 +287,6 @@ type ActionsType =
 export const requestCardPack = () => async (dispatch: Dispatch, getState: () => AppRootStateType) => {
     const {cardPacks, ...requestData} = getState().cardPacks.currentCardPacks
     const user_id = getState().cardPacks.user_id
-debugger
     /*const page = state.cardPacks.currentCardPacks.page;
     const min = state.cardPacks.currentCardPacks.minCardsCount;
     const max = state.cardPacks.currentCardPacks.maxCardsCount;
@@ -255,18 +317,57 @@ export const requestCards = (data?: CardsQueryRequestType) => async (dispatch: D
     const pageCount = getState().cardPacks.currentCards.pageCount
     const currentCardsPackId = getState().cardPacks.currentCardsPackId
 
-   try {
-       dispatch(setAppStatus({status: 'loading'}))
-       let response = await cardsAPI.getCards({...data, page, pageCount, cardsPack_id: currentCardsPackId})
-       dispatch(setCards(response.data))
-       dispatch(setAppStatus({status: 'succeeded'}))
-       dispatch(setAppError({error: ''}))
-   } catch (e) {
-       if (axios.isAxiosError(e) && e.response) {
-           dispatch(setAppError({error: e.response.data.error}))
-       } else dispatch(setAppError({error: 'some error occurred'}))
-       dispatch(setAppStatus({status: 'failed'}))
-   }
+    try {
+        dispatch(setAppStatus({status: 'loading'}))
+        let response = await cardsAPI.getCards({
+            ...data,
+            page,
+            pageCount,
+            cardsPack_id: currentCardsPackId
+        })
+        dispatch(setCards(response.data))
+        dispatch(setAppStatus({status: 'succeeded'}))
+        dispatch(setAppError({error: ''}))
+    } catch (e) {
+        if (axios.isAxiosError(e) && e.response) {
+            dispatch(setAppError({error: e.response.data.error}))
+        } else dispatch(setAppError({error: 'some error occurred'}))
+        dispatch(setAppStatus({status: 'failed'}))
+    }
+}
 
+export const addNewPack = () => async (dispatch: Dispatch) => {
+    try {
+        dispatch(setAppStatus({status: "loading"}))
+        await packsAPI.postPack({name: 'KrivovDima6'})
+        dispatch(setAppStatus({status: "succeeded"}))
+        //@ts-ignore
+        dispatch(requestCardPack())
 
+    } catch (e) {
+    }
+}
+
+export const fetchDeletePack = (idPack: string) => async (dispatch: Dispatch) => {
+    try {
+        dispatch(setAppStatus({status: "loading"}))
+        await packsAPI.deletePack(idPack)
+        dispatch(setAppStatus({status: "succeeded"}))
+        //@ts-ignore
+        dispatch(requestCardPack())
+
+    } catch (e) {
+    }
+}
+
+export const fetchEditPack = (cardsPack: EditPackBodyType) => async (dispatch: Dispatch) => {
+    try {
+        dispatch(setAppStatus({status: "loading"}))
+        await packsAPI.editPack(cardsPack)
+        dispatch(setAppStatus({status: "succeeded"}))
+        //@ts-ignore
+        dispatch(requestCardPack())
+
+    } catch (e) {
+    }
 }

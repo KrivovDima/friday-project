@@ -1,11 +1,14 @@
 import React from 'react';
 import s from './PacksList.module.css';
 import {formattingDate} from "../../utils/formattingDate";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {
+    fetchDeletePack, fetchEditPack,
     setCurrentCardsPackID,
-    setCurrentPackName} from '../../store/cardPacksReducer';
+    setCurrentPackName
+} from '../../store/cardPacksReducer';
 import {NavLink} from 'react-router-dom';
+import {AppRootStateType} from "../../store/store";
 
 export type PackListRowDataType = {
     _id: string
@@ -13,6 +16,7 @@ export type PackListRowDataType = {
     cardsCount: number
     updated: string
     user_name: string
+    user_id: string
 }
 
 type PackListRowPropsType = {
@@ -28,15 +32,19 @@ function PackListRow(props: PackListRowPropsType) {
         cardsCount,
         updated,
         user_name,
+        user_id,
     } = props.data
 
     const dispatch = useDispatch()
 
-    const onClickDeleteHandle = () => {
+    const idAuthorizedUser = useSelector<AppRootStateType, string>(state => state.login.userData._id);
+    const appStatus = useSelector((state: AppRootStateType) => state.app.status)
 
+    const onClickDeleteHandle = () => {
+        dispatch(fetchDeletePack(_id))
     }
     const onClickEditHandle = () => {
-
+        dispatch(fetchEditPack({_id,name: 'KrivovUpd'}))
     }
     const onClickShowCardsHandle = () => {
         dispatch(setCurrentCardsPackID({currentCardsPackId: _id}))
@@ -49,15 +57,32 @@ function PackListRow(props: PackListRowPropsType) {
 
 
     return (
-        <div className={`${s.packListRow} ${props.indexRow % 2 !== 0 ? s.segregateRow : ''}`}>
-            <NavLink to={'/cardsList'} className={s.tableCell} onClick={onClickShowCardsHandle}>{name}</NavLink>
+        <div
+            className={`${s.packListRow} ${props.indexRow % 2 !== 0 ? s.segregateRow : ''}`}>
+            <NavLink to={'/cardsList'} className={s.tableCell}
+                     onClick={onClickShowCardsHandle}>{name}</NavLink>
             <div className={s.tableCell}>{cardsCount}</div>
             <div className={s.tableCell}>{formattingDate(updated)}</div>
             <div className={s.tableCell}>{user_name}</div>
             <div className={s.btns}>
-                <button onClick={onClickDeleteHandle} className={`${s.btn} ${s.btnDelete}`}>Delete</button>
-                <button onClick={onClickEditHandle} className={s.btn}>Edit</button>
-                <button onClick={onClickLearnHandle} className={s.btn}>Learn</button>
+                {
+                    idAuthorizedUser === user_id &&
+                    (<div className={s.privateBtns}>
+                        <button disabled={appStatus === "loading"}
+                                onClick={onClickDeleteHandle}
+                                className={`${s.btn} ${s.btnDelete}`}>Delete
+                        </button>
+                        <button disabled={appStatus === "loading"}
+                                onClick={onClickEditHandle}
+                                className={s.btn}>Edit
+                        </button>
+                    </div>)
+                }
+
+                <button disabled={appStatus === "loading"}
+                        onClick={onClickLearnHandle}
+                        className={s.btn}>Learn
+                </button>
             </div>
         </div>
     );

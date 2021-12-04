@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import s from './PacksList.module.css'
 import {AppRootStateType} from '../../store/store';
@@ -6,8 +6,8 @@ import {Navigate} from 'react-router-dom';
 import {ShowPacksCardsButtons} from '../ShowPacksCardsButtons/ShowPacksCardsButtons';
 import {DoubleRange} from '../DoubleRange/DoubleRange';
 import {
-    addNewCardsPack, PackType,
-    requestCardPack,
+    addNewCardsPack, addNewPack, PackType,
+    requestCardPack, requestCards,
     setMinMaxCardsCount,
     setPacksPage,
     setPacksPageCount,
@@ -17,6 +17,8 @@ import {SearchInput} from '../SearchInput/SearchInput';
 import {Paginator} from '../Paginator/Paginator';
 import Preloader from '../Preloader/Preloader';
 import PackListRow from './PackListRow';
+import {packsAPI} from "../../api/packs-api";
+import {setAppStatus} from "../../store/appReducer";
 
 
 export const PacksList = () => {
@@ -35,7 +37,6 @@ export const PacksList = () => {
     const userIdForRequest = useSelector((state: AppRootStateType) => state.cardPacks.user_id)
     const dataPacksList = useSelector((state: AppRootStateType) => state.cardPacks.currentCardPacks.cardPacks)
 
-
     const packsListHeader = ['Name', 'Cards', 'Last Updated', 'Created by', 'Actions']
 
     useEffect(() => {
@@ -46,6 +47,9 @@ export const PacksList = () => {
         return <Navigate to={'/login'}/>
     }
 
+    const temporaryOnAdd = () => {
+        dispatch(addNewPack())
+    }
 
     const onAdd = () => {
         dispatch(addNewCardsPack({cardsPack: {name: 'bla bla'}}))
@@ -75,20 +79,35 @@ export const PacksList = () => {
                     <button
                         disabled={appStatus === 'loading'}
                         className={s.mainButton}
-                        onClick={onAdd}
+                        onClick={temporaryOnAdd}
                     >
                         Add new pack
                     </button>
                 </div>
                 <div className={s.table}>
                     <div className={`${s.header} ${s.packListRow}`}>
-                        {packsListHeader.map((cell, index) => <div key={index} className={s.tableCell}>{cell}</div>)}
+                        {packsListHeader.map((cell, index) => <div key={index}
+                                                                   className={s.tableCell}>{cell}</div>)}
                     </div>
                     {dataPacksList.length &&
-                    dataPacksList.map(({name, cardsCount, updated, user_name, _id}: PackType, index: number) => (
-                        <PackListRow key={_id} data={{name, cardsCount, updated, user_name, _id}} indexRow={index}
-                                     openLearn={() => {
-                                     }}/>))}
+                        dataPacksList.map(({
+                                               name,
+                                               cardsCount,
+                                               updated,
+                                               user_name,
+                                               _id,
+                                               user_id
+                                           }: PackType, index: number) => (
+                            <PackListRow key={_id} data={{
+                                name,
+                                cardsCount,
+                                updated,
+                                user_name,
+                                _id,
+                                user_id
+                            }} indexRow={index}
+                                         openLearn={() => {
+                                         }}/>))}
                 </div>
                 <Paginator
                     page={page}
