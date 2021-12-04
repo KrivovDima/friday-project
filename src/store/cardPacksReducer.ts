@@ -1,6 +1,6 @@
 import {EditPackBodyType, packsAPI, QueryRequestType} from '../api/packs-api';
 import {Dispatch} from 'redux';
-import {AppRootStateType} from './store';
+import {AppRootStateType, ThunkType} from './store';
 import {setAppError, setAppStatus} from './appReducer';
 import axios from 'axios';
 import {cardsAPI, CardsQueryRequestType} from '../api/cards-api';
@@ -127,7 +127,7 @@ const initialState: InitialStateType = {
     },
 }
 
-export const cardPacksReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
+export const cardPacksReducer = (state: InitialStateType = initialState, action: CardPacksActionsType): InitialStateType => {
     switch (action.type) {
         case 'SET-CARD-PACKS':
             return {
@@ -200,6 +200,20 @@ export const cardPacksReducer = (state: InitialStateType = initialState, action:
         case 'ADD-NEW-CARDS-PACK':
             return {...state, newCardsPack: {...action.payload.cardsPack}}
 
+        case "CHANGE-GRADE-CARD":
+            return {
+                ...state,
+                currentCards: {
+                    ...state.currentCards,
+                    cards: state.currentCards.cards.map(card => (
+                        card._id === action.card_id ? {
+                            ...card,
+                            grade: action.grade
+                        } : card
+                    ))
+                }
+            }
+
         default:
             return state
     }
@@ -263,6 +277,12 @@ export const addNewCardsPack = (payload: { cardsPack: NewCardsPackType }) => ({
     payload
 } as const)
 
+export const changeGradeCard = (grade: number, card_id: string) => ({
+    type: 'CHANGE-GRADE-CARD',
+    grade,
+    card_id,
+} as const)
+
 
 type CardPacksActionsTypes = | ReturnType<typeof setCardPacks>
     | ReturnType<typeof setMinMaxCardsCount>
@@ -278,11 +298,12 @@ type CardsActionsTypes = | ReturnType<typeof setCards>
     | ReturnType<typeof setCardsPageCount>
 
 
-type ActionsType =
+export type CardPacksActionsType =
     CardPacksActionsTypes
     | CardsActionsTypes
     | ReturnType<typeof setUserId>
     | ReturnType<typeof setCurrentCardsPackID>
+    | ReturnType<typeof changeGradeCard>
 
 export const requestCardPack = () => async (dispatch: Dispatch, getState: () => AppRootStateType) => {
     const {cardPacks, ...requestData} = getState().cardPacks.currentCardPacks
@@ -336,37 +357,39 @@ export const requestCards = (data?: CardsQueryRequestType) => async (dispatch: D
     }
 }
 
-export const addNewPack = () => async (dispatch: Dispatch) => {
+export const addNewPack = (): ThunkType => async (dispatch) => {
     try {
         dispatch(setAppStatus({status: "loading"}))
         await packsAPI.postPack({name: 'KrivovDima6'})
         dispatch(setAppStatus({status: "succeeded"}))
-        //@ts-ignore
         dispatch(requestCardPack())
-
     } catch (e) {
     }
 }
-
-export const fetchDeletePack = (idPack: string) => async (dispatch: Dispatch) => {
+export const fetchDeletePack = (idPack: string): ThunkType => async (dispatch) => {
     try {
         dispatch(setAppStatus({status: "loading"}))
         await packsAPI.deletePack(idPack)
         dispatch(setAppStatus({status: "succeeded"}))
-        //@ts-ignore
         dispatch(requestCardPack())
-
     } catch (e) {
     }
 }
-
-export const fetchEditPack = (cardsPack: EditPackBodyType) => async (dispatch: Dispatch) => {
+export const fetchEditPack = (cardsPack: EditPackBodyType): ThunkType => async (dispatch) => {
     try {
         dispatch(setAppStatus({status: "loading"}))
         await packsAPI.editPack(cardsPack)
         dispatch(setAppStatus({status: "succeeded"}))
-        //@ts-ignore
         dispatch(requestCardPack())
+    } catch (e) {
+    }
+}
+export const fetchNewGradeCard = (grade: number, card_id: string): ThunkType => async (dispatch) => {
+    try {
+        dispatch(setAppStatus({status: "loading"}))
+        await cardsAPI.putGradeCard(grade, card_id)
+        dispatch(changeGradeCard(grade, card_id))
+        dispatch(setAppStatus({status: "succeeded"}))
 
     } catch (e) {
     }

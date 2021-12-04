@@ -18,5 +18,8 @@ export const cardsAPI = {
     },
     postCards(data: PackType) {
         return instance.post(`cards/pack`,  data)
+    },
+    putGradeCard(grade: number, card_id: string) {
+        return instance.put('cards/grade', {grade, card_id})
     }
 }

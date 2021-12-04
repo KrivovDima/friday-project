@@ -1,10 +1,13 @@
 import {applyMiddleware, combineReducers, createStore} from "redux";
-import thunk from "redux-thunk";
-import {loginReducer} from "./loginReducer";
-import {passwordRecoveryReducer} from "./passwordRecoveryReducer";
+import thunk, { ThunkAction } from "redux-thunk";
+import {LoginActionsType, loginReducer} from "./loginReducer";
+import {
+  PasswordRecoveryActionsType,
+  passwordRecoveryReducer
+} from "./passwordRecoveryReducer";
 import {profileReducer} from "./profileReducer";
-import {cardPacksReducer} from './cardPacksReducer';
-import {appReducer} from './appReducer';
+import {CardPacksActionsType, cardPacksReducer} from './cardPacksReducer';
+import {AppActionsType, appReducer} from './appReducer';
 
 const rootReducer = combineReducers({
   login: loginReducer,
@@ -15,6 +18,10 @@ const rootReducer = combineReducers({
 });
 
 export type AppRootStateType = ReturnType<typeof rootReducer>
+
+type ActionsTypeApp = PasswordRecoveryActionsType | LoginActionsType | CardPacksActionsType | AppActionsType
+
+export type ThunkType = ThunkAction<void, AppRootStateType, unknown, ActionsTypeApp>
 
 export const store = createStore(rootReducer, applyMiddleware(thunk));
 
