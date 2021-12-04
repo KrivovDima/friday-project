@@ -30,7 +30,6 @@ export const CardsList = () => {
     const navigate = useNavigate()
 
     useEffect(() => {
-        debugger
         isLoggedIn && dispatch(requestCards())
     }, [page, pageCount, currentPackId])
 

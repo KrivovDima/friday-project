@@ -152,7 +152,6 @@ export const cardPacksReducer = (state: InitialStateType = initialState, action:
             return {...state, currentPackName: action.payload.currentPackName}
 
         case 'SET-CARDS':
-            debugger
             return {...state, currentCards: {...state.currentCards, ...action.payload.cards}};
         case 'SET-CARDS-PAGE':
             return {...state, currentCards: {...state.currentCards, page: action.payload.page}};
@@ -259,7 +258,6 @@ export const requestCards = (data?: CardsQueryRequestType) => async (dispatch: D
    try {
        dispatch(setAppStatus({status: 'loading'}))
        let response = await cardsAPI.getCards({...data, page, pageCount, cardsPack_id: currentCardsPackId})
-       debugger
        dispatch(setCards(response.data))
        dispatch(setAppStatus({status: 'succeeded'}))
        dispatch(setAppError({error: ''}))

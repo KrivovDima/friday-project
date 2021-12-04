@@ -39,7 +39,6 @@ export const PacksList = () => {
     const packsListHeader = ['Name', 'Cards', 'Last Updated', 'Created by', 'Actions']
 
     useEffect(() => {
-        debugger
         isLoggedIn && dispatch(requestCardPack())
     }, [min, max, page, pageCount, packName, userIdForRequest])
 
