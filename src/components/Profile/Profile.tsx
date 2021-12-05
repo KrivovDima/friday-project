@@ -3,8 +3,6 @@ import s from './Profile.module.css'
 import {logoutTC} from '../../store/loginReducer';
 import {AppRootStateType} from '../../store/store';
 import {Navigate} from 'react-router-dom';
-import {useEffect} from 'react';
-import {requestCardPack} from '../../store/cardPacksReducer';
 import Preloader from '../Preloader/Preloader';
 
 
@@ -15,9 +13,9 @@ export const Profile = () => {
     const userData = useSelector((state: AppRootStateType) => state.login.userData)
     const appStatus = useSelector((state: AppRootStateType) => state.app.status)
 
-    useEffect(()=>{
+    /*useEffect(()=>{
         isLoggedIn && dispatch(requestCardPack())
-    },[])
+    },[])*/
 
     const onLogout = () => {
         dispatch(logoutTC())

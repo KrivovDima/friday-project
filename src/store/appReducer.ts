@@ -50,6 +50,7 @@ export const initializeAPP = () => async (dispatch: Dispatch) => {
         dispatch(setIsInitialized({isInitialized: true}))
     } catch (e) {
         errorResponseHandler(e, dispatch)
+        dispatch(setIsInitialized({isInitialized: true}))
         /*if (axios.isAxiosError(e) && e.response) {
             dispatch(setAppStatus({status: 'failed'}));
             dispatch(setAppError(e.response.data.error))

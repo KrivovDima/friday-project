@@ -1,12 +1,11 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useForm, SubmitHandler} from 'react-hook-form';
 import {useDispatch, useSelector} from 'react-redux';
 import s from './CardsLearning.module.css'
-import {loginTC} from '../../store/loginReducer';
 import {AppRootStateType} from '../../store/store';
-import {Navigate} from 'react-router-dom';
-import {NavLink} from 'react-router-dom';
+import {Navigate, useNavigate} from 'react-router-dom';
 import Preloader from '../Preloader/Preloader';
+import {CardType, requestCards, resetCards} from '../../store/cardPacksReducer';
 
 type Inputs = {
     /*didNotKnow: string,
@@ -14,37 +13,107 @@ type Inputs = {
     aLotOfThought: string
     confused: string
     knewTheAnswer: string*/
-    rate:number
+    rate: number
 };
+
+const getCard = (cards: CardType[]) => {
+    let i = -1
+    let sum = 0
+    if (cards.length > 0) {
+        let sumForRandom = cards.reduce((acc, card) => acc + ((6 - card.grade) ** 2), 0)
+        if (sumForRandom === 0) {
+            return cards[Math.round(Math.random() * cards.length)]
+        } else {
+            let random = Math.random() * sumForRandom
+            while (sum < random) {
+                i++
+                sum += ((6 - cards[i].grade) ** 2)
+            }
+        }
+        return cards[i]
+    }
+}
+
 
 export const CardsLearning = () => {
 
+    const navigate = useNavigate()
     const dispatch = useDispatch()
     const isLoggedIn = useSelector((state: AppRootStateType) => state.login.isLoggedIn)
     const appStatus = useSelector((state: AppRootStateType) => state.app.status)
+    const currentCardsPackId = useSelector((state: AppRootStateType) => state.cardPacks.currentCardsPackId)
+    const currentPack = useSelector((state: AppRootStateType) => state.cardPacks.currentCardPacks.cardPacks).find(c => c._id === currentCardsPackId)
+    let totalCardsCount: number;
+    if (currentPack) {
+        totalCardsCount = currentPack.cardsCount
+    }
     const currentPackName = useSelector((state: AppRootStateType) => state.cardPacks.currentPackName)
     const dataCardsList = useSelector((state: AppRootStateType) => state.cardPacks.currentCards.cards);
-
-    const [showAnswer, setShowAnswer] = useState<boolean>(true)
+    useEffect(() => {
+        isLoggedIn && dispatch(requestCards({pageCount: totalCardsCount, cardsPack_id: currentCardsPackId}))
+        return () => {
+            dispatch(resetCards())
+        }
+    }, [])
 
     const {register, handleSubmit, formState: {errors}} = useForm<Inputs>();
     const onSubmit: SubmitHandler<Inputs> = data => {
-        console.log(data)
-        // dispatch({});
+        // dispatch({}); update grade for currentCard  dispatch(fetchNewGradeCard(grade: data.rate, card_id: currentCard._id))
+        setShowAnswer(false)
+        let nextCard = getCard(dataCardsList)
+        if (nextCard === currentCard) {
+            nextCard = getCard(dataCardsList)
+        }
+        nextCard && setCurrentCard(nextCard)
     }
+
+
+    useEffect(() => {
+        const currentCard = getCard(dataCardsList)
+        currentCard && setCurrentCard(currentCard)
+    }, [dataCardsList])
+
+
+    const [showAnswer, setShowAnswer] = useState<boolean>(false)
+
+    const initialCard = {
+        answer: '',
+        answerImg: null,
+        answerVideo: null,
+        cardsPack_id: '',
+        comments: null,
+        created: '',
+        grade: 0,
+        question: '',
+        questionImg: null,
+        questionVideo: null,
+        // rating: number
+        shots: 0,
+        // type: string
+        updated: '',
+        user_id: '',
+        // __v: string
+        _id: ''
+    }
+
+    const [currentCard, setCurrentCard] = useState<CardType>(initialCard)
+
+
+    if (!isLoggedIn) {
+        return <Navigate to={'/login'}/>
+    }
+
 
     return (
         <div className={s.questionWrapper}>
             {appStatus === 'loading' && <Preloader/>}
             <div className={s.title}>Learn "{currentPackName}"</div>
 
-            <div className={s.description}><b>Question: </b>"Lorem Ipsum is simply dummy text of the printing and
-                typesetting industry. "
+            <div className={s.description}><b>Question: </b> {currentCard.question && `"${currentCard.question}"` }
             </div>
 
             {showAnswer &&
-            <div className={s.description}><b>Answer: </b>"Lorem Ipsum is simply dummy text of the printing and
-                typesetting industry. "</div>}
+            <div className={s.description}><b>Answer: </b>"{currentCard.answer}"</div>}
 
 
             {showAnswer &&
@@ -86,7 +155,7 @@ export const CardsLearning = () => {
                     <label className={s.rate}>
                         <input
                             disabled={appStatus === 'loading'}
-                            type="radio" value='5' defaultChecked={false}
+                            type="radio" value="5" defaultChecked={false}
                             {...register('rate', {required: true})}
                         />
                         Knew the answer
@@ -97,6 +166,7 @@ export const CardsLearning = () => {
                         disabled={appStatus === 'loading'}
                         type={'button'}
                         className={s.cancelButton}
+                        onClick={() => navigate('/packsList')}
                     >
                         Cancel
                     </button>
@@ -104,6 +174,7 @@ export const CardsLearning = () => {
                         disabled={appStatus === 'loading'}
                         type={'submit'}
                         className={s.mainButton}
+                        // onClick={()=>{setCurrentCard(getCard(dataCardsList))}}
                     >
                         Next
                     </button>
@@ -116,6 +187,7 @@ export const CardsLearning = () => {
                     disabled={appStatus === 'loading'}
                     type={'button'}
                     className={s.cancelButton}
+                    onClick={() => navigate('/packsList')}
                 >
                     Cancel
                 </button>
@@ -124,6 +196,7 @@ export const CardsLearning = () => {
                     disabled={appStatus === 'loading'}
                     type={'button'}
                     className={s.mainButton}
+                    onClick={() => setShowAnswer(true)}
                 >
                     Show answer
                 </button>

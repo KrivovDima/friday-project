@@ -37,7 +37,7 @@ type CardPacksType = {
     // tokenDeathTime: number
 }
 
-type CardType = {
+export type CardType = {
     answer: string
     answerImg: null | string
     answerVideo: null | string
@@ -157,6 +157,9 @@ export const cardPacksReducer = (state: InitialStateType = initialState, action:
             return {...state, currentCards: {...state.currentCards, page: action.payload.page}};
         case 'SET-CARDS-PAGE-COUNT':
             return {...state, currentCards: {...state.currentCards, pageCount: action.payload.pageCount}};
+        case 'RESET-CARDS':
+            return {...state, currentCards: {...initialState.currentCards, cards: []}, currentPackName: '', currentCardsPackId: ''}
+
 
         case 'SET-CURRENT-CARDS-PACK-ID':
             return {...state, currentCardsPackId: action.payload.currentCardsPackId};
@@ -185,6 +188,7 @@ export const setPacksPage = (payload: { page: number }) => ({type: 'SET-PACKS-PA
 export const setPacksPageCount = (payload: { pageCount: number }) => ({type: 'SET-PACKS-PAGE-COUNT', payload} as const)
 
 export const setCards = (cards: CardsType) => ({type: 'SET-CARDS', payload: {cards}} as const)
+export const resetCards = () => ({type: 'RESET-CARDS'} as const)
 export const setCardsPage = (payload: { page: number }) => ({type: 'SET-CARDS-PAGE', payload} as const)
 export const setCardsPageCount = (payload: { pageCount: number }) => ({type: 'SET-CARDS-PAGE-COUNT', payload} as const)
 
@@ -213,6 +217,7 @@ type CardPacksActionsTypes = | ReturnType<typeof setCardPacks>
 type CardsActionsTypes = | ReturnType<typeof setCards>
     | ReturnType<typeof setCardsPage>
     | ReturnType<typeof setCardsPageCount>
+    | ReturnType<typeof resetCards>
 
 
 type ActionsType =
@@ -258,7 +263,7 @@ export const requestCards = (data?: CardsQueryRequestType) => async (dispatch: D
 
    try {
        dispatch(setAppStatus({status: 'loading'}))
-       let response = await cardsAPI.getCards({...data, page, pageCount, cardsPack_id: currentCardsPackId})
+       let response = await cardsAPI.getCards({page, pageCount, ...data, cardsPack_id: currentCardsPackId})
        dispatch(setAppError({error: ''}))
        dispatch(setCards(response.data))
        dispatch(setAppStatus({status: 'succeeded'}))
