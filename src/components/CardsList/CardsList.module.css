@@ -104,6 +104,8 @@
 
 .tableCell {
     padding-right: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .packRow {
@@ -112,9 +114,14 @@
 }
 
 .packRow {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: 300px auto 110px 70px 100px ;
 }
 
 .segregateRow {
     background-color: #F8F7FD;
+}
+
+.btnsContainer {
+    display: flex;
+    align-items: flex-start;
 }

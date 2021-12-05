@@ -19,7 +19,7 @@ const rootReducer = combineReducers({
 
 export type AppRootStateType = ReturnType<typeof rootReducer>
 
-type ActionsTypeApp = PasswordRecoveryActionsType | LoginActionsType | CardPacksActionsType | AppActionsType
+export type ActionsTypeApp = PasswordRecoveryActionsType | LoginActionsType | CardPacksActionsType | AppActionsType
 
 export type ThunkType = ThunkAction<void, AppRootStateType, unknown, ActionsTypeApp>
 

@@ -7,7 +7,7 @@ export type CardsQueryRequestType = {
     cardsPack_id: string
     min?: number
     max?: number
-    sortCards?: string
+    sortCards?: string | null
     page?: number
     pageCount?: number
 }

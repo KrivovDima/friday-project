@@ -66,6 +66,7 @@ type CardsType = {
     pageCount: number
     token: string
     tokenDeathTime: number
+    sortCards: string | null
 }
 
 type NewCardsPackType = {
@@ -99,7 +100,7 @@ const initialState: InitialStateType = {
         maxCardsCount: 999,
         max: 999,
         packName: '',
-        sortPacks: null
+        sortPacks: null,
     },
     currentCards: {
         cards: [],
@@ -111,6 +112,7 @@ const initialState: InitialStateType = {
         pageCount: 4,
         token: '',
         tokenDeathTime: 0,
+        sortCards: null,
     },
     currentPackName: '',
     currentCardsPackId: '',
@@ -169,7 +171,7 @@ export const cardPacksReducer = (state: InitialStateType = initialState, action:
                 ...state,
                 currentCardPacks: {
                     ...state.currentCardPacks,
-                    sortPacks: action.payload.sortPacks
+                    ...action.payload,
                 }
             }
         case 'SET-CURRENT-PACK-NAME':
@@ -214,6 +216,15 @@ export const cardPacksReducer = (state: InitialStateType = initialState, action:
                 }
             }
 
+        case "SET-FILTER-CARDS":
+            return {
+                ...state,
+                currentCards: {
+                    ...state.currentCards,
+                    ...action.payload,
+                }
+            }
+
         default:
             return state
     }
@@ -228,9 +239,9 @@ export const setSearchPacksName = (payload: { packName: string }) => ({
     type: 'SET-SEARCH-PACKS-NAME',
     payload
 } as const)
-export const setSortPacks = (payload: { sortPacks: string }) => ({
+export const setSortPacks = (sortPacks: string | null ) => ({
     type: 'SET-SORT-PACKS',
-    payload
+    payload: {sortPacks}
 } as const)
 export const setCurrentPackName = (payload: { currentPackName: string }) => ({
     type: 'SET-CURRENT-PACK-NAME',
@@ -283,6 +294,11 @@ export const changeGradeCard = (grade: number, card_id: string) => ({
     card_id,
 } as const)
 
+export const setSortCards = (sortCards: string | null) => ({
+    type: 'SET-FILTER-CARDS',
+    payload: {sortCards}
+} as const)
+
 
 type CardPacksActionsTypes = | ReturnType<typeof setCardPacks>
     | ReturnType<typeof setMinMaxCardsCount>
@@ -304,6 +320,7 @@ export type CardPacksActionsType =
     | ReturnType<typeof setUserId>
     | ReturnType<typeof setCurrentCardsPackID>
     | ReturnType<typeof changeGradeCard>
+    | ReturnType<typeof setSortCards>
 
 export const requestCardPack = () => async (dispatch: Dispatch, getState: () => AppRootStateType) => {
     const {cardPacks, ...requestData} = getState().cardPacks.currentCardPacks
@@ -337,6 +354,7 @@ export const requestCards = (data?: CardsQueryRequestType) => async (dispatch: D
     const page = getState().cardPacks.currentCards.page
     const pageCount = getState().cardPacks.currentCards.pageCount
     const currentCardsPackId = getState().cardPacks.currentCardsPackId
+    const sortCards = getState().cardPacks.currentCards.sortCards
 
     try {
         dispatch(setAppStatus({status: 'loading'}))
@@ -344,7 +362,8 @@ export const requestCards = (data?: CardsQueryRequestType) => async (dispatch: D
             ...data,
             page,
             pageCount,
-            cardsPack_id: currentCardsPackId
+            cardsPack_id: currentCardsPackId,
+            sortCards,
         })
         dispatch(setCards(response.data))
         dispatch(setAppStatus({status: 'succeeded'}))

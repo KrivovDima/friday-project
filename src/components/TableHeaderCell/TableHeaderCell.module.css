@@ -1,0 +1,19 @@
+.container {
+    padding-right: 10px;
+}
+
+.text {
+    margin-right: 5px;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.arrowUp {
+    transform: rotate(180deg);
+}
+
+.hidden {
+    display: none;
+}

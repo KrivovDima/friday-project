@@ -11,6 +11,7 @@ import {SearchInput} from '../SearchInput/SearchInput';
 import {Paginator} from '../Paginator/Paginator';
 import Preloader from '../Preloader/Preloader';
 import PackRow, {PackRowDataType} from './PackRow';
+import {TableHeaderCell} from "../TableHeaderCell/TableHeaderCell";
 
 
 export const CardsList = () => {
@@ -24,14 +25,21 @@ export const CardsList = () => {
     const totalCount = useSelector((state: AppRootStateType) => state.cardPacks.currentCards.cardsTotalCount)
     const dataCardsList = useSelector((state: AppRootStateType) => state.cardPacks.currentCards.cards);
     const currentPackId = useSelector((state: AppRootStateType) => state.cardPacks.currentCardsPackId);
+    const sortCards = useSelector((state: AppRootStateType) => state.cardPacks.currentCards.sortCards);
 
-    const packsCardsHeader = ['Question', 'Answer', 'Last Updated', 'Grade'];
+    const packsCardsHeader = [
+        {text: 'Question', filterText: 'question'},
+        {text: 'Answer', filterText: 'answer'},
+        {text: 'Last Updated', filterText: 'updated'},
+        {text: 'Grade', filterText: 'grade'},
+        {text: 'Actions', filterText: null},
+    ];
 
     const navigate = useNavigate()
 
     useEffect(() => {
         isLoggedIn && dispatch(requestCards())
-    }, [page, pageCount, currentPackId])
+    }, [page, pageCount, currentPackId, sortCards])
 
     if (!isLoggedIn) {
         return <Navigate to={'/login'}/>
@@ -65,11 +73,13 @@ export const CardsList = () => {
 
                 <div className={s.table}>
                     <div className={`${s.tableHeader} ${s.packRow}`}>
-                        {packsCardsHeader.map((cell, index) => <div key={index} className={s.tableCell}>{cell}</div>)}
+                        {packsCardsHeader.map(({text, filterText}, index) => (
+                            <TableHeaderCell key={index} text={text} filterText={filterText} typeTable='cards'/>
+                        ))}
                     </div>
                     {dataCardsList && dataCardsList.map(
-                        ({answer, question, grade, updated, _id}: PackRowDataType, index: number) =>
-                            (<PackRow key={_id} data={{answer, question, grade, updated, _id}} indexRow={index}/>))}
+                        ({answer, question, grade, updated, _id, user_id}: PackRowDataType, index: number) =>
+                            (<PackRow key={_id} data={{answer, question, grade, updated, _id, user_id}} indexRow={index}/>))}
                 </div>
                 <Paginator
                     page={page}

@@ -9,6 +9,7 @@ import {
 } from '../../store/cardPacksReducer';
 import {NavLink} from 'react-router-dom';
 import {AppRootStateType} from "../../store/store";
+import {TableButton} from "../TableButton/TableButton";
 
 export type PackListRowDataType = {
     _id: string
@@ -44,7 +45,7 @@ function PackListRow(props: PackListRowPropsType) {
         dispatch(fetchDeletePack(_id))
     }
     const onClickEditHandle = () => {
-        dispatch(fetchEditPack({_id,name: 'KrivovUpd'}))
+        dispatch(fetchEditPack({_id, name: 'KrivovUpd'}))
     }
     const onClickShowCardsHandle = () => {
         dispatch(setCurrentCardsPackID({currentCardsPackId: _id}))
@@ -68,21 +69,20 @@ function PackListRow(props: PackListRowPropsType) {
                 {
                     idAuthorizedUser === user_id &&
                     (<div className={s.privateBtns}>
-                        <button disabled={appStatus === "loading"}
-                                onClick={onClickDeleteHandle}
-                                className={`${s.btn} ${s.btnDelete}`}>Delete
-                        </button>
-                        <button disabled={appStatus === "loading"}
-                                onClick={onClickEditHandle}
-                                className={s.btn}>Edit
-                        </button>
+                        <TableButton disabled={appStatus === "loading"}
+                                     onClick={onClickDeleteHandle}
+                                     text={'Delete'}
+                                     role={"delete"}/>
+                        <TableButton disabled={appStatus === "loading"}
+                                     onClick={onClickEditHandle}
+                                     text={'Edit'}
+                                     role={"edit"}/>
                     </div>)
                 }
-
-                <button disabled={appStatus === "loading"}
-                        onClick={onClickLearnHandle}
-                        className={s.btn}>Learn
-                </button>
+                <TableButton disabled={appStatus === "loading"}
+                             onClick={onClickLearnHandle}
+                             text={'Learn'}
+                             role={"learn"}/>
             </div>
         </div>
     );
