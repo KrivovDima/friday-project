@@ -39,7 +39,7 @@ const initialState: InitialStateType = {
     },
 }
 
-export const loginReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
+export const loginReducer = (state: InitialStateType = initialState, action: LoginActionsType): InitialStateType => {
     switch (action.type) {
         case 'SET-IS-LOGGED-IN':
             return {...state, isLoggedIn: action.payload.isLoggedIn, userData: {...action.payload.userData}};
@@ -83,6 +83,6 @@ export const logoutTC = () => async (dispatch: Dispatch) => {
 }
 
 
-type ActionsType =
+export type LoginActionsType =
     | ReturnType<typeof setIsLoggedIn>
     | ReturnType<typeof setIsLoggedOut>

@@ -1,0 +1,20 @@
+.btn {
+    border: none;
+    margin-right: 6px;
+    font-size: 12px;
+    padding: 5px 6px;
+    color: #21268F;
+    border-radius: 2px;
+    background-color: #D7D8EF;
+    cursor: pointer;
+}
+
+.btn:disabled {
+    opacity: .5;
+    cursor: auto;
+}
+
+.btnDelete {
+    color: #FFF;
+    background-color: #F1453D;
+}

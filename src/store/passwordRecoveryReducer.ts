@@ -13,12 +13,12 @@ const initialState: InitialStateType = {
     email: '',
 }
 
-type ActionsType = ReturnType<typeof setEmail>
+export type PasswordRecoveryActionsType = ReturnType<typeof setEmail>
     | ReturnType<typeof setAppStatus>
     | ReturnType<typeof setAppError>
     | ReturnType<typeof setIsInitialized>
 
-export const passwordRecoveryReducer = (state = initialState, action: ActionsType): InitialStateType => {
+export const passwordRecoveryReducer = (state = initialState, action: PasswordRecoveryActionsType): InitialStateType => {
     switch (action.type) {
         case 'SET_EMAIL': {
             return {...state, ...action.payload};
@@ -34,7 +34,7 @@ export const setEmail = (email: string) => ({
     payload: {email}
 } as const);
 
-export const passwordRecovery = (email: string, message: () => JSX.Element) => async (dispatch: Dispatch<ActionsType>) => {
+export const passwordRecovery = (email: string, message: () => JSX.Element) => async (dispatch: Dispatch<PasswordRecoveryActionsType>) => {
     try {
         dispatch(setAppStatus({status: 'loading'}));
         await passwordRecoveryAPI.passRecovery(email, message);

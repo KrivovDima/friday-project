@@ -71,10 +71,10 @@
 .mainButton:hover {
     cursor: pointer;
 }
+
 .mainButton:hover:disabled {
     cursor: initial;
 }
-
 
 .header {
     font-weight: bold;
@@ -90,6 +90,8 @@
 
 .tableCell {
     padding-right: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
     text-decoration: none;
     color: black;
     font-size: 13px;
@@ -104,9 +106,8 @@
     padding: 16px 24px;
 }
 
-
 .packListRow {
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: 150px 70px 110px auto 140px;
 }
 
 .btns {
@@ -114,22 +115,11 @@
     align-items: flex-start;
 }
 
-.btn {
-    border: none;
-    margin-right: 6px;
-    font-size: 12px;
-    padding: 5px 6px;
-    color: #21268F;
-    border-radius: 2px;
-    background-color: #D7D8EF;
-    cursor: pointer;
-}
-
-.btnDelete {
-    color: #FFF;
-    background-color: #F1453D;
-}
-
 .segregateRow {
     background-color: #F8F7FD;
 }
+
+.privateBtns {
+    display: flex;
+}
+
