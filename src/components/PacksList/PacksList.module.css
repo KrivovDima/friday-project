@@ -107,7 +107,7 @@
 }
 
 .packListRow {
-    grid-template-columns: 150px 70px 110px auto 140px;
+    grid-template-columns: 150px 70px 115px auto 140px;
 }
 
 .btns {

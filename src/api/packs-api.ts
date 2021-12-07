@@ -1,5 +1,4 @@
 import {instance} from "./instanceAPI";
-import {PackType} from "../store/cardPacksReducer";
 
 export type QueryRequestType = {
     packName?: string

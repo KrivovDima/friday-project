@@ -261,18 +261,6 @@ export const setCards = (cards: CardsType) => ({type: 'SET-CARDS', payload: {car
 export const resetCards = () => ({type: 'RESET-CARDS'} as const)
 export const setCardsPage = (payload: { page: number }) => ({type: 'SET-CARDS-PAGE', payload} as const)
 export const setCardsPageCount = (payload: { pageCount: number }) => ({type: 'SET-CARDS-PAGE-COUNT', payload} as const)
-export const setCards = (cards: CardsType) => ({
-    type: 'SET-CARDS',
-    payload: {cards}
-} as const)
-export const setCardsPage = (payload: { page: number }) => ({
-    type: 'SET-CARDS-PAGE',
-    payload
-} as const)
-export const setCardsPageCount = (payload: { pageCount: number }) => ({
-    type: 'SET-CARDS-PAGE-COUNT',
-    payload
-} as const)
 
 export const setCurrentCardsPackID = (payload: { currentCardsPackId: string }) => ({
     type: 'SET-CURRENT-CARDS-PACK-ID',
@@ -363,11 +351,11 @@ export const requestCards = (data?: CardsQueryRequestType) => async (dispatch: D
     try {
         dispatch(setAppStatus({status: 'loading'}))
         let response = await cardsAPI.getCards({
-            ...data,
             page,
             pageCount,
             cardsPack_id: currentCardsPackId,
             sortCards,
+            ...data
         })
         dispatch(setCards(response.data))
         dispatch(setAppStatus({status: 'succeeded'}))
@@ -377,10 +365,10 @@ export const requestCards = (data?: CardsQueryRequestType) => async (dispatch: D
     }
 }
 
-export const addNewPack = (): ThunkType => async (dispatch) => {
+export const addNewPack = (newPackName: string): ThunkType => async (dispatch) => {
     try {
         dispatch(setAppStatus({status: "loading"}))
-        await packsAPI.postPack({name: 'KrivovDima6'})
+        await packsAPI.postPack({name: newPackName})
         dispatch(setAppStatus({status: "succeeded"}))
         dispatch(requestCardPack())
     } catch (e) {

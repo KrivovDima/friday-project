@@ -2,13 +2,13 @@ import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import s from './PacksList.module.css'
 import {AppRootStateType} from '../../store/store';
-import {Navigate} from 'react-router-dom';
+import {Navigate, useNavigate} from 'react-router-dom';
 import {ShowPacksCardsButtons} from '../ShowPacksCardsButtons/ShowPacksCardsButtons';
 import {DoubleRange} from '../DoubleRange/DoubleRange';
 import {
-    addNewCardsPack, addNewPack, PackType,
-    requestCardPack, requestCards,
-    setMinMaxCardsCount,
+    addNewCardsPack,
+    addNewPack, PackType,
+    requestCardPack, setMinMaxCardsCount,
     setPacksPage,
     setPacksPageCount,
     setSearchPacksName
@@ -41,7 +41,7 @@ export const PacksList = () => {
     const userIdForRequest = useSelector((state: AppRootStateType) => state.cardPacks.user_id)
     const dataPacksList = useSelector((state: AppRootStateType) => state.cardPacks.currentCardPacks.cardPacks)
     const sortPacks = useSelector((state: AppRootStateType) => state.cardPacks.currentCardPacks.sortPacks)
-
+    const navigate = useNavigate()
     const packsListHeader = [
         {text: 'Name', filterText: 'name'},
         {text: 'Cards', filterText: 'cardsCount'},
@@ -53,20 +53,29 @@ export const PacksList = () => {
 
 
     useEffect(() => {
+        if (!isLoggedIn) {
+             navigate('/login')
+        };
         isLoggedIn && dispatch(requestCardPack())
-    }, [min, max, page, pageCount, packName, userIdForRequest, sortPacks])
+    }, [min, max, page, pageCount, packName, userIdForRequest, sortPacks, isLoggedIn])
 
     if (!isLoggedIn) {
         return <Navigate to={'/login'}/>
     }
 
-    const temporaryOnAdd = () => {
-        dispatch(addNewPack())
-    }
+    // const temporaryOnAdd = () => {
+    //     dispatch(addNewPack())
+    // }
 
-    const onAdd = () => {
+    const openConfirm = () => {
         setModalActive(true)
-        // dispatch(addNewCardsPack({cardsPack: {name: 'bla bla'}}))
+    }
+    const addNewPackName = (newPack: string) => {
+        dispatch(addNewPack(newPack))
+        setModalActive(false)
+    }
+    if (!isLoggedIn) {
+        return <Navigate to={'/login'}/>
     }
 
     return (
@@ -75,6 +84,8 @@ export const PacksList = () => {
                 <ModalWindow modalActive={modalActive} setModalActive={setModalActive}>
                     <ModalAddNewPack setModalActive={setModalActive}
                                      title={'Add new pack'}
+                                     addNewPack={addNewPackName}
+
                     />
                 </ModalWindow>
             </div>
@@ -101,7 +112,7 @@ export const PacksList = () => {
                         <button
                             disabled={appStatus === 'loading'}
                             className={s.mainButton}
-                            onClick={onAdd}
+                            onClick={openConfirm}
                         >
                             Add new pack
                         </button>
@@ -115,7 +126,7 @@ export const PacksList = () => {
                                                  typeTable='packs'/>
                             ))}
                         </div>
-                        {dataPacksList.length &&
+                        {dataPacksList.length > 0 &&
                         dataPacksList.map(({
                                                name,
                                                cardsCount,

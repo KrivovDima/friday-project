@@ -2,20 +2,24 @@ import React from 'react';
 import s from "./modalContent.module.css";
 import close from './../../img/x-lg.svg'
 import Button from "../../utils/Button";
+import {fetchDeletePack} from '../../store/cardPacksReducer';
+import {useDispatch} from 'react-redux';
 
 type PropsType = {
-    setModalActive: any
+    onClickCloseModal: (modalStatus: boolean)=>void
     title: string
     description: string
+    packId: string
 }
 
-const ModalDeletePack = ({setModalActive, title, description}: PropsType) => {
-
+const ModalDeletePack = ({onClickCloseModal, title, description, packId}: PropsType) => {
+    const dispatch = useDispatch()
     const onCancelClick = () => {
-        setModalActive(false)
+        onClickCloseModal(false)
     }
     const onDeleteClick = () => {
-
+        dispatch(fetchDeletePack(packId))
+        onClickCloseModal(false)
     }
 
     return (

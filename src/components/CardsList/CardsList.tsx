@@ -38,9 +38,12 @@ export const CardsList = () => {
     const navigate = useNavigate()
 
     useEffect(() => {
+        if (!isLoggedIn) {
+            navigate('/login')
+        };
         isLoggedIn && dispatch(requestCards())
         return ()=>{dispatch(requestCards())}
-    }, [page, pageCount, currentPackId, sortCards])
+    }, [page, pageCount, currentPackId, sortCards, isLoggedIn])
 
     if (!isLoggedIn) {
         return <Navigate to={'/login'}/>

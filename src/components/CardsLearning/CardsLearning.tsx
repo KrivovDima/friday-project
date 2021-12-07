@@ -1,11 +1,11 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useLayoutEffect, useState} from 'react';
 import {useForm, SubmitHandler} from 'react-hook-form';
 import {useDispatch, useSelector} from 'react-redux';
 import s from './CardsLearning.module.css'
 import {AppRootStateType} from '../../store/store';
 import {Navigate, useNavigate} from 'react-router-dom';
 import Preloader from '../Preloader/Preloader';
-import {CardType, requestCards, resetCards} from '../../store/cardPacksReducer';
+import {CardType, fetchNewGradeCard, requestCards, resetCards} from '../../store/cardPacksReducer';
 
 type Inputs = {
     /*didNotKnow: string,
@@ -17,6 +17,7 @@ type Inputs = {
 };
 
 const getCard = (cards: CardType[]) => {
+    debugger
     let i = -1
     let sum = 0
     if (cards.length > 0) {
@@ -36,46 +37,6 @@ const getCard = (cards: CardType[]) => {
 
 
 export const CardsLearning = () => {
-
-    const navigate = useNavigate()
-    const dispatch = useDispatch()
-    const isLoggedIn = useSelector((state: AppRootStateType) => state.login.isLoggedIn)
-    const appStatus = useSelector((state: AppRootStateType) => state.app.status)
-    const currentCardsPackId = useSelector((state: AppRootStateType) => state.cardPacks.currentCardsPackId)
-    const currentPack = useSelector((state: AppRootStateType) => state.cardPacks.currentCardPacks.cardPacks).find(c => c._id === currentCardsPackId)
-    let totalCardsCount: number;
-    if (currentPack) {
-        totalCardsCount = currentPack.cardsCount
-    }
-    const currentPackName = useSelector((state: AppRootStateType) => state.cardPacks.currentPackName)
-    const dataCardsList = useSelector((state: AppRootStateType) => state.cardPacks.currentCards.cards);
-    useEffect(() => {
-        isLoggedIn && dispatch(requestCards({pageCount: totalCardsCount, cardsPack_id: currentCardsPackId}))
-        return () => {
-            dispatch(resetCards())
-        }
-    }, [])
-
-    const {register, handleSubmit, formState: {errors}} = useForm<Inputs>();
-    const onSubmit: SubmitHandler<Inputs> = data => {
-        // dispatch({}); update grade for currentCard  dispatch(fetchNewGradeCard(grade: data.rate, card_id: currentCard._id))
-        setShowAnswer(false)
-        let nextCard = getCard(dataCardsList)
-        if (nextCard === currentCard) {
-            nextCard = getCard(dataCardsList)
-        }
-        nextCard && setCurrentCard(nextCard)
-    }
-
-
-    useEffect(() => {
-        const currentCard = getCard(dataCardsList)
-        currentCard && setCurrentCard(currentCard)
-    }, [dataCardsList])
-
-
-    const [showAnswer, setShowAnswer] = useState<boolean>(false)
-
     const initialCard = {
         answer: '',
         answerImg: null,
@@ -96,20 +57,64 @@ export const CardsLearning = () => {
         _id: ''
     }
 
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
+    const isLoggedIn = useSelector((state: AppRootStateType) => state.login.isLoggedIn)
+    const appStatus = useSelector((state: AppRootStateType) => state.app.status)
+    const currentCardsPackId = useSelector((state: AppRootStateType) => state.cardPacks.currentCardsPackId)
+    const currentPack = useSelector((state: AppRootStateType) => state.cardPacks.currentCardPacks.cardPacks).find(c => c._id === currentCardsPackId)
+    let totalCardsCount: number;
+    if (currentPack) {
+        totalCardsCount = currentPack.cardsCount
+    }
+    const currentPackName = useSelector((state: AppRootStateType) => state.cardPacks.currentPackName)
+    const dataCardsList = useSelector((state: AppRootStateType) => state.cardPacks.currentCards.cards);
     const [currentCard, setCurrentCard] = useState<CardType>(initialCard)
+    const [showAnswer, setShowAnswer] = useState<boolean>(false)
+
+    useEffect(() => {
+        debugger
+        !currentCardsPackId && navigate('/packsList')
+        isLoggedIn && dispatch(requestCards({pageCount: totalCardsCount, cardsPack_id: currentCardsPackId}))
+        return () => {
+            dispatch(resetCards())
+        }
+    }, [])
+
+    useEffect(() => {
+
+        const currentCard = getCard(dataCardsList)
+        currentCard && setCurrentCard(currentCard)
+        return () => {
+            dispatch(resetCards())
+        }
+    }, [dataCardsList])
+
+
+    const {register, handleSubmit, formState: {errors}} = useForm<Inputs>();
+    const onSubmit: SubmitHandler<Inputs> = data => {
+        console.log(+data.rate, currentCard._id)
+        dispatch(fetchNewGradeCard(+data.rate, currentCard._id))
+        setShowAnswer(false)
+        let nextCard = getCard(dataCardsList)
+        if (nextCard === currentCard) {
+            nextCard = getCard(dataCardsList)
+        }
+        nextCard && setCurrentCard(nextCard)
+    }
+
 
 
     if (!isLoggedIn) {
         return <Navigate to={'/login'}/>
     }
 
-
     return (
         <div className={s.questionWrapper}>
             {appStatus === 'loading' && <Preloader/>}
             <div className={s.title}>Learn "{currentPackName}"</div>
 
-            <div className={s.description}><b>Question: </b> {currentCard.question && `"${currentCard.question}"` }
+            <div className={s.description}><b>Question: </b> {currentCard.question && `"${currentCard.question}"`}
             </div>
 
             {showAnswer &&

@@ -3,13 +3,14 @@ import s from './PacksList.module.css';
 import {formattingDate} from "../../utils/formattingDate";
 import {useDispatch, useSelector} from 'react-redux';
 import {
-    fetchDeletePack, fetchEditPack,
+    fetchEditPack,
     setCurrentCardsPackID,
     setCurrentPackName} from '../../store/cardPacksReducer';
-import {NavLink} from 'react-router-dom';
-import ModalContent from "../Modal/ModalDeletePack";
 import ModalWindow from "../Modal/ModalWindow";
 import ModalDeletePack from "../Modal/ModalDeletePack";
+import { AppRootStateType } from '../../store/store';
+import { TableButton } from '../TableButton/TableButton';
+import {Navigate, NavLink, useNavigate } from 'react-router-dom';
 
 export type PackListRowDataType = {
     _id: string
@@ -42,15 +43,15 @@ function PackListRow(props: PackListRowPropsType) {
     const [modalActive, setModalActive] = useState(false)
     const navigate = useNavigate()
 
-    if (!isLoggedIn) {
-        return <Navigate to={'/login'}/>
-    }
 
     const idAuthorizedUser = useSelector<AppRootStateType, string>(state => state.login.userData._id);
     const appStatus = useSelector((state: AppRootStateType) => state.app.status)
 
     const onClickDeleteHandle = () => {
         setModalActive(true)
+    }
+    const onClickCloseModal = (modalStatus: boolean) => {
+        setModalActive(false)
     }
     const onClickEditHandle = () => {
         dispatch(fetchEditPack({_id, name: 'KrivovUpd'}))
@@ -66,12 +67,16 @@ function PackListRow(props: PackListRowPropsType) {
         navigate('/cardsLearning')
     }
 
+    if (!isLoggedIn) {
+        return <Navigate to={'/login'}/>
+    }
 
     return (
         <>
             <ModalWindow modalActive={modalActive} setModalActive={setModalActive}>
-                <ModalDeletePack setModalActive={setModalActive}
+                <ModalDeletePack onClickCloseModal={onClickCloseModal}
                                  title={'Delete Pack'}
+                                 packId={_id}
                                  description={`Do you really want to remove ${name}? 
                               All cards will be excluded from this course.`}
                 />
