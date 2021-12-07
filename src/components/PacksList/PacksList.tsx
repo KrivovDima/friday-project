@@ -20,6 +20,9 @@ import PackListRow from './PackListRow';
 import {packsAPI} from "../../api/packs-api";
 import {setAppStatus} from "../../store/appReducer";
 import {TableHeaderCell} from "../TableHeaderCell/TableHeaderCell";
+import ModalWindow from "../Modal/ModalWindow";
+import ModalDeletePack from "../Modal/ModalDeletePack";
+import ModalAddNewPack from "../Modal/ModalAddNewPack";
 
 
 export const PacksList = () => {
@@ -46,6 +49,8 @@ export const PacksList = () => {
         {text: 'Created by', filterText: 'created'},
         {text: 'Actions', filterText: null},
     ]
+    const [modalActive, setModalActive] = useState(false)
+
 
     useEffect(() => {
         isLoggedIn && dispatch(requestCardPack())
@@ -60,48 +65,57 @@ export const PacksList = () => {
     }
 
     const onAdd = () => {
-        dispatch(addNewCardsPack({cardsPack: {name: 'bla bla'}}))
+        setModalActive(true)
+        // dispatch(addNewCardsPack({cardsPack: {name: 'bla bla'}}))
     }
 
     return (
-        <div className={s.listContainer}>
-            {appStatus === 'loading' && <Preloader/>}
-            <div className={s.controls}>
-                <div className={s.description}>Show packs cards</div>
-                <ShowPacksCardsButtons
-                    disabled={appStatus === 'loading'}/>
-                <div className={s.description}>Number of cards</div>
-                <DoubleRange
-                    min={minCardsCount}
-                    max={maxCardsCount}
-                    setMinMaxAction={setMinMaxCardsCount}
-                    disabled={appStatus === 'loading'}/>
+        <>
+            <div>
+                <ModalWindow modalActive={modalActive} setModalActive={setModalActive}>
+                    <ModalAddNewPack setModalActive={setModalActive}
+                                     title={'Add new pack'}
+                    />
+                </ModalWindow>
             </div>
-            <div className={s.viewInfo}>
-                <div className={s.title}>Packs list</div>
-                <div className={s.inputWrapper}>
-                    <SearchInput
-                        setSearch={setSearchPacksName}
+            <div className={s.listContainer}>
+                {appStatus === 'loading' && <Preloader/>}
+                <div className={s.controls}>
+                    <div className={s.description}>Show packs cards</div>
+                    <ShowPacksCardsButtons
                         disabled={appStatus === 'loading'}/>
-                    <div style={{width: '24px'}}/>
-                    <button
-                        disabled={appStatus === 'loading'}
-                        className={s.mainButton}
-                        onClick={temporaryOnAdd}
-                    >
-                        Add new pack
-                    </button>
+                    <div className={s.description}>Number of cards</div>
+                    <DoubleRange
+                        min={minCardsCount}
+                        max={maxCardsCount}
+                        setMinMaxAction={setMinMaxCardsCount}
+                        disabled={appStatus === 'loading'}/>
                 </div>
-                <div className={s.table}>
-                    <div className={`${s.header} ${s.packListRow}`}>
-                        {packsListHeader.map(({text, filterText}, index) => (
-                            <TableHeaderCell key={index}
-                                             text={text}
-                                             filterText={filterText}
-                                             typeTable='packs'/>
-                        ))}
+                <div className={s.viewInfo}>
+                    <div className={s.title}>Packs list</div>
+                    <div className={s.inputWrapper}>
+                        <SearchInput
+                            setSearch={setSearchPacksName}
+                            disabled={appStatus === 'loading'}/>
+                        <div style={{width: '24px'}}/>
+                        <button
+                            disabled={appStatus === 'loading'}
+                            className={s.mainButton}
+                            onClick={onAdd}
+                        >
+                            Add new pack
+                        </button>
                     </div>
-                    {dataPacksList.length &&
+                    <div className={s.table}>
+                        <div className={`${s.header} ${s.packListRow}`}>
+                            {packsListHeader.map(({text, filterText}, index) => (
+                                <TableHeaderCell key={index}
+                                                 text={text}
+                                                 filterText={filterText}
+                                                 typeTable='packs'/>
+                            ))}
+                        </div>
+                        {dataPacksList.length &&
                         dataPacksList.map(({
                                                name,
                                                cardsCount,
@@ -120,15 +134,17 @@ export const PacksList = () => {
                             }} indexRow={index}
                                          openLearn={() => {
                                          }}/>))}
+                    </div>
+                    <Paginator
+                        page={page}
+                        pageCount={pageCount}
+                        totalCount={totalCount}
+                        setPageAction={setPacksPage}
+                        setPageCountAction={setPacksPageCount}
+                        disabled={appStatus === 'loading'}/>
                 </div>
-                <Paginator
-                    page={page}
-                    pageCount={pageCount}
-                    totalCount={totalCount}
-                    setPageAction={setPacksPage}
-                    setPageCountAction={setPacksPageCount}
-                    disabled={appStatus === 'loading'}/>
             </div>
-        </div>
+        </>
+
     )
 }

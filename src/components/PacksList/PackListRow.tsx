@@ -1,14 +1,15 @@
-import React from 'react';
+import React, {useState} from 'react';
 import s from './PacksList.module.css';
 import {formattingDate} from "../../utils/formattingDate";
 import {useDispatch, useSelector} from 'react-redux';
 import {
     fetchDeletePack, fetchEditPack,
     setCurrentCardsPackID,
-    setCurrentPackName
-} from '../../store/cardPacksReducer';
-import {Navigate, NavLink, useNavigate} from 'react-router-dom';
-import {AppRootStateType} from '../../store/store';
+    setCurrentPackName} from '../../store/cardPacksReducer';
+import {NavLink} from 'react-router-dom';
+import ModalContent from "../Modal/ModalDeletePack";
+import ModalWindow from "../Modal/ModalWindow";
+import ModalDeletePack from "../Modal/ModalDeletePack";
 
 export type PackListRowDataType = {
     _id: string
@@ -38,6 +39,7 @@ function PackListRow(props: PackListRowPropsType) {
     const isLoggedIn = useSelector((state: AppRootStateType) => state.login.isLoggedIn)
 
     const dispatch = useDispatch()
+    const [modalActive, setModalActive] = useState(false)
     const navigate = useNavigate()
 
     if (!isLoggedIn) {
@@ -48,7 +50,7 @@ function PackListRow(props: PackListRowPropsType) {
     const appStatus = useSelector((state: AppRootStateType) => state.app.status)
 
     const onClickDeleteHandle = () => {
-        dispatch(fetchDeletePack(_id))
+        setModalActive(true)
     }
     const onClickEditHandle = () => {
         dispatch(fetchEditPack({_id, name: 'KrivovUpd'}))
@@ -66,33 +68,42 @@ function PackListRow(props: PackListRowPropsType) {
 
 
     return (
-        <div
-            className={`${s.packListRow} ${props.indexRow % 2 !== 0 ? s.segregateRow : ''}`}>
-            <NavLink to={'/cardsList'} className={s.tableCell}
-                     onClick={onClickShowCardsHandle}>{name}</NavLink>
-            <div className={s.tableCell}>{cardsCount}</div>
-            <div className={s.tableCell}>{formattingDate(updated)}</div>
-            <div className={s.tableCell}>{user_name}</div>
-            <div className={s.btns}>
-                {
-                    idAuthorizedUser === user_id &&
-                    (<div className={s.privateBtns}>
-                        <TableButton disabled={appStatus === "loading"}
-                                     onClick={onClickDeleteHandle}
-                                     text={'Delete'}
-                                     role={"delete"}/>
-                        <TableButton disabled={appStatus === "loading"}
-                                     onClick={onClickEditHandle}
-                                     text={'Edit'}
-                                     role={"edit"}/>
-                    </div>)
-                }
-                <TableButton disabled={appStatus === "loading"}
-                             onClick={onClickLearnHandle}
-                             text={'Learn'}
-                             role={"learn"}/>
+        <>
+            <ModalWindow modalActive={modalActive} setModalActive={setModalActive}>
+                <ModalDeletePack setModalActive={setModalActive}
+                                 title={'Delete Pack'}
+                                 description={`Do you really want to remove ${name}? 
+                              All cards will be excluded from this course.`}
+                />
+            </ModalWindow>
+            <div className={`${s.packListRow} ${props.indexRow % 2 !== 0 ? s.segregateRow : ''}`}>
+                <NavLink to={'/cardsList'} className={s.tableCell}
+                         onClick={onClickShowCardsHandle}>{name}</NavLink>
+                <div className={s.tableCell}>{cardsCount}</div>
+                <div className={s.tableCell}>{formattingDate(updated)}</div>
+                <div className={s.tableCell}>{user_name}</div>
+                <div className={s.btns}>
+                    {
+                        idAuthorizedUser === user_id &&
+                        (<div className={s.privateBtns}>
+                            <TableButton disabled={appStatus === 'loading'}
+                                         onClick={onClickDeleteHandle}
+                                         text={'Delete'}
+                                         role={'delete'}/>
+                            <TableButton disabled={appStatus === 'loading'}
+                                         onClick={onClickEditHandle}
+                                         text={'Edit'}
+                                         role={'edit'}/>
+                        </div>)
+                    }
+                    <TableButton disabled={appStatus === 'loading'}
+                                 onClick={onClickLearnHandle}
+                                 text={'Learn'}
+                                 role={'learn'}/>
+                </div>
             </div>
-        </div>
+        </>
+
     );
 }
 

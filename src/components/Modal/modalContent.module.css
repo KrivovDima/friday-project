@@ -1,0 +1,61 @@
+.content {
+    background-color: white;
+    min-height: 221px;
+    max-width: 395px;
+}
+
+.head {
+    display: flex;
+    align-items: center;
+    height: 57px;
+    border-bottom: 1px solid #EDF0F6;
+    justify-content: space-between;
+    padding: 24px;
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 20px;
+}
+.close {
+    transition: .4s linear;
+}
+.close:hover {
+    cursor: pointer;
+    transform: rotate(180deg);
+}
+
+.description {
+    display: flex;
+    align-items: center;
+    height: 50px;
+    padding: 25px;
+    margin-bottom: 40px;
+    font-size: 14px;
+    line-height: 24px;
+    font-weight: 400;
+    color: #000000;
+}
+
+.buttonGroup {
+    display: flex;
+    justify-content: space-around;
+}
+
+.buttonCancel {
+    background-color: #D7D8EF;
+    color: #21268F;
+}
+
+.buttonDelete {
+    background-color: #F1453D;
+    color: #ECECF9;
+}
+.buttonSave {
+    background-color: #21268F;
+    color: #ECECF9;
+}
+.inputNameNewPack {
+    margin: 25px;
+}
+.inputNameNewPack input {
+    padding: 5px;
+}
