@@ -1,4 +1,4 @@
-import React, {useEffect, useLayoutEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useForm, SubmitHandler} from 'react-hook-form';
 import {useDispatch, useSelector} from 'react-redux';
 import s from './CardsLearning.module.css'
@@ -17,7 +17,6 @@ type Inputs = {
 };
 
 const getCard = (cards: CardType[]) => {
-    debugger
     let i = -1
     let sum = 0
     if (cards.length > 0) {
@@ -34,7 +33,6 @@ const getCard = (cards: CardType[]) => {
         return cards[i]
     }
 }
-
 
 export const CardsLearning = () => {
     const initialCard = {
@@ -56,7 +54,6 @@ export const CardsLearning = () => {
         // __v: string
         _id: ''
     }
-
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const isLoggedIn = useSelector((state: AppRootStateType) => state.login.isLoggedIn)
@@ -73,7 +70,6 @@ export const CardsLearning = () => {
     const [showAnswer, setShowAnswer] = useState<boolean>(false)
 
     useEffect(() => {
-        debugger
         !currentCardsPackId && navigate('/packsList')
         isLoggedIn && dispatch(requestCards({pageCount: totalCardsCount, cardsPack_id: currentCardsPackId}))
         return () => {
@@ -82,28 +78,18 @@ export const CardsLearning = () => {
     }, [])
 
     useEffect(() => {
-
-        const currentCard = getCard(dataCardsList)
-        currentCard && setCurrentCard(currentCard)
-        return () => {
-            dispatch(resetCards())
-        }
-    }, [dataCardsList])
-
-
-    const {register, handleSubmit, formState: {errors}} = useForm<Inputs>();
-    const onSubmit: SubmitHandler<Inputs> = data => {
-        console.log(+data.rate, currentCard._id)
-        dispatch(fetchNewGradeCard(+data.rate, currentCard._id))
-        setShowAnswer(false)
         let nextCard = getCard(dataCardsList)
-        if (nextCard === currentCard) {
+        while (nextCard && nextCard._id === currentCard._id) {
             nextCard = getCard(dataCardsList)
         }
         nextCard && setCurrentCard(nextCard)
+    }, [dataCardsList])
+
+    const {register, handleSubmit, formState: {errors}} = useForm<Inputs>();
+    const onSubmit: SubmitHandler<Inputs> = data => {
+        dispatch(fetchNewGradeCard(+data.rate, currentCard._id))
+        setShowAnswer(false)
     }
-
-
 
     if (!isLoggedIn) {
         return <Navigate to={'/login'}/>
@@ -114,7 +100,8 @@ export const CardsLearning = () => {
             {appStatus === 'loading' && <Preloader/>}
             <div className={s.title}>Learn "{currentPackName}"</div>
 
-            <div className={s.description}><b>Question: </b> {currentCard.question && `"${currentCard.question}"`}
+            <div className={s.description}>
+                <b>Question: </b> {appStatus === 'loading' || currentCard.question && `"${currentCard.question}"`}
             </div>
 
             {showAnswer &&

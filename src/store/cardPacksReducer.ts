@@ -179,6 +179,8 @@ export const cardPacksReducer = (state: InitialStateType = initialState, action:
                 ...state,
                 currentCards: {...state.currentCards, ...action.payload.cards}
             };
+        case 'RESET-CARDS':
+            return { ...state, currentCards: {...initialState.currentCards, cards: []}}
         case 'SET-CARDS-PAGE':
             return {
                 ...state,
@@ -390,6 +392,7 @@ export const fetchEditPack = (cardsPack: EditPackBodyType): ThunkType => async (
         dispatch(setAppStatus({status: "succeeded"}))
         dispatch(requestCardPack())
     } catch (e) {
+        errorResponseHandler(e, dispatch)
     }
 }
 export const fetchNewGradeCard = (grade: number, card_id: string): ThunkType => async (dispatch) => {
